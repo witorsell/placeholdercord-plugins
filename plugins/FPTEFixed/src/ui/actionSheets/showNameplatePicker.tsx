@@ -1,8 +1,8 @@
 import { findByProps } from "@vendetta/metro";
 import React from "react";
 
-import { CollectiblesCategoryStore, CollectiblesPurchaseStore, NameplateStore } from "@lib/stores";
-import { CollectiblePickerActionSheet, hideActionSheet, showActionSheet } from "@ui/actionSheets";
+import { CollectiblesCategoryStore, CollectiblesPurchaseStore, NameplateStore } from "../../lib/stores";
+import { CollectiblePickerActionSheet, hideActionSheet, showActionSheet } from "../../ui/actionSheets";
 
 const SHEET_KEY = "__FPTE_NAMEPLATE__";
 

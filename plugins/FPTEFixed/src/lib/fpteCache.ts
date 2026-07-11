@@ -1,5 +1,5 @@
-import { decodeColor, decodeColorsLegacy, decodeSku, extractFPTE } from "@lib/fpte";
-import { UserProfileStore, UserStore } from "@lib/stores";
+import { decodeColor, decodeColorsLegacy, decodeSku, extractFPTE } from "../lib/fpte";
+import { UserProfileStore, UserStore } from "../lib/stores";
 
 export interface DecodedFPTE {
     primary: number;

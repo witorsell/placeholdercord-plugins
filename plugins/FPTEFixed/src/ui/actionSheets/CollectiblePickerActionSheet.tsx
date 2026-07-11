@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { Image, View } from "react-native";
 
-import { BottomSheet, BottomSheetScrollView } from "@ui/actionSheets";
-import { Button, PressableOpacity, Text } from "@ui/components";
-import { Radius, SafeAreaContext, Spacing, useWindowDimensions } from "@ui/length";
+import { BottomSheet, BottomSheetScrollView } from "../../ui/actionSheets";
+import { Button, PressableOpacity, Text } from "../../ui/components";
+import { Radius, SafeAreaContext, Spacing, useWindowDimensions } from "../../ui/length";
 import { useContext } from "react";
 
 export interface CollectibleItem {

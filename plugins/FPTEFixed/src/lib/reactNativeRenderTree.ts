@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { isIterable, isNonNullObject, type OmitCallSignature } from "@lib/utils";
+import { isIterable, isNonNullObject, type OmitCallSignature } from "../lib/utils";
 
 export namespace RN {
     export type Fragment<P extends object = object> = Element<P, symbol>;

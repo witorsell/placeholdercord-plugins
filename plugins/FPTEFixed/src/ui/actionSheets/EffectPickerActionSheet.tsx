@@ -3,12 +3,12 @@ import { findByName } from "@vendetta/metro";
 import { storage } from "@vendetta/plugin";
 import React, { type ReactElement, type ReactNode, useMemo } from "react";
 
-import { findElementInTree, findParentInTree, getComponentNameFromType, type RN } from "@lib/reactNativeRenderTree";
-import { ProfileEffectRecord } from "@lib/records";
-import type { ProfileEffect, ProfileEffectConfig } from "@lib/stores";
-import { setPreviewUserId } from "@patches/patchUseProfileTheme";
-import { FallbackEffectPickerActionSheet } from "@ui/actionSheets";
-import { ThemeContextProvider, useThemeContext } from "@ui/color";
+import { findElementInTree, findParentInTree, getComponentNameFromType, type RN } from "../../lib/reactNativeRenderTree";
+import { ProfileEffectRecord } from "../../lib/records";
+import type { ProfileEffect, ProfileEffectConfig } from "../../lib/stores";
+import { setPreviewUserId } from "../../patches/patchUseProfileTheme";
+import { FallbackEffectPickerActionSheet } from "../../ui/actionSheets";
+import { ThemeContextProvider, useThemeContext } from "../../ui/color";
 
 export interface EffectPickerActionSheetProps {
     effects: ProfileEffect[];

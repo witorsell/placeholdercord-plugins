@@ -3,8 +3,8 @@ import { after } from "@vendetta/patcher";
 import { storage } from "@vendetta/plugin";
 import React from "react";
 
-import { findParentInTree, getComponentNameFromType, isElement, type RN } from "@lib/reactNativeRenderTree";
-import { Builder } from "@ui/components";
+import { findParentInTree, getComponentNameFromType, isElement, type RN } from "../lib/reactNativeRenderTree";
+import { Builder } from "../ui/components";
 
 const funcParent = findByName("UserProfileEditForm", false);
 

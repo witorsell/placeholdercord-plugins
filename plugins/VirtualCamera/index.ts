@@ -51,14 +51,8 @@ function Settings() {
         }
     };
 
-    const pickFromGallery = () => {
-        const { launchImageLibrary } = require("react-native-image-picker") as any;
-        launchImageLibrary({ mediaType: "mixed", quality: 1 }, (res: any) => {
-            if (res.didCancel || res.errorCode) return;
-            const asset = res.assets?.[0];
-            if (asset?.uri) setMedia(asset.uri.replace("file://", ""));
-        });
-    };
+    // Removing pickFromGallery since react-native-image-picker isn't bundled
+    // and we don't want to crash. User must paste the file path.
 
     const children: any[] = [];
 
@@ -83,22 +77,7 @@ function Settings() {
     children.push(h(Text, {
         key: "heading",
         style: { color: "#ffffff", fontSize: 16, fontWeight: "600", marginBottom: 12 }
-    }, "Pick Media"));
-
-    children.push(h(Pressable, {
-        key: "pick",
-        onPress: pickFromGallery,
-        style: {
-            backgroundColor: "#5865F2", borderRadius: 10,
-            paddingVertical: 14, alignItems: "center", marginBottom: 10
-        }
-    }, h(Text, { style: { color: "#ffffff", fontWeight: "700", fontSize: 15 } }, "📁  Choose Photo / Video / GIF")));
-
-    children.push(h(View, { key: "orDivider", style: { flexDirection: "row", alignItems: "center", marginBottom: 10 } },
-        h(View, { style: { flex: 1, height: 1, backgroundColor: "#3f4147" } }),
-        h(Text, { style: { color: "#80848e", marginHorizontal: 10, fontSize: 13 } }, "or paste path"),
-        h(View, { style: { flex: 1, height: 1, backgroundColor: "#3f4147" } })
-    ));
+    }, "Provide Media Path"));
 
     children.push(h(View, { key: "pathInput", style: { flexDirection: "row", marginBottom: 20 } },
         h(TextInput, {

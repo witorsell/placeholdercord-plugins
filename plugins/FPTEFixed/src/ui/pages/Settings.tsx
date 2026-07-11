@@ -3,7 +3,7 @@ import { useProxy } from "@vendetta/storage";
 import React from "react";
 import { ScrollView } from "react-native";
 
-import { FormRadioRow, FormRow, FormSection, FormSwitchRow } from "@ui/components/forms";
+import { FormRadioRow, FormRow, FormSection, FormSwitchRow } from "../../ui/components/forms";
 
 export function Settings() {
     useProxy(storage);

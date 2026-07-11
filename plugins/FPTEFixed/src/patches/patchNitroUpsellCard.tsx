@@ -1,6 +1,6 @@
 import { findByName } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
-import { isElement, getComponentNameFromType, type RN } from "@lib/reactNativeRenderTree";
+import { isElement, getComponentNameFromType, type RN } from "../lib/reactNativeRenderTree";
 
 const funcParent = findByName("UserProfileEditForm", false);
 

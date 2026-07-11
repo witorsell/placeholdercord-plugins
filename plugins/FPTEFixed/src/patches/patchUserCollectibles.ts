@@ -1,8 +1,8 @@
 import { findByStoreName } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 
-import { getFPTE } from "@lib/fpteCache";
-import { AvatarDecorationStore, NameplateStore, UserStore } from "@lib/stores";
+import { getFPTE } from "../lib/fpteCache";
+import { AvatarDecorationStore, NameplateStore, UserStore } from "../lib/stores";
 
 function resolveDecoration(sku: string) {
     if (!AvatarDecorationStore.isLoaded) { AvatarDecorationStore.fetch(); return null; }

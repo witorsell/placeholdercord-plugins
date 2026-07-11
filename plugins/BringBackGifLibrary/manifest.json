@@ -11,7 +11,7 @@
             "id": "755950362342457384"
         }
     ],
-    "main": "src/index.tsx",
+    "main": "index.tsx",
     "vendetta": {
         "icon": "ic_image_24px"
     }

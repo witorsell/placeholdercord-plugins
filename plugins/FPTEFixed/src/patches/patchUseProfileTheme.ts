@@ -3,9 +3,9 @@ import { findByName } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 import { useState } from "react";
 
-import { FluxDispatcher } from "@lib/flux";
-import type { ProfileEffectConfig } from "@lib/stores";
-import { getProfileTheme, type Theme } from "@ui/color";
+import { FluxDispatcher } from "../lib/flux";
+import type { ProfileEffectConfig } from "../lib/stores";
+import { getProfileTheme, type Theme } from "../ui/color";
 
 function updatePreview() {
     FluxDispatcher.dispatch({ type: "USER_SETTINGS_ACCOUNT_SUBMIT_SUCCESS" });

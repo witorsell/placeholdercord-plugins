@@ -2,13 +2,13 @@ import { chunk } from "lodash";
 import React, { type ReactNode, useContext, useMemo, useState } from "react";
 import { View, type ViewStyle } from "react-native";
 
-import { HapticFeebackTypes, triggerHapticFeedback } from "@lib/haptics";
-import type { ProfileEffect } from "@lib/stores";
-import { BottomSheet, BottomSheetScrollView, type EffectPickerActionSheetProps } from "@ui/actionSheets";
-import { IMG_NONE } from "@ui/assets";
-import { resolveSemanticColor, semanticColors, useThemeContext } from "@ui/color";
-import { Button, FlashList, Icon, PressableOpacity, StaticEffect, Text } from "@ui/components";
-import { Radius, SafeAreaContext, Spacing, useWindowDimensions } from "@ui/length";
+import { HapticFeebackTypes, triggerHapticFeedback } from "../../lib/haptics";
+import type { ProfileEffect } from "../../lib/stores";
+import { BottomSheet, BottomSheetScrollView, type EffectPickerActionSheetProps } from "../../ui/actionSheets";
+import { IMG_NONE } from "../../ui/assets";
+import { resolveSemanticColor, semanticColors, useThemeContext } from "../../ui/color";
+import { Button, FlashList, Icon, PressableOpacity, StaticEffect, Text } from "../../ui/components";
+import { Radius, SafeAreaContext, Spacing, useWindowDimensions } from "../../ui/length";
 
 const ROW_SIZE = 3;
 

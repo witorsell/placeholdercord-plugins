@@ -2,7 +2,7 @@ import { Button as $Button } from "@vendetta/ui/components";
 import type { ComponentType } from "react";
 import type { PressableProps, TextProps } from "react-native";
 
-import type { StringDict } from "@lib/utils";
+import type { StringDict } from "../../lib/utils";
 
 export type ButtonLook = "filled" | "link" | "outlined";
 
