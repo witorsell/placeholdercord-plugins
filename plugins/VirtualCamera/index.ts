@@ -1,5 +1,4 @@
-import { ReactNative } from "@vendetta/metro/common";
-import { React } from "@vendetta/metro/common";
+import { ReactNative, React } from "@vendetta/metro/common";
 import { storage } from "@vendetta/plugin";
 import { showToast } from "@vendetta/ui/toasts";
 
@@ -24,6 +23,9 @@ function Settings() {
 
     const currentPath: string = store.mediaPath ?? "";
     const isEnabled: boolean = store.enabled ?? false;
+
+    // Show debug info
+    const debugInfo = "Load log: " + (store.debugLog || "No log");
 
     const setMedia = async (path: string) => {
         if (!native) { toast("Enable the Native Bridge plugin first"); return; }
@@ -70,6 +72,11 @@ function Settings() {
     };
 
     const children: any[] = [];
+
+    children.push(h(Text, {
+        key: "debug",
+        style: { color: "#ff0000", marginBottom: 16, fontSize: 12 }
+    }, debugInfo));
 
     if (!native) {
         children.push(h(Text, {
@@ -137,21 +144,30 @@ function Settings() {
 export default {
     onLoad() {
         try {
-            if (!getNative()) {
-                toast("Virtual Camera needs the Native Bridge plugin enabled. Disabling.");
-                throw new Error("Native Bridge plugin is not enabled");
-            }
-            const path = (storage as any).mediaPath;
-            const enabled = (storage as any).enabled;
-            if (enabled && path) {
-                const native = getNative();
-                if (native && native.camera) {
-                    native.camera.setMedia(path).catch(() => {});
+            store.debugLog = "Started onLoad.";
+            const native = getNative();
+            if (!native) {
+                store.debugLog += " No native bridge.";
+                toast("Virtual Camera loaded, but Native Bridge is off.");
+            } else {
+                store.debugLog += " Native bridge found.";
+                const path = store.mediaPath;
+                const enabled = store.enabled;
+                if (enabled && path) {
+                    store.debugLog += " Setting media...";
+                    if (native.camera) {
+                        native.camera.setMedia(path).catch(() => {});
+                        store.debugLog += " Success.";
+                    } else {
+                        store.debugLog += " native.camera missing.";
+                    }
+                } else {
+                    store.debugLog += " Plugin is active, no path enabled.";
                 }
             }
         } catch (e: any) {
+            store.debugLog += " Error: " + (e?.message ?? e);
             toast("VirtualCamera onLoad Error: " + (e?.message ?? e));
-            throw e;
         }
     },
     onUnload() {
