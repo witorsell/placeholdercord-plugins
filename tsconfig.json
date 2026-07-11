@@ -1,0 +1,13 @@
+{
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "strict": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "jsx": "react",
+    "types": ["node", "react", "react-native", "vendetta-types"],
+    "noEmit": true,
+    "skipLibCheck": true
+  }
+}
