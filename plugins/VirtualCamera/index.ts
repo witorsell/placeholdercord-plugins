@@ -2,8 +2,6 @@ import { ReactNative, React } from "@vendetta/metro/common";
 import { storage } from "@vendetta/plugin";
 import { showToast } from "@vendetta/ui/toasts";
 
-const { ScrollView, View, Text, Pressable, TextInput } = ReactNative as any;
-
 function getNative(): any {
     const w = window as any;
     return (w.placeholder && w.placeholder.native) || null;
@@ -16,6 +14,7 @@ function toast(msg: string) {
 const store = storage as any;
 
 function Settings() {
+    const { ScrollView, View, Text, Pressable, TextInput } = ReactNative as any;
     const h = React.createElement;
     const [, setTick] = React.useState(0);
     const rerender = () => setTick((n: number) => n + 1);
@@ -24,7 +23,6 @@ function Settings() {
     const currentPath: string = store.mediaPath ?? "";
     const isEnabled: boolean = store.enabled ?? false;
 
-    // Show debug info
     const debugInfo = "Load log: " + (store.debugLog || "No log");
 
     const setMedia = async (path: string) => {
@@ -54,7 +52,7 @@ function Settings() {
     };
 
     const pickFromGallery = async () => {
-        const ImageCropPicker = ReactNative.NativeModules.ImageCropPicker;
+        const ImageCropPicker = (ReactNative as any).NativeModules?.ImageCropPicker;
         if (!ImageCropPicker) {
             toast("Native ImageCropPicker not found!");
             return;
