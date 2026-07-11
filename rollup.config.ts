@@ -70,7 +70,7 @@ export default (await Promise.all(readdirSync("./plugins", { withFileTypes: true
                 name: "manifest",
                 renderChunk(code: string) {
                     manifest.main = "index.js";
-                    manifest.hash = createHash("sha256").update(code).digest("base64");
+                    manifest.hash = createHash("sha256").update(code + "\n").digest("base64");
                     this.emitFile({
                         type: "asset",
                         fileName: "manifest.json",
