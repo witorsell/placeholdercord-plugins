@@ -136,17 +136,22 @@ function Settings() {
 
 export default {
     onLoad() {
-        if (!getNative()) {
-            toast("Virtual Camera needs the Native Bridge plugin enabled. Disabling.");
-            throw new Error("Native Bridge plugin is not enabled");
-        }
-        const path = (storage as any).mediaPath;
-        const enabled = (storage as any).enabled;
-        if (enabled && path) {
-            const native = getNative();
-            if (native && native.camera) {
-                native.camera.setMedia(path).catch(() => {});
+        try {
+            if (!getNative()) {
+                toast("Virtual Camera needs the Native Bridge plugin enabled. Disabling.");
+                throw new Error("Native Bridge plugin is not enabled");
             }
+            const path = (storage as any).mediaPath;
+            const enabled = (storage as any).enabled;
+            if (enabled && path) {
+                const native = getNative();
+                if (native && native.camera) {
+                    native.camera.setMedia(path).catch(() => {});
+                }
+            }
+        } catch (e: any) {
+            toast("VirtualCamera onLoad Error: " + (e?.message ?? e));
+            throw e;
         }
     },
     onUnload() {
