@@ -75,3 +75,13 @@ Fixed and maintained build of Fake Profile Themes and Effects for placeholdercor
 ### Install
 
 > https://witorsell.github.io/placeholdercord-plugins/FPTEFixed/
+
+---
+
+## BringBackGifLibrary
+
+Replaces the GIF picker search with giflibrary.site.
+
+### Install
+
+> https://witorsell.github.io/placeholdercord-plugins/BringBackGifLibrary/
