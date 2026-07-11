@@ -137,28 +137,22 @@ function Settings() {
 export default {
     onLoad() {
         if (!getNative()) {
-            toast("Virtual Camera needs the Native Bridge plugin enabled.");
-            return;
+            toast("Virtual Camera needs the Native Bridge plugin enabled. Disabling.");
+            throw new Error("Native Bridge plugin is not enabled");
         }
         const path = (storage as any).mediaPath;
         const enabled = (storage as any).enabled;
         if (enabled && path) {
             const native = getNative();
-            try {
-                native?.camera?.setMedia(path)?.catch?.(() => { });
-            } catch (e) {
-                // ignore
+            if (native && native.camera) {
+                native.camera.setMedia(path).catch(() => {});
             }
         }
     },
     onUnload() {
         const native = getNative();
-        try {
-            if (native && native.camera) {
-                native.camera.setMedia(null)?.catch?.(() => { });
-            }
-        } catch (e) {
-            // ignore
+        if (native && native.camera) {
+            native.camera.setMedia(null).catch(() => {});
         }
     },
     settings: Settings
