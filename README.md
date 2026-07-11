@@ -1,33 +1,22 @@
 # placeholdercord-plugins
 
-Third-party plugins for placeholdercord, built the same way as FPTE: TypeScript source under
-`plugins/<Name>/`, bundled by rollup + swc into an IIFE, and deployed to GitHub Pages.
+Third-party plugins for placeholdercord.
 
 ## Bubble Chat
 
-Configurable native chat bubbles and rounded avatars. It drives the bubble knobs through the
-**Native Bridge** (`window.placeholder.native`), so it ships no native code of its own.
+Configurable native chat bubbles and rounded avatars, driven through the **Native Bridge**
+(`window.placeholder.native`).
 
-Install URL (paste into placeholdercord, Plugins):
+**Install:** in placeholdercord open Plugins and paste this link:
 
 ```
 https://witorsell.github.io/placeholdercord-plugins/BubbleChat/
 ```
 
-**Requires the built-in Native Bridge plugin to be enabled.** While that is off,
-`window.placeholder` is undefined and Bubble Chat bails with a toast instead of crashing.
+**Requires the built-in Native Bridge plugin to be enabled.** While it is off, Bubble Chat bails
+with a toast instead of crashing.
 
 Settings let you pick avatar corners (Square to Circle), bubble corners (Subtle to Pill), and a
 bubble color, then Apply. Scroll the channel to see the change.
 
 Bridge docs: https://witorsell.github.io/placeholdercord-docs/
-
-## Building
-
-```
-pnpm install
-pnpm build
-```
-
-Output lands in `dist/<Name>/{index.js, manifest.json}`. CI builds on push to `main` and deploys
-`dist/` to GitHub Pages.
