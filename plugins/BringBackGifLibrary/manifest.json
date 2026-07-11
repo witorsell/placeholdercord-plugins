@@ -1,0 +1,18 @@
+{
+    "name": "BringBackGifLibrary",
+    "description": "Replace the GIF picker search with giflibrary.site",
+    "authors": [
+        {
+            "name": "witorsell",
+            "id": "1524888236382617681"
+        },
+        {
+            "name": "Livie",
+            "id": "755950362342457384"
+        }
+    ],
+    "main": "src/index.tsx",
+    "vendetta": {
+        "icon": "ic_image_24px"
+    }
+}
