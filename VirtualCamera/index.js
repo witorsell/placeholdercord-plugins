@@ -1,24 +1,33 @@
 ((e, t, a) => {
     "use strict";
+    var r = console.error;
     function o() {
         var e = window;
         return e.placeholder && e.placeholder.native || null;
     }
-    var r = e => {
+    console.error = function() {
+        for (var e = arguments.length, t = Array(e), a = 0; e > a; a++) t[a] = arguments[a];
+        try {
+            var o = t.map(e => e?.stack ? e.stack : "object" == typeof e ? JSON.stringify(e) : e + "").join(" ");
+            (o.includes("Virtual Camera") || o.includes("VirtualCamera") || o.includes("errored")) && alert("VIRTUALCAMERA CRASH: " + o);
+        } catch (e) {}
+        r.apply(console, t);
+    };
+    var i = e => {
         try {
             a.showToast(e);
         } catch (e) {}
-    }, i = t.storage;
+    }, n = t.storage;
     return {
         onLoad() {
             try {
                 var e = o();
                 if (e && e.camera) {
-                    var t = i.mediaPath;
-                    i.enabled && t && e.camera.setMedia(t).catch(() => {});
+                    var t = n.mediaPath;
+                    n.enabled && t && e.camera.setMedia(t).catch(() => {});
                 }
             } catch (e) {
-                r("VirtualCamera onLoad Error: " + e);
+                i("VirtualCamera onLoad Error: " + e);
             }
         },
         onUnload() {
@@ -26,14 +35,14 @@
             e && e.camera && e.camera.setMedia(null).catch(() => {});
         },
         settings() {
-            var {ScrollView: t, View: a, Text: n, Pressable: l, TextInput: c} = e.ReactNative, s = e.React.createElement, [, d] = e.React.useState(0), f = () => d(e => e + 1), g = o(), u = i.mediaPath ?? "", m = i.enabled ?? !1, h = async e => {
-                if (g) try {
-                    i.mediaPath = e, i.enabled = !0, await g.camera.setMedia(e), f(), r("Virtual camera set!");
+            var {ScrollView: t, View: a, Text: r, Pressable: l, TextInput: c} = e.ReactNative, s = e.React.createElement, [, d] = e.React.useState(0), f = () => d(e => e + 1), u = o(), g = n.mediaPath ?? "", m = n.enabled ?? !1, h = async e => {
+                if (u) try {
+                    n.mediaPath = e, n.enabled = !0, await u.camera.setMedia(e), f(), i("Virtual camera set!");
                 } catch (e) {
-                    r("Error: " + (e?.message ?? e));
-                } else r("Enable the Native Bridge plugin first");
+                    i("Error: " + (e?.message ?? e));
+                } else i("Enable the Native Bridge plugin first");
             }, p = [];
-            return g || p.push(s(n, {
+            return u || p.push(s(r, {
                 key: "warn",
                 style: {
                     color: "#faa61a",
@@ -49,26 +58,26 @@
                     backgroundColor: "#2b2d31",
                     borderRadius: 10
                 }
-            }, s(n, {
+            }, s(r, {
                 style: {
                     color: "#b5bac1",
                     fontSize: 12,
                     marginBottom: 4
                 }
-            }, "STATUS"), s(n, {
+            }, "STATUS"), s(r, {
                 style: {
                     color: m ? "#23a559" : "#80848e",
                     fontWeight: "600",
                     fontSize: 15
                 }
-            }, m ? "● Active" : "○ Inactive"), u ? s(n, {
+            }, m ? "● Active" : "○ Inactive"), g ? s(r, {
                 style: {
                     color: "#949ba4",
                     fontSize: 11,
                     marginTop: 4
                 },
                 numberOfLines: 1
-            }, u) : null)), p.push(s(n, {
+            }, g) : null)), p.push(s(r, {
                 key: "heading",
                 style: {
                     color: "#ffffff",
@@ -86,8 +95,8 @@
                         });
                         a && a.path && h(a.path.replace("file://", ""));
                     } catch (e) {
-                        "E_PICKER_CANCELLED" !== e?.code && r("Picker error: " + (e?.message ?? e));
-                    } else r("Native ImageCropPicker not found!");
+                        "E_PICKER_CANCELLED" !== e?.code && i("Picker error: " + (e?.message ?? e));
+                    } else i("Native ImageCropPicker not found!");
                 },
                 style: {
                     backgroundColor: "#5865F2",
@@ -96,7 +105,7 @@
                     alignItems: "center",
                     marginBottom: 10
                 }
-            }, s(n, {
+            }, s(r, {
                 style: {
                     color: "#ffffff",
                     fontWeight: "700",
@@ -115,7 +124,7 @@
                     height: 1,
                     backgroundColor: "#3f4147"
                 }
-            }), s(n, {
+            }), s(r, {
                 style: {
                     color: "#80848e",
                     marginHorizontal: 10,
@@ -134,7 +143,7 @@
                     marginBottom: 20
                 }
             }, s(c, {
-                defaultValue: u,
+                defaultValue: g,
                 placeholder: "/storage/emulated/0/DCIM/photo.jpg",
                 placeholderTextColor: "#555",
                 autoCapitalize: "none",
@@ -153,10 +162,10 @@
                 }
             }), s(l, {
                 async onPress() {
-                    if (g) try {
-                        i.enabled = !1, i.mediaPath = "", await g.camera.setMedia(null), f(), r("Virtual camera disabled");
+                    if (u) try {
+                        n.enabled = !1, n.mediaPath = "", await u.camera.setMedia(null), f(), i("Virtual camera disabled");
                     } catch (e) {
-                        r("Error: " + (e?.message ?? e));
+                        i("Error: " + (e?.message ?? e));
                     }
                 },
                 style: {
@@ -165,7 +174,7 @@
                     paddingHorizontal: 14,
                     justifyContent: "center"
                 }
-            }, s(n, {
+            }, s(r, {
                 style: {
                     color: "#fff",
                     fontWeight: "700"
