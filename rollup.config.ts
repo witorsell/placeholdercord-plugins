@@ -54,7 +54,7 @@ export default (await Promise.all(readdirSync("./plugins", { withFileTypes: true
                     ]
                 }
             }),
-            terser({
+            terser({compress:false,mangle:false,output:{beautify:true},
                 compress: {
                     ecma: 2015,
                     expression: true,
