@@ -30,8 +30,12 @@ jobs:
       - name: Build plugins
         run: pnpm build
 
-      - name: Copy readme into dist
-        run: cp README.md dist/README.md
+      - name: Build the pages content
+        run: |
+          cp README.md dist/index.md
+          printf -- "---\npermalink: /404.html\n---\n" > dist/404.md
+          printf -- "> **Note:** You reached a 404, probably by opening a plugin link in a browser. You are supposed to copy the link and paste it into placeholdercord Plugins, not open it.\n\n" >> dist/404.md
+          cat README.md >> dist/404.md
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
