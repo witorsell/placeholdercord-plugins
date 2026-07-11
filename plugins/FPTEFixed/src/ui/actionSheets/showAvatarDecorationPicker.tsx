@@ -1,8 +1,8 @@
 import { findByProps } from "@vendetta/metro";
 import React from "react";
 
-import { AvatarDecorationStore, CollectiblesCategoryStore, CollectiblesPurchaseStore } from "@lib/stores";
-import { CollectiblePickerActionSheet, hideActionSheet, showActionSheet } from "@ui/actionSheets";
+import { AvatarDecorationStore, CollectiblesCategoryStore, CollectiblesPurchaseStore } from "../../lib/stores";
+import { CollectiblePickerActionSheet, hideActionSheet, showActionSheet } from "../../ui/actionSheets";
 
 const SHEET_KEY = "__FPTE_DECO__";
 

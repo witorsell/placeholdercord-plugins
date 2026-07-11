@@ -2,7 +2,7 @@ import { find, findByProps } from "@vendetta/metro";
 import { semanticColors as _semanticColors } from "@vendetta/ui";
 import type { ComponentType, PropsWithChildren } from "react";
 
-import type { EmptyObject } from "@lib/utils";
+import type { EmptyObject } from "../lib/utils";
 
 export const semanticColors: Record<string, EmptyObject> = _semanticColors;
 

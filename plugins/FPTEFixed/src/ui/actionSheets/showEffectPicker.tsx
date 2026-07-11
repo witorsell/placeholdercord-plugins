@@ -1,10 +1,10 @@
 import { findByProps } from "@vendetta/metro";
 import React from "react";
 
-import { FluxDispatcher } from "@lib/flux";
-import { CollectiblesCategoryStore, CollectiblesPurchaseStore, type ProfileEffectConfig, ProfileEffectStore, UserStore } from "@lib/stores";
-import { setPreviewUserId } from "@patches/patchUseProfileTheme";
-import { EffectPickerActionSheet, hideActionSheet, showActionSheet } from "@ui/actionSheets";
+import { FluxDispatcher } from "../../lib/flux";
+import { CollectiblesCategoryStore, CollectiblesPurchaseStore, type ProfileEffectConfig, ProfileEffectStore, UserStore } from "../../lib/stores";
+import { setPreviewUserId } from "../../patches/patchUseProfileTheme";
+import { EffectPickerActionSheet, hideActionSheet, showActionSheet } from "../../ui/actionSheets";
 
 const SHEET_KEY = "__FPTE__";
 

@@ -2,14 +2,14 @@ import { showToast } from "@vendetta/ui/toasts";
 import { findByProps } from "@vendetta/metro";
 import React, { useMemo, useState, useEffect } from "react";
 import { Image, View, Text } from "react-native";
-import { buildFPTE, hasFPTE, stripFPTE } from "@lib/fpte";
-import { decodeBio, setFPTE } from "@lib/fpteCache";
-import { AvatarDecorationStore, CollectiblesCategoryStore, CollectiblesPurchaseStore, NameplateStore, type ProfileEffectConfig, ProfileEffectStore, UserStore, UserProfileStore } from "@lib/stores";
-import { useAccentColor, usePrimaryColor, useShowPreview } from "@patches/patchUseProfileTheme";
-import { showAvatarDecorationPicker, showColorPicker, showEffectPicker, showNameplatePicker } from "@ui/actionSheets";
-import { resolveSemanticColor, semanticColors, useAvatarColors, useThemeContext } from "@ui/color";
-import { BuilderButton, Button, StaticEffect } from "@ui/components";
-import { FormCardSection, FormSwitchRow } from "@ui/components/forms";
+import { buildFPTE, hasFPTE, stripFPTE } from "../../lib/fpte";
+import { decodeBio, setFPTE } from "../../lib/fpteCache";
+import { AvatarDecorationStore, CollectiblesCategoryStore, CollectiblesPurchaseStore, NameplateStore, type ProfileEffectConfig, ProfileEffectStore, UserStore, UserProfileStore } from "../../lib/stores";
+import { useAccentColor, usePrimaryColor, useShowPreview } from "../../patches/patchUseProfileTheme";
+import { showAvatarDecorationPicker, showColorPicker, showEffectPicker, showNameplatePicker } from "../../ui/actionSheets";
+import { resolveSemanticColor, semanticColors, useAvatarColors, useThemeContext } from "../../ui/color";
+import { BuilderButton, Button, StaticEffect } from "../../ui/components";
+import { FormCardSection, FormSwitchRow } from "../../ui/components/forms";
 
 const UserProfileActionCreators = findByProps("saveProfileChanges");
 

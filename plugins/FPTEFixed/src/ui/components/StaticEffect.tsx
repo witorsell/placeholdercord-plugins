@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, View, type ViewProps } from "react-native";
 
-import type { ProfileEffectConfig } from "@lib/stores";
-import { PROFILE_EFFECT_WH_RATIO, SAMPLE_PROFILE_SMALL } from "@ui/assets";
+import type { ProfileEffectConfig } from "../../lib/stores";
+import { PROFILE_EFFECT_WH_RATIO, SAMPLE_PROFILE_SMALL } from "../../ui/assets";
 
 export interface StaticEffectProps {
     effect: ProfileEffectConfig;

@@ -2,7 +2,7 @@ import { Forms } from "@vendetta/ui/components";
 import type { ComponentType, ReactNode } from "react";
 import type { ColorValue, PressableProps, ViewProps } from "react-native";
 
-import type { TextProps } from "@ui/components/Text";
+import type { TextProps } from "../../ui/components/Text";
 
 interface CardProps {
     start?: boolean | undefined;

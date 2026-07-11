@@ -11,7 +11,7 @@
             "id": "559776692240121866"
         }
     ],
-    "main": "src/index.ts",
+    "main": "index.ts",
     "vendetta": {
         "icon": "gif"
     }

@@ -1,8 +1,8 @@
 import React, { type ReactNode } from "react";
 import { type ColorValue, View } from "react-native";
 
-import { Path, PressableOpacity, Svg, Text } from "@ui/components";
-import { Radius, Spacing } from "@ui/length";
+import { Path, PressableOpacity, Svg, Text } from "../../ui/components";
+import { Radius, Spacing } from "../../ui/length";
 
 export interface BuilderButtonProps {
     label?: string | undefined;

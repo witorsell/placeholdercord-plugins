@@ -2,10 +2,10 @@ import type { UserProfile } from "@vencord/discord-types";
 import { after } from "@vendetta/patcher";
 import { storage } from "@vendetta/plugin";
 
-import { decodeColor, decodeColorsLegacy, decodeEffect, extractFPTE } from "@lib/fpte";
-import { cacheBio } from "@lib/fpteCache";
-import { ProfileEffectRecord } from "@lib/records";
-import { UserProfileStore } from "@lib/stores";
+import { decodeColor, decodeColorsLegacy, decodeEffect, extractFPTE } from "../lib/fpte";
+import { cacheBio } from "../lib/fpteCache";
+import { ProfileEffectRecord } from "../lib/records";
+import { UserProfileStore } from "../lib/stores";
 
 function updateProfileThemeColors(profile: UserProfile<false>, primary: number, accent: number) {
     if (primary > -1) {

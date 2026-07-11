@@ -1,6 +1,6 @@
-import { FluxDispatcher } from "@lib/flux";
-import { primeLocalUser } from "@lib/fpteCache";
-import { UserProfileStore, UserStore } from "@lib/stores";
+import { FluxDispatcher } from "./lib/flux";
+import { primeLocalUser } from "./lib/fpteCache";
+import { UserProfileStore, UserStore } from "./lib/stores";
 import {
     patchGetPurchase,
     patchGetUserProfile,
@@ -10,8 +10,8 @@ import {
     patchUserCollectibles,
     patchUserProfileEditForm,
     patchNitroUpsellCard
-} from "@patches";
-import { Settings } from "@ui/pages";
+} from "./patches/index";
+import { Settings } from "./ui/pages";
 
 /** Updates the profile theme and effect used by YouScreen and BottomTabBar. */
 function updateProfileThemeAndEffect() {

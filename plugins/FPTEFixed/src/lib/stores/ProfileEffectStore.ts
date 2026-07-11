@@ -1,6 +1,6 @@
 import { findByProps } from "@vendetta/metro";
 
-import type { CollectiblesItemType } from "@lib/records";
+import type { CollectiblesItemType } from "../../lib/records";
 
 import { CollectiblesCategoryStore } from "./CollectiblesCategoryStore";
 import { CollectiblesPurchaseStore } from "./CollectiblesPurchaseStore";
