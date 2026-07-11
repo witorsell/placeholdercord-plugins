@@ -7,11 +7,9 @@ Third-party plugins for placeholdercord.
 Configurable native chat bubbles and rounded avatars, driven through the **Native Bridge**
 (`window.placeholder.native`).
 
-**Install:** in placeholdercord open Plugins and paste this link:
+### Install
 
-```
-https://witorsell.github.io/placeholdercord-plugins/BubbleChat/
-```
+> https://witorsell.github.io/placeholdercord-plugins/BubbleChat/
 
 **Requires the built-in Native Bridge plugin to be enabled.** While it is off, Bubble Chat bails
 with a toast instead of crashing.
