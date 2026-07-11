@@ -51,13 +51,22 @@ function Settings() {
         }
     };
 
-    const pickFromGallery = () => {
-        const { launchImageLibrary } = require("react-native-image-picker") as any;
-        launchImageLibrary({ mediaType: "mixed", quality: 1 }, (res: any) => {
-            if (res.didCancel || res.errorCode) return;
-            const asset = res.assets?.[0];
-            if (asset?.uri) setMedia(asset.uri.replace("file://", ""));
-        });
+    const pickFromGallery = async () => {
+        const ImageCropPicker = ReactNative.NativeModules.ImageCropPicker;
+        if (!ImageCropPicker) {
+            toast("Native ImageCropPicker not found!");
+            return;
+        }
+        try {
+            const res = await ImageCropPicker.openPicker({ mediaType: "any" });
+            if (res && res.path) {
+                setMedia(res.path.replace("file://", ""));
+            }
+        } catch (e: any) {
+            if (e?.code !== "E_PICKER_CANCELLED") {
+                toast("Picker error: " + (e?.message ?? e));
+            }
+        }
     };
 
     const children: any[] = [];
