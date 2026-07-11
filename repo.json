@@ -1,0 +1,9 @@
+{
+  "$meta": {
+    "name": "witorsell plugins",
+    "description": "Plugins for placeholdercord."
+  },
+  "bubblechat": {
+    "version": "1.0.0"
+  }
+}

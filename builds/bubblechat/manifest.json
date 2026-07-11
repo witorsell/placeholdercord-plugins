@@ -1,0 +1,12 @@
+{
+  "id": "bubblechat",
+  "type": "plugin",
+  "spec": 3,
+  "version": "1.0.0",
+  "main": "index.js",
+  "display": {
+    "name": "Bubble Chat",
+    "description": "Configurable native chat bubbles and rounded avatars, driven through the placeholdercord Native Bridge. Requires the Native Bridge plugin to be enabled.",
+    "authors": [{ "name": "witorsell", "id": "1524888236382617681" }]
+  }
+}
