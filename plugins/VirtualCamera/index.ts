@@ -154,9 +154,13 @@ function Settings() {
 
 export default {
     onLoad() {
+        const native = getNative();
+        if (!native) {
+            toast("Virtual Camera needs the Native Bridge plugin enabled. Disabling.");
+            throw new Error("Native Bridge plugin is not enabled");
+        }
         try {
-            const native = getNative();
-            if (native && native.camera) {
+            if (native.camera) {
                 const path = store.mediaPath;
                 if (store.enabled && path) {
                     native.camera.setMedia(path).catch(() => {});
