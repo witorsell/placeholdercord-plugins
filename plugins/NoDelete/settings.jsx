@@ -13,7 +13,7 @@ export default (props) => {
 	UserStore ??= findByStoreName("UserStore");
 	UncachedUserManager ??= findByProps("fetchProfile", "getUser", "setFlag");
 	Profiles ??= findByProps("showUserProfile");
-	async function openProfile(userId) {
+	function openProfile(userId) {
 		const show = Profiles.showUserProfile;
 
 		UserStore.getUser(userId) ? show({ userId }) : UncachedUserManager.getUser(userId).then(({ id }) => show({ userId: id }));
