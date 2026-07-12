@@ -113,7 +113,7 @@
                     fontWeight: "700",
                     fontSize: 15
                 }
-            }, "📁  Choose Photo / Video / GIF"))), p.push(s(a, {
+            }, "📁  Choose Photo"))), p.push(s(a, {
                 key: "orDivider",
                 style: {
                     flexDirection: "row",
