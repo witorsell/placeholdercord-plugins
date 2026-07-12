@@ -20,9 +20,11 @@
     }, n = t.storage;
     return {
         onLoad() {
+            var e = o();
+            if (!e) throw i("Virtual Camera needs the Native Bridge plugin enabled. Disabling."), 
+            Error("Native Bridge plugin is not enabled");
             try {
-                var e = o();
-                if (e && e.camera) {
+                if (e.camera) {
                     var t = n.mediaPath;
                     n.enabled && t && e.camera.setMedia(t).catch(() => {});
                 }
@@ -35,14 +37,14 @@
             e && e.camera && e.camera.setMedia(null).catch(() => {});
         },
         settings() {
-            var {ScrollView: t, View: a, Text: r, Pressable: l, TextInput: c} = e.ReactNative, s = e.React.createElement, [, d] = e.React.useState(0), f = () => d(e => e + 1), u = o(), g = n.mediaPath ?? "", m = n.enabled ?? !1, h = e => {
+            var {ScrollView: t, View: a, Text: r, Pressable: l, TextInput: s} = e.ReactNative, c = e.React.createElement, [, d] = e.React.useState(0), f = () => d(e => e + 1), u = o(), g = n.mediaPath ?? "", m = n.enabled ?? !1, h = e => {
                 u ? (n.mediaPath = e, n.enabled = !0, u.camera.setMedia(e).then(() => {
                     f(), i("Virtual camera set!");
                 }).catch(e => {
                     i("Error: " + (e?.message ?? e));
                 })) : i("Enable the Native Bridge plugin first");
             }, p = [];
-            return u || p.push(s(r, {
+            return u || p.push(c(r, {
                 key: "warn",
                 style: {
                     color: "#faa61a",
@@ -50,7 +52,7 @@
                     fontSize: 14
                 }
             }, "Native Bridge is off. Enable the Native Bridge plugin to use the virtual camera.")), 
-            p.push(s(a, {
+            p.push(c(a, {
                 key: "status",
                 style: {
                     marginBottom: 20,
@@ -58,26 +60,26 @@
                     backgroundColor: "#2b2d31",
                     borderRadius: 10
                 }
-            }, s(r, {
+            }, c(r, {
                 style: {
                     color: "#b5bac1",
                     fontSize: 12,
                     marginBottom: 4
                 }
-            }, "STATUS"), s(r, {
+            }, "STATUS"), c(r, {
                 style: {
                     color: m ? "#23a559" : "#80848e",
                     fontWeight: "600",
                     fontSize: 15
                 }
-            }, m ? "● Active" : "○ Inactive"), g ? s(r, {
+            }, m ? "● Active" : "○ Inactive"), g ? c(r, {
                 style: {
                     color: "#949ba4",
                     fontSize: 11,
                     marginTop: 4
                 },
                 numberOfLines: 1
-            }, g) : null)), p.push(s(r, {
+            }, g) : null)), p.push(c(r, {
                 key: "heading",
                 style: {
                     color: "#ffffff",
@@ -85,7 +87,7 @@
                     fontWeight: "600",
                     marginBottom: 12
                 }
-            }, "Pick Media")), p.push(s(l, {
+            }, "Pick Media")), p.push(c(l, {
                 key: "pick",
                 onPress() {
                     if (u) {
@@ -107,44 +109,44 @@
                     alignItems: "center",
                     marginBottom: 10
                 }
-            }, s(r, {
+            }, c(r, {
                 style: {
                     color: "#ffffff",
                     fontWeight: "700",
                     fontSize: 15
                 }
-            }, "📁  Choose Photo"))), p.push(s(a, {
+            }, "📁  Choose Photo"))), p.push(c(a, {
                 key: "orDivider",
                 style: {
                     flexDirection: "row",
                     alignItems: "center",
                     marginBottom: 10
                 }
-            }, s(a, {
+            }, c(a, {
                 style: {
                     flex: 1,
                     height: 1,
                     backgroundColor: "#3f4147"
                 }
-            }), s(r, {
+            }), c(r, {
                 style: {
                     color: "#80848e",
                     marginHorizontal: 10,
                     fontSize: 13
                 }
-            }, "or paste path"), s(a, {
+            }, "or paste path"), c(a, {
                 style: {
                     flex: 1,
                     height: 1,
                     backgroundColor: "#3f4147"
                 }
-            }))), p.push(s(a, {
+            }))), p.push(c(a, {
                 key: "pathInput",
                 style: {
                     flexDirection: "row",
                     marginBottom: 20
                 }
-            }, s(c, {
+            }, c(s, {
                 defaultValue: g,
                 placeholder: "/storage/emulated/0/DCIM/photo.jpg",
                 placeholderTextColor: "#555",
@@ -162,7 +164,7 @@
                     marginRight: 8,
                     fontSize: 13
                 }
-            }), s(l, {
+            }), c(l, {
                 onPress() {
                     u && (n.enabled = !1, n.mediaPath = "", u.camera.setMedia(null).then(() => {
                         f(), i("Virtual camera disabled");
@@ -176,12 +178,12 @@
                     paddingHorizontal: 14,
                     justifyContent: "center"
                 }
-            }, s(r, {
+            }, c(r, {
                 style: {
                     color: "#fff",
                     fontWeight: "700"
                 }
-            }, "Off")))), s(t, {
+            }, "Off")))), c(t, {
                 style: {
                     flex: 1
                 },
