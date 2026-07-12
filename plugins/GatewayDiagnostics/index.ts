@@ -43,33 +43,41 @@ function patchGateway() {
         return;
     }
 
+    // send() isn't on the prototype, it's very likely bound as an instance field in the
+    // constructor (same pattern _doIdentify's real body used). So it only exists on actual
+    // instances, not gwClass.prototype. Patch it lazily on the first real instance we see,
+    // the moment any of the three methods below fire on it.
+    const patchedInstances = new WeakSet<object>();
+    const patchSendOnInstance = (instance: any) => {
+        if (!instance || patchedInstances.has(instance) || typeof instance.send !== "function") return;
+        patchedInstances.add(instance);
+        try {
+            unpatchers.push(
+                before("send", instance, (args: any[]) => {
+                    try {
+                        const [opcode, payload] = args;
+                        if (payload && typeof payload === "object" && "properties" in payload) {
+                            record("send(opcode=" + opcode + ")", payload);
+                        }
+                    } catch (e) {
+                        record("send (capture error: " + e + ")", null);
+                    }
+                }),
+            );
+        } catch (e) {
+            record("send patch failed: " + e, null);
+        }
+    };
+
     for (const name of ["_doIdentify", "_doResume", "_doResumeOrIdentify"]) {
         if (typeof gwClass.prototype[name] !== "function") continue;
         unpatchers.push(
             before(name, gwClass.prototype, function (this: any) {
                 try {
                     record(name, this);
+                    patchSendOnInstance(this);
                 } catch (e) {
                     record(name + " (capture error: " + e + ")", null);
-                }
-            }),
-        );
-    }
-
-    // _doIdentify doesn't read its own `properties` field directly, it builds the real
-    // payload via an internal helper and hands it to send(opcode, payload, flag). That
-    // payload is the actual thing that reaches Discord's backend, so it's the only
-    // reliable place to see the real properties object.
-    if (typeof gwClass.prototype.send === "function") {
-        unpatchers.push(
-            before("send", gwClass.prototype, (args: any[]) => {
-                try {
-                    const [opcode, payload] = args;
-                    if (payload && typeof payload === "object" && "properties" in payload) {
-                        record("send(opcode=" + opcode + ")", payload);
-                    }
-                } catch (e) {
-                    record("send (capture error: " + e + ")", null);
                 }
             }),
         );
