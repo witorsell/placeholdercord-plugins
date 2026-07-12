@@ -88,14 +88,17 @@
             }, "Pick Media")), p.push(s(l, {
                 key: "pick",
                 onPress() {
-                    var t = e.ReactNative.NativeModules?.ImageCropPicker;
-                    t ? t.openPicker({
-                        mediaType: "any"
-                    }).then(e => {
-                        e && e.path && h(e.path.replace("file://", ""));
-                    }).catch(e => {
-                        "E_PICKER_CANCELLED" !== e?.code && i("Picker error: " + (e?.message ?? e));
-                    }) : i("Native ImageCropPicker not found!");
+                    if (u) {
+                        u.call("mediaPicker.start"), i("Opening gallery...");
+                        var e = () => {
+                            u.call("mediaPicker.poll").then(t => {
+                                "CANCELLED" !== t && (t ? h(t.replace("file://", "")) : setTimeout(e, 500));
+                            }).catch(() => {
+                                setTimeout(e, 500);
+                            });
+                        };
+                        setTimeout(e, 500);
+                    } else i("Native Bridge is required for the file picker.");
                 },
                 style: {
                     backgroundColor: "#5865F2",
