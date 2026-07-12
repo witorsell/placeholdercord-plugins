@@ -22,22 +22,32 @@
                     if ("function" != typeof n.prototype[e]) return "continue";
                     s.push(o.before(e, n.prototype, function() {
                         try {
-                            f(e, this);
+                            f(e, this), a(this);
                         } catch (t) {
                             f(e + " (capture error: " + t + ")", null);
                         }
                     }));
                 }, n = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify);
                 if (n) {
-                    for (var r of [ "_doIdentify", "_doResume", "_doResumeOrIdentify" ]) t(r);
-                    "function" == typeof n.prototype.send && s.push(o.before("send", n.prototype, e => {
-                        try {
-                            var [t, o] = e;
-                            o && "object" == typeof o && "properties" in o && f("send(opcode=" + t + ")", o);
-                        } catch (e) {
-                            f("send (capture error: " + e + ")", null);
+                    var r = new WeakSet, a = e => {
+                        if (e && !r.has(e) && "function" == typeof e.send) {
+                            r.add(e);
+                            try {
+                                s.push(o.before("send", e, e => {
+                                    try {
+                                        var [t, o] = e;
+                                        o && "object" == typeof o && "properties" in o && f("send(opcode=" + t + ")", o);
+                                    } catch (e) {
+                                        f("send (capture error: " + e + ")", null);
+                                    }
+                                }));
+                            } catch (e) {
+                                f("send patch failed: " + e, null);
+                            }
                         }
-                    })), d("Gateway Diagnostics: patched " + s.length + " method(s)");
+                    };
+                    for (var i of [ "_doIdentify", "_doResume", "_doResumeOrIdentify" ]) t(i);
+                    d("Gateway Diagnostics: patched " + s.length + " method(s)");
                 } else d("Gateway Diagnostics: GatewaySocket class not found, nothing patched");
             }();
         },
