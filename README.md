@@ -52,6 +52,20 @@ device/super-properties. Not meant to stay enabled long-term.
 
 ---
 
+## Platform Spoofer
+
+Reports a different platform to Discord's backend instead of Android: Desktop (Windows), Web
+(Chrome), or Embedded (Console). Pure JS, patches the Gateway socket's outgoing IDENTIFY payload
+directly, no Native Bridge required. Only takes effect on a genuine fresh IDENTIFY (logout/login,
+or a real new connection), a short reconnect resumes the existing session instead and won't pick
+up a preset change.
+
+### Install
+
+> https://witorsell.github.io/placeholdercord-plugins/PlatformSpoofer/
+
+---
+
 ## UwuifyLive
 
 Automatically uwuifies your messages before sending. Configurable faces, actions, stutters, words,
