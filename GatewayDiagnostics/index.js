@@ -30,7 +30,14 @@
                 }, n = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify);
                 if (n) {
                     for (var r of [ "_doIdentify", "_doResume", "_doResumeOrIdentify" ]) t(r);
-                    d("Gateway Diagnostics: patched " + s.length + " method(s)");
+                    "function" == typeof n.prototype.send && s.push(o.before("send", n.prototype, e => {
+                        try {
+                            var [t, o] = e;
+                            o && "object" == typeof o && "properties" in o && f("send(opcode=" + t + ")", o);
+                        } catch (e) {
+                            f("send (capture error: " + e + ")", null);
+                        }
+                    })), d("Gateway Diagnostics: patched " + s.length + " method(s)");
                 } else d("Gateway Diagnostics: GatewaySocket class not found, nothing patched");
             }();
         },
