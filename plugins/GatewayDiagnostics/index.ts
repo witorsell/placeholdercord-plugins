@@ -56,6 +56,25 @@ function patchGateway() {
         );
     }
 
+    // _doIdentify doesn't read its own `properties` field directly, it builds the real
+    // payload via an internal helper and hands it to send(opcode, payload, flag). That
+    // payload is the actual thing that reaches Discord's backend, so it's the only
+    // reliable place to see the real properties object.
+    if (typeof gwClass.prototype.send === "function") {
+        unpatchers.push(
+            before("send", gwClass.prototype, (args: any[]) => {
+                try {
+                    const [opcode, payload] = args;
+                    if (payload && typeof payload === "object" && "properties" in payload) {
+                        record("send(opcode=" + opcode + ")", payload);
+                    }
+                } catch (e) {
+                    record("send (capture error: " + e + ")", null);
+                }
+            }),
+        );
+    }
+
     toast("Gateway Diagnostics: patched " + unpatchers.length + " method(s)");
 }
 
