@@ -83,7 +83,7 @@
                     m(this);
                 }) : (y || u("Platform Spoofer: GatewaySocket class not found, nothing patched"), 
                 null);
-            }();
+            }(), "android" !== p() && y && _();
         },
         onUnload() {
             b && b(), w && w();
