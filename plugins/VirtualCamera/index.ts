@@ -62,20 +62,29 @@ function Settings() {
     };
 
     const pickFromGallery = () => {
-        const ImageCropPicker = (ReactNative as any).NativeModules?.ImageCropPicker;
-        if (!ImageCropPicker) {
-            toast("Native ImageCropPicker not found!");
+        if (!native) {
+            toast("Native Bridge is required for the file picker.");
             return;
         }
-        ImageCropPicker.openPicker({ mediaType: "any" }).then((res: any) => {
-            if (res && res.path) {
-                setMedia(res.path.replace("file://", ""));
-            }
-        }).catch((e: any) => {
-            if (e?.code !== "E_PICKER_CANCELLED") {
-                toast("Picker error: " + (e?.message ?? e));
-            }
-        });
+        
+        native.call("mediaPicker.start");
+        toast("Opening gallery...");
+        
+        const checkPoll = () => {
+            native.call("mediaPicker.poll").then((res: any) => {
+                if (res === "CANCELLED") {
+                    return; // user cancelled
+                }
+                if (res) {
+                    setMedia(res.replace("file://", ""));
+                    return;
+                }
+                setTimeout(checkPoll, 500);
+            }).catch(() => {
+                setTimeout(checkPoll, 500);
+            });
+        };
+        setTimeout(checkPoll, 500);
     };
 
     const children: any[] = [];
