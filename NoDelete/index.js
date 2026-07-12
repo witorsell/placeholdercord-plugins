@@ -242,17 +242,15 @@
                         uri: o
                     },
                     onImagePress() {
-                        (async e => {
-                            var t = y.showUserProfile;
-                            p.getUser(e) ? t({
-                                userId: e
-                            }) : R.getUser(e).then(e => {
-                                var {id: a} = e;
-                                return t({
-                                    userId: a
-                                });
+                        var e, t;
+                        e = a, t = y.showUserProfile, p.getUser(e) ? t({
+                            userId: e
+                        }) : R.getUser(e).then(e => {
+                            var {id: a} = e;
+                            return t({
+                                userId: a
                             });
-                        })(a);
+                        });
                     },
                     onRemove() {
                         return e = a, r = i.filter(t => t !== e), t.storage.ignore.users = r, void c(r);
