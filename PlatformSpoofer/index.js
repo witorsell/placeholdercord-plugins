@@ -62,7 +62,7 @@
             }
         }));
     }
-    function w() {
+    function h() {
         if (y) {
             try {
                 y.sessionId = null, y.seq = 0;
@@ -72,10 +72,10 @@
             "function" == typeof y.close ? (y.close(), u("Reconnecting with a fresh IDENTIFY...")) : u("Session cleared, but no close() method found to force a reconnect");
         } else u("Platform Spoofer: no gateway connection seen yet");
     }
-    var _ = null;
+    var w = null;
     return {
         onLoad() {
-            _ = function() {
+            w = function() {
                 var o = e.find(e => e && e.socket && "function" == typeof e.socket._doIdentify);
                 o?.socket && m(o.socket);
                 var t = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify);
@@ -83,10 +83,10 @@
                     m(this);
                 }) : (y || u("Platform Spoofer: GatewaySocket class not found, nothing patched"), 
                 null);
-            }(), "android" !== p() && y && w();
+            }(), "android" !== p() && y && h();
         },
         onUnload() {
-            b && b(), _ && _();
+            b && b(), w && w();
         },
         settings() {
             var e = o.React.createElement, [, t] = o.React.useState(0), n = p();
@@ -97,7 +97,28 @@
                 contentContainerStyle: {
                     padding: 16
                 }
+            }, e(a, {
+                style: {
+                    backgroundColor: "#4a3a1a",
+                    borderRadius: 8,
+                    padding: 12,
+                    marginBottom: 16,
+                    borderLeftWidth: 3,
+                    borderLeftColor: "#faa61a"
+                }
             }, e(i, {
+                style: {
+                    color: "#faa61a",
+                    fontWeight: "700",
+                    fontSize: 12,
+                    marginBottom: 4
+                }
+            }, "Disclaimer"), e(i, {
+                style: {
+                    color: "#ddb877",
+                    fontSize: 12
+                }
+            }, "This messes with what your account reports to Discord's gateway. Realistically very low risk (~1%, the cosmetic fields alone aren't something Discord is known to detect-and-act on), but not zero risk, it's still touching data their systems can see. Use at your own judgement.")), e(i, {
                 style: {
                     color: "#ffffff",
                     fontSize: 16,
@@ -131,7 +152,7 @@
                     }
                 }, d[o].label));
             }), e(l, {
-                onPress: w,
+                onPress: h,
                 style: {
                     backgroundColor: "#248046",
                     borderRadius: 8,
