@@ -1,4 +1,3 @@
-import { chunk } from "lodash";
 import React, { type ReactNode, useContext, useMemo, useState } from "react";
 import { View, type ViewStyle } from "react-native";
 
@@ -11,6 +10,14 @@ import { Button, FlashList, Icon, PressableOpacity, StaticEffect, Text } from ".
 import { Radius, SafeAreaContext, Spacing, useWindowDimensions } from "../../ui/length";
 
 const ROW_SIZE = 3;
+
+function chunk<T>(items: T[], size: number): T[][] {
+    const chunks: T[][] = [];
+    for (let i = 0; i < items.length; i += size) {
+        chunks.push(items.slice(i, i + size));
+    }
+    return chunks;
+}
 
 interface ItemProps {
     label: string;
