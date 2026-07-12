@@ -11,8 +11,13 @@ const { ScrollView, View, Text, Pressable } = ReactNative as any;
 // includes device, device_vendor_id, design_id, client_app_state, is_fast_connect, and
 // gateway_connect_reasons. Dropping them is part of not looking like a mobile client pretending
 // to be something else.
+//
+// device_vendor_id is deliberately left out of this list: it's the persistent per-install
+// identifier Discord's backend actually uses for anti-abuse purposes (see docs.discord.food),
+// not just a cosmetic label like os/browser. Leaving it untouched means the account's real,
+// consistent device identity never changes no matter which platform is being reported.
 const MOBILE_ONLY_KEYS = [
-    "device", "device_vendor_id", "design_id", "client_app_state",
+    "device", "design_id", "client_app_state",
     "is_fast_connect", "gateway_connect_reasons",
 ];
 
