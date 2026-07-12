@@ -1,1 +1,191 @@
-(() => { try { return (0, eval)("((e, t, a) => {\n    \"use strict\";\n    var r = console.error;\n    function o() {\n        var e = window;\n        return e.placeholder && e.placeholder.native || null;\n    }\n    console.error = function() {\n        for (var e = arguments.length, t = Array(e), a = 0; e > a; a++) t[a] = arguments[a];\n        try {\n            var o = t.map(e => e?.stack ? e.stack : \"object\" == typeof e ? JSON.stringify(e) : e + \"\").join(\" \");\n            (o.includes(\"Virtual Camera\") || o.includes(\"VirtualCamera\") || o.includes(\"errored\")) && alert(\"VIRTUALCAMERA CRASH: \" + o);\n        } catch (e) {}\n        r.apply(console, t);\n    };\n    var i = e => {\n        try {\n            a.showToast(e);\n        } catch (e) {}\n    }, n = t.storage;\n    return {\n        onLoad() {\n            try {\n                var e = o();\n                if (e && e.camera) {\n                    var t = n.mediaPath;\n                    n.enabled && t && e.camera.setMedia(t).catch(() => {});\n                }\n            } catch (e) {\n                i(\"VirtualCamera onLoad Error: \" + e);\n            }\n        },\n        onUnload() {\n            var e = o();\n            e && e.camera && e.camera.setMedia(null).catch(() => {});\n        },\n        settings() {\n            var {ScrollView: t, View: a, Text: r, Pressable: l, TextInput: c} = e.ReactNative, s = e.React.createElement, [, d] = e.React.useState(0), f = () => d(e => e + 1), u = o(), g = n.mediaPath ?? \"\", m = n.enabled ?? !1, h = e => {\n                u ? (n.mediaPath = e, n.enabled = !0, u.camera.setMedia(e).then(() => {\n                    f(), i(\"Virtual camera set!\");\n                }).catch(e => {\n                    i(\"Error: \" + (e?.message ?? e));\n                })) : i(\"Enable the Native Bridge plugin first\");\n            }, p = [];\n            return u || p.push(s(r, {\n                key: \"warn\",\n                style: {\n                    color: \"#faa61a\",\n                    marginBottom: 16,\n                    fontSize: 14\n                }\n            }, \"Native Bridge is off. Enable the Native Bridge plugin to use the virtual camera.\")), \n            p.push(s(a, {\n                key: \"status\",\n                style: {\n                    marginBottom: 20,\n                    padding: 14,\n                    backgroundColor: \"#2b2d31\",\n                    borderRadius: 10\n                }\n            }, s(r, {\n                style: {\n                    color: \"#b5bac1\",\n                    fontSize: 12,\n                    marginBottom: 4\n                }\n            }, \"STATUS\"), s(r, {\n                style: {\n                    color: m ? \"#23a559\" : \"#80848e\",\n                    fontWeight: \"600\",\n                    fontSize: 15\n                }\n            }, m ? \"● Active\" : \"○ Inactive\"), g ? s(r, {\n                style: {\n                    color: \"#949ba4\",\n                    fontSize: 11,\n                    marginTop: 4\n                },\n                numberOfLines: 1\n            }, g) : null)), p.push(s(r, {\n                key: \"heading\",\n                style: {\n                    color: \"#ffffff\",\n                    fontSize: 16,\n                    fontWeight: \"600\",\n                    marginBottom: 12\n                }\n            }, \"Pick Media\")), p.push(s(l, {\n                key: \"pick\",\n                onPress() {\n                    var t = e.ReactNative.NativeModules?.ImageCropPicker;\n                    t ? t.openPicker({\n                        mediaType: \"any\"\n                    }).then(e => {\n                        e && e.path && h(e.path.replace(\"file://\", \"\"));\n                    }).catch(e => {\n                        \"E_PICKER_CANCELLED\" !== e?.code && i(\"Picker error: \" + (e?.message ?? e));\n                    }) : i(\"Native ImageCropPicker not found!\");\n                },\n                style: {\n                    backgroundColor: \"#5865F2\",\n                    borderRadius: 10,\n                    paddingVertical: 14,\n                    alignItems: \"center\",\n                    marginBottom: 10\n                }\n            }, s(r, {\n                style: {\n                    color: \"#ffffff\",\n                    fontWeight: \"700\",\n                    fontSize: 15\n                }\n            }, \"📁  Choose Photo / Video / GIF\"))), p.push(s(a, {\n                key: \"orDivider\",\n                style: {\n                    flexDirection: \"row\",\n                    alignItems: \"center\",\n                    marginBottom: 10\n                }\n            }, s(a, {\n                style: {\n                    flex: 1,\n                    height: 1,\n                    backgroundColor: \"#3f4147\"\n                }\n            }), s(r, {\n                style: {\n                    color: \"#80848e\",\n                    marginHorizontal: 10,\n                    fontSize: 13\n                }\n            }, \"or paste path\"), s(a, {\n                style: {\n                    flex: 1,\n                    height: 1,\n                    backgroundColor: \"#3f4147\"\n                }\n            }))), p.push(s(a, {\n                key: \"pathInput\",\n                style: {\n                    flexDirection: \"row\",\n                    marginBottom: 20\n                }\n            }, s(c, {\n                defaultValue: g,\n                placeholder: \"/storage/emulated/0/DCIM/photo.jpg\",\n                placeholderTextColor: \"#555\",\n                autoCapitalize: \"none\",\n                onEndEditing(e) {\n                    e.nativeEvent.text && h(e.nativeEvent.text);\n                },\n                style: {\n                    flex: 1,\n                    color: \"#ffffff\",\n                    backgroundColor: \"#1e1f22\",\n                    borderRadius: 8,\n                    paddingHorizontal: 12,\n                    paddingVertical: 10,\n                    marginRight: 8,\n                    fontSize: 13\n                }\n            }), s(l, {\n                onPress() {\n                    u && (n.enabled = !1, n.mediaPath = \"\", u.camera.setMedia(null).then(() => {\n                        f(), i(\"Virtual camera disabled\");\n                    }).catch(e => {\n                        i(\"Error: \" + (e?.message ?? e));\n                    }));\n                },\n                style: {\n                    backgroundColor: \"#da373c\",\n                    borderRadius: 8,\n                    paddingHorizontal: 14,\n                    justifyContent: \"center\"\n                }\n            }, s(r, {\n                style: {\n                    color: \"#fff\",\n                    fontWeight: \"700\"\n                }\n            }, \"Off\")))), s(t, {\n                style: {\n                    flex: 1\n                },\n                contentContainerStyle: {\n                    padding: 16\n                }\n            }, p);\n        }\n    };\n})(vendetta.metro.common, vendetta.plugin, vendetta.ui.toasts);"); } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
+(() => { try { return ((e, t, a) => {
+    "use strict";
+    var r = console.error;
+    function o() {
+        var e = window;
+        return e.placeholder && e.placeholder.native || null;
+    }
+    console.error = function() {
+        for (var e = arguments.length, t = Array(e), a = 0; e > a; a++) t[a] = arguments[a];
+        try {
+            var o = t.map(e => e?.stack ? e.stack : "object" == typeof e ? JSON.stringify(e) : e + "").join(" ");
+            (o.includes("Virtual Camera") || o.includes("VirtualCamera") || o.includes("errored")) && alert("VIRTUALCAMERA CRASH: " + o);
+        } catch (e) {}
+        r.apply(console, t);
+    };
+    var i = e => {
+        try {
+            a.showToast(e);
+        } catch (e) {}
+    }, n = t.storage;
+    return {
+        onLoad() {
+            try {
+                var e = o();
+                if (e && e.camera) {
+                    var t = n.mediaPath;
+                    n.enabled && t && e.camera.setMedia(t).catch(() => {});
+                }
+            } catch (e) {
+                i("VirtualCamera onLoad Error: " + e);
+            }
+        },
+        onUnload() {
+            var e = o();
+            e && e.camera && e.camera.setMedia(null).catch(() => {});
+        },
+        settings() {
+            var {ScrollView: t, View: a, Text: r, Pressable: l, TextInput: c} = e.ReactNative, s = e.React.createElement, [, d] = e.React.useState(0), f = () => d(e => e + 1), u = o(), g = n.mediaPath ?? "", m = n.enabled ?? !1, h = e => {
+                u ? (n.mediaPath = e, n.enabled = !0, u.camera.setMedia(e).then(() => {
+                    f(), i("Virtual camera set!");
+                }).catch(e => {
+                    i("Error: " + (e?.message ?? e));
+                })) : i("Enable the Native Bridge plugin first");
+            }, p = [];
+            return u || p.push(s(r, {
+                key: "warn",
+                style: {
+                    color: "#faa61a",
+                    marginBottom: 16,
+                    fontSize: 14
+                }
+            }, "Native Bridge is off. Enable the Native Bridge plugin to use the virtual camera.")), 
+            p.push(s(a, {
+                key: "status",
+                style: {
+                    marginBottom: 20,
+                    padding: 14,
+                    backgroundColor: "#2b2d31",
+                    borderRadius: 10
+                }
+            }, s(r, {
+                style: {
+                    color: "#b5bac1",
+                    fontSize: 12,
+                    marginBottom: 4
+                }
+            }, "STATUS"), s(r, {
+                style: {
+                    color: m ? "#23a559" : "#80848e",
+                    fontWeight: "600",
+                    fontSize: 15
+                }
+            }, m ? "● Active" : "○ Inactive"), g ? s(r, {
+                style: {
+                    color: "#949ba4",
+                    fontSize: 11,
+                    marginTop: 4
+                },
+                numberOfLines: 1
+            }, g) : null)), p.push(s(r, {
+                key: "heading",
+                style: {
+                    color: "#ffffff",
+                    fontSize: 16,
+                    fontWeight: "600",
+                    marginBottom: 12
+                }
+            }, "Pick Media")), p.push(s(l, {
+                key: "pick",
+                onPress() {
+                    var t = e.ReactNative.NativeModules?.ImageCropPicker;
+                    t ? t.openPicker({
+                        mediaType: "any"
+                    }).then(e => {
+                        e && e.path && h(e.path.replace("file://", ""));
+                    }).catch(e => {
+                        "E_PICKER_CANCELLED" !== e?.code && i("Picker error: " + (e?.message ?? e));
+                    }) : i("Native ImageCropPicker not found!");
+                },
+                style: {
+                    backgroundColor: "#5865F2",
+                    borderRadius: 10,
+                    paddingVertical: 14,
+                    alignItems: "center",
+                    marginBottom: 10
+                }
+            }, s(r, {
+                style: {
+                    color: "#ffffff",
+                    fontWeight: "700",
+                    fontSize: 15
+                }
+            }, "📁  Choose Photo / Video / GIF"))), p.push(s(a, {
+                key: "orDivider",
+                style: {
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 10
+                }
+            }, s(a, {
+                style: {
+                    flex: 1,
+                    height: 1,
+                    backgroundColor: "#3f4147"
+                }
+            }), s(r, {
+                style: {
+                    color: "#80848e",
+                    marginHorizontal: 10,
+                    fontSize: 13
+                }
+            }, "or paste path"), s(a, {
+                style: {
+                    flex: 1,
+                    height: 1,
+                    backgroundColor: "#3f4147"
+                }
+            }))), p.push(s(a, {
+                key: "pathInput",
+                style: {
+                    flexDirection: "row",
+                    marginBottom: 20
+                }
+            }, s(c, {
+                defaultValue: g,
+                placeholder: "/storage/emulated/0/DCIM/photo.jpg",
+                placeholderTextColor: "#555",
+                autoCapitalize: "none",
+                onEndEditing(e) {
+                    e.nativeEvent.text && h(e.nativeEvent.text);
+                },
+                style: {
+                    flex: 1,
+                    color: "#ffffff",
+                    backgroundColor: "#1e1f22",
+                    borderRadius: 8,
+                    paddingHorizontal: 12,
+                    paddingVertical: 10,
+                    marginRight: 8,
+                    fontSize: 13
+                }
+            }), s(l, {
+                onPress() {
+                    u && (n.enabled = !1, n.mediaPath = "", u.camera.setMedia(null).then(() => {
+                        f(), i("Virtual camera disabled");
+                    }).catch(e => {
+                        i("Error: " + (e?.message ?? e));
+                    }));
+                },
+                style: {
+                    backgroundColor: "#da373c",
+                    borderRadius: 8,
+                    paddingHorizontal: 14,
+                    justifyContent: "center"
+                }
+            }, s(r, {
+                style: {
+                    color: "#fff",
+                    fontWeight: "700"
+                }
+            }, "Off")))), s(t, {
+                style: {
+                    flex: 1
+                },
+                contentContainerStyle: {
+                    padding: 16
+                }
+            }, p);
+        }
+    };
+})(vendetta.metro.common, vendetta.plugin, vendetta.ui.toasts);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()

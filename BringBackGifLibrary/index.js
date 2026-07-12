@@ -1,1 +1,165 @@
-(() => { try { return (0, eval)("((e, r, t, n) => {\n    \"use strict\";\n    var {ScrollView: a} = r.findByProps(\"ScrollView\"), {TableRowGroup: i, TableSwitchRow: s, Stack: o} = r.findByProps(\"TableRowGroup\", \"TableSwitchRow\", \"Stack\"), l = new Set([ \"discord\", \"nsfw\", \"gif\", \"webp\", \"everyone\", \"here\", \"@everyone\", \"@here\" ]), c = [];\n    function u(e) {\n        if (!e?.url || e.url.startsWith(\"data:\")) return null;\n        var r = e.w || 200, t = e.h || 200, n = e.slug || e.shortKey || e.key.replace(/\\.[a-z0-9]+$/i, \"\");\n        return {\n            id: e.key,\n            title: (e.tags || []).slice(0, 4).join(\" \"),\n            url: \"\".concat(\"https://giflibrary.site/gif\", \"/\").concat(n, \".webp\"),\n            src: e.url,\n            gif_src: e.url,\n            width: r,\n            height: t,\n            preview: e.url\n        };\n    }\n    async function g(e, r, n, a) {\n        try {\n            var i = await fetch(((e, r, n) => {\n                var a = new URLSearchParams({\n                    page: r + \"\",\n                    limit: n + \"\"\n                });\n                return e && a.set(\"q\", e), !1 !== t.plugin.storage.nsfw && a.set(\"nsfw\", \"true\"), \n                \"\".concat(\"https://giflibrary.site/api/gifs\", \"?\").concat(a.toString());\n            })(e, n, r), {\n                signal: a\n            });\n            return i.ok && (await i.json()).gifs || [];\n        } catch (e) {\n            return [];\n        }\n    }\n    async function d(e, r, t) {\n        return (await g(e, r, 1, t)).map(u).filter(Boolean);\n    }\n    async function f(e) {\n        var r = await g(\"\", 120, 1, e), t = new Map;\n        for (var n of r) if (n.url && !n.url.startsWith(\"data:\")) for (var a of n.tags || []) {\n            var i = a.toLowerCase().trim();\n            if (!(2 > i.length || i.includes(\".\") || i.startsWith(\"@\") || l.has(i))) {\n                var s = t.get(i);\n                s ? s.count++ : t.set(i, {\n                    count: 1,\n                    src: n.url\n                });\n            }\n        }\n        return [ ...t.entries() ].sort((e, r) => r[1].count - e[1].count).slice(0, 12).map(e => {\n            var [r, t] = e;\n            return {\n                name: r,\n                src: t.src\n            };\n        });\n    }\n    var h = null, w = null;\n    return {\n        onLoad() {\n            t.plugin.storage.nsfw = t.plugin.storage.nsfw ?? !0;\n            var n = r.findByProps(\"HTTP\", \"get\", \"post\", \"put\", \"patch\", \"del\");\n            if (n?.HTTP) {\n                var a = r.findByProps(\"getProviderForAPIRequest\");\n                a && c.push(e.instead(\"getProviderForAPIRequest\", a, () => \"tenor\")), c.push(e.instead(\"get\", n.HTTP, (e, r) => {\n                    var t = e[0];\n                    if (!t?.url || \"string\" != typeof t.url) return r(...e);\n                    var n = t.url.toLowerCase(), a = t.query?.q, i = t.query?.limit || 50;\n                    if (n.endsWith(\"/trending-search\") || n.endsWith(\"/trending_search\")) return Promise.resolve({\n                        body: []\n                    });\n                    if (n.endsWith(\"/trending-gifs\") || n.endsWith(\"/trending_gifs\")) {\n                        w?.abort();\n                        var s = new AbortController;\n                        return w = s, d(\"\", i, s.signal).then(e => ({\n                            body: e\n                        })).catch(() => ({\n                            body: []\n                        }));\n                    }\n                    if (n.endsWith(\"/search\")) {\n                        h?.abort();\n                        var o = new AbortController;\n                        return h = o, d(a || \"\", i, o.signal).then(e => ({\n                            body: e\n                        })).catch(() => ({\n                            body: []\n                        }));\n                    }\n                    if (n.endsWith(\"/trending\")) {\n                        w?.abort();\n                        var l = new AbortController;\n                        return w = l, Promise.all([ f(l.signal), d(\"\", 1, l.signal) ]).then(e => {\n                            var [r, t] = e;\n                            return {\n                                body: {\n                                    categories: r,\n                                    gifs: t.length ? t : [ {\n                                        src: \"\"\n                                    } ]\n                                }\n                            };\n                        }).catch(() => ({\n                            body: {\n                                categories: [],\n                                gifs: [ {\n                                    src: \"\"\n                                } ]\n                            }\n                        }));\n                    }\n                    return n.endsWith(\"/suggest\") ? a ? g(a, 20).then(e => {\n                        var r = new Set, t = [];\n                        for (var n of e) {\n                            for (var i of n.tags || []) {\n                                var s = i.toLowerCase();\n                                if (!s.includes(a.toLowerCase()) || r.has(s) || s.includes(\".\") || s.startsWith(\"@\") || (r.add(s), \n                                t.push(s)), t.length >= 5) break;\n                            }\n                            if (t.length >= 5) break;\n                        }\n                        return {\n                            body: t\n                        };\n                    }).catch(() => ({\n                        body: []\n                    })) : r(...e) : n.endsWith(\"/select\") ? Promise.resolve({\n                        body: {}\n                    }) : r(...e);\n                }));\n            } else console.warn(\"[BringBackGifLibrary] HTTP module not found, plugin disabled\");\n        },\n        onUnload() {\n            for (var e of (h?.abort(), h = null, w?.abort(), w = null, c)) try {\n                e();\n            } catch (e) {\n                console.warn(\"[BringBackGifLibrary] failed to unpatch\", e);\n            }\n            c.length = 0;\n        },\n        settings() {\n            var [, e] = n.React.useReducer(e => ~e, 0);\n            return n.React.createElement(a, {\n                style: {\n                    flex: 1\n                }\n            }, n.React.createElement(o, {\n                style: {\n                    padding: 16\n                },\n                spacing: 16\n            }, n.React.createElement(i, {\n                title: \"giflibrary.site\"\n            }, n.React.createElement(s, {\n                label: \"Show NSFW\",\n                subLabel: \"Include NSFW gifs in the picker. On by default here, does not change the website.\",\n                value: t.plugin.storage.nsfw ?? !0,\n                onValueChange(r) {\n                    var n;\n                    n = r, t.plugin.storage.nsfw = n, e();\n                }\n            }))));\n        }\n    };\n})(vendetta.patcher, vendetta.metro, vendetta, vendetta.metro.common);"); } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
+(() => { try { return ((e, r, t, n) => {
+    "use strict";
+    var {ScrollView: a} = r.findByProps("ScrollView"), {TableRowGroup: i, TableSwitchRow: s, Stack: o} = r.findByProps("TableRowGroup", "TableSwitchRow", "Stack"), l = new Set([ "discord", "nsfw", "gif", "webp", "everyone", "here", "@everyone", "@here" ]), c = [];
+    function u(e) {
+        if (!e?.url || e.url.startsWith("data:")) return null;
+        var r = e.w || 200, t = e.h || 200, n = e.slug || e.shortKey || e.key.replace(/\.[a-z0-9]+$/i, "");
+        return {
+            id: e.key,
+            title: (e.tags || []).slice(0, 4).join(" "),
+            url: "".concat("https://giflibrary.site/gif", "/").concat(n, ".webp"),
+            src: e.url,
+            gif_src: e.url,
+            width: r,
+            height: t,
+            preview: e.url
+        };
+    }
+    async function g(e, r, n, a) {
+        try {
+            var i = await fetch(((e, r, n) => {
+                var a = new URLSearchParams({
+                    page: r + "",
+                    limit: n + ""
+                });
+                return e && a.set("q", e), !1 !== t.plugin.storage.nsfw && a.set("nsfw", "true"), 
+                "".concat("https://giflibrary.site/api/gifs", "?").concat(a.toString());
+            })(e, n, r), {
+                signal: a
+            });
+            return i.ok && (await i.json()).gifs || [];
+        } catch (e) {
+            return [];
+        }
+    }
+    async function d(e, r, t) {
+        return (await g(e, r, 1, t)).map(u).filter(Boolean);
+    }
+    async function f(e) {
+        var r = await g("", 120, 1, e), t = new Map;
+        for (var n of r) if (n.url && !n.url.startsWith("data:")) for (var a of n.tags || []) {
+            var i = a.toLowerCase().trim();
+            if (!(2 > i.length || i.includes(".") || i.startsWith("@") || l.has(i))) {
+                var s = t.get(i);
+                s ? s.count++ : t.set(i, {
+                    count: 1,
+                    src: n.url
+                });
+            }
+        }
+        return [ ...t.entries() ].sort((e, r) => r[1].count - e[1].count).slice(0, 12).map(e => {
+            var [r, t] = e;
+            return {
+                name: r,
+                src: t.src
+            };
+        });
+    }
+    var h = null, w = null;
+    return {
+        onLoad() {
+            t.plugin.storage.nsfw = t.plugin.storage.nsfw ?? !0;
+            var n = r.findByProps("HTTP", "get", "post", "put", "patch", "del");
+            if (n?.HTTP) {
+                var a = r.findByProps("getProviderForAPIRequest");
+                a && c.push(e.instead("getProviderForAPIRequest", a, () => "tenor")), c.push(e.instead("get", n.HTTP, (e, r) => {
+                    var t = e[0];
+                    if (!t?.url || "string" != typeof t.url) return r(...e);
+                    var n = t.url.toLowerCase(), a = t.query?.q, i = t.query?.limit || 50;
+                    if (n.endsWith("/trending-search") || n.endsWith("/trending_search")) return Promise.resolve({
+                        body: []
+                    });
+                    if (n.endsWith("/trending-gifs") || n.endsWith("/trending_gifs")) {
+                        w?.abort();
+                        var s = new AbortController;
+                        return w = s, d("", i, s.signal).then(e => ({
+                            body: e
+                        })).catch(() => ({
+                            body: []
+                        }));
+                    }
+                    if (n.endsWith("/search")) {
+                        h?.abort();
+                        var o = new AbortController;
+                        return h = o, d(a || "", i, o.signal).then(e => ({
+                            body: e
+                        })).catch(() => ({
+                            body: []
+                        }));
+                    }
+                    if (n.endsWith("/trending")) {
+                        w?.abort();
+                        var l = new AbortController;
+                        return w = l, Promise.all([ f(l.signal), d("", 1, l.signal) ]).then(e => {
+                            var [r, t] = e;
+                            return {
+                                body: {
+                                    categories: r,
+                                    gifs: t.length ? t : [ {
+                                        src: ""
+                                    } ]
+                                }
+                            };
+                        }).catch(() => ({
+                            body: {
+                                categories: [],
+                                gifs: [ {
+                                    src: ""
+                                } ]
+                            }
+                        }));
+                    }
+                    return n.endsWith("/suggest") ? a ? g(a, 20).then(e => {
+                        var r = new Set, t = [];
+                        for (var n of e) {
+                            for (var i of n.tags || []) {
+                                var s = i.toLowerCase();
+                                if (!s.includes(a.toLowerCase()) || r.has(s) || s.includes(".") || s.startsWith("@") || (r.add(s), 
+                                t.push(s)), t.length >= 5) break;
+                            }
+                            if (t.length >= 5) break;
+                        }
+                        return {
+                            body: t
+                        };
+                    }).catch(() => ({
+                        body: []
+                    })) : r(...e) : n.endsWith("/select") ? Promise.resolve({
+                        body: {}
+                    }) : r(...e);
+                }));
+            } else console.warn("[BringBackGifLibrary] HTTP module not found, plugin disabled");
+        },
+        onUnload() {
+            for (var e of (h?.abort(), h = null, w?.abort(), w = null, c)) try {
+                e();
+            } catch (e) {
+                console.warn("[BringBackGifLibrary] failed to unpatch", e);
+            }
+            c.length = 0;
+        },
+        settings() {
+            var [, e] = n.React.useReducer(e => ~e, 0);
+            return n.React.createElement(a, {
+                style: {
+                    flex: 1
+                }
+            }, n.React.createElement(o, {
+                style: {
+                    padding: 16
+                },
+                spacing: 16
+            }, n.React.createElement(i, {
+                title: "giflibrary.site"
+            }, n.React.createElement(s, {
+                label: "Show NSFW",
+                subLabel: "Include NSFW gifs in the picker. On by default here, does not change the website.",
+                value: t.plugin.storage.nsfw ?? !0,
+                onValueChange(r) {
+                    var n;
+                    n = r, t.plugin.storage.nsfw = n, e();
+                }
+            }))));
+        }
+    };
+})(vendetta.patcher, vendetta.metro, vendetta, vendetta.metro.common);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()

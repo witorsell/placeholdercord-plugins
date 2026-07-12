@@ -1,1 +1,402 @@
-(() => { try { return (0, eval)("(function(u, e, t, r, a, n, s) {\n    \"use strict\";\n    function A(u, e) {\n        if (void 0 === u) throw Error(\"No object passed to make defaults for\");\n        if (void 0 === e) throw Error(\"No defaults object passed to make defaults off of\");\n        for (var t in e) {\n            var r, a;\n            \"object\" != typeof e[t] || Array.isArray(e?.[t]) ? (r = u)[a = t] ?? (r[a] = e[t]) : (\"object\" != typeof u?.[t] && (u[t] = {}), \n            A(u[t], e[t]));\n        }\n        return u;\n    }\n    function o(u, e) {\n        for (var t = e.split(\".\"), r = u, a = 0; a < t.length; a++) {\n            var n = t[a];\n            if (null === r || \"object\" != typeof r) throw Error('Cannot resolve key \"'.concat(n, '\" because the previous property is not an object.'));\n            if (!(n in r)) throw Error('Key \"'.concat(n, '\" was not found in the path.'));\n            if (a === t.length - 1) return {\n                parent: r,\n                key: n\n            };\n            r = r[n];\n        }\n    }\n    function i(u, e) {\n        var {parent: t, key: r} = o(u, e);\n        return t[r];\n    }\n    var E, F, {FormRow: D, FormSwitch: B} = r.Forms, l = function() {\n        function u(e) {\n            ((u, e) => {\n                if (!(this instanceof e)) throw new TypeError(\"Cannot call a class as a function\");\n            })(0, u), Object.defineProperty(this, \"seeder\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: void 0\n            }), this.seeder = this.xmur3(e);\n        }\n        return e = u, t = [ {\n            key: \"random\",\n            value() {\n                var u = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 0, e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;\n                if (u > e) throw Error(\"The minimum value must be below the maximum value\");\n                if (u === e) throw Error(\"The minimum value cannot equal the maximum value\");\n                return this.denormalize(this.sfc32(), u, e);\n            }\n        }, {\n            key: \"randomInt\",\n            value() {\n                var u = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 0, e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;\n                return Math.round(this.random(u, e));\n            }\n        }, {\n            key: \"denormalize\",\n            value(u, e, t) {\n                return u * (t - e) + e;\n            }\n        }, {\n            key: \"xmur3\",\n            value(u) {\n                for (var e = 1779033703 ^ u.length, t = 0; t < u.length; t++) e = (e = Math.imul(e ^ u.charCodeAt(t), 3432918353)) << 13 | e >>> 19;\n                return () => (e = Math.imul(e ^ e >>> 16, 2246822507), e = Math.imul(e ^ e >>> 13, 3266489909), \n                (e ^= e >>> 16) >>> 0);\n            }\n        }, {\n            key: \"sfc32\",\n            value() {\n                var u = this.seeder(), e = this.seeder(), t = this.seeder(), r = this.seeder(), a = (u >>>= 0) + (e >>>= 0) | 0;\n                return u = e ^ e >>> 9, e = (t >>>= 0) + (t << 3) | 0, t = (t = t << 21 | t >>> 11) + (a = a + (r = (r >>>= 0) + 1 | 0) | 0) | 0, \n                (a >>> 0) / 4294967296;\n            }\n        } ], t && ((u, e) => {\n            for (var t = 0; e.length > t; t++) {\n                var r = e[t];\n                r.enumerable = r.enumerable || !1, r.configurable = !0, \"value\" in r && (r.writable = !0), \n                Object.defineProperty(u, r.key, r);\n            }\n        })(e.prototype, t), u;\n        var e, t;\n    }();\n    function C(u) {\n        return RegExp(\"^[\\\\u0041-\\\\u005A\\\\u0061-\\\\u007A\\\\u00AA\\\\u00B5\\\\u00BA\\\\u00C0-\\\\u00D6\\\\u00D8-\\\\u00F6\\\\u00F8-\\\\u02C1\\\\u02C6-\\\\u02D1\\\\u02E0-\\\\u02E4\\\\u02EC\\\\u02EE\\\\u0370-\\\\u0374\\\\u0376-\\\\u0377\\\\u037A-\\\\u037D\\\\u037F\\\\u0386\\\\u0388-\\\\u038A\\\\u038C\\\\u038E-\\\\u03A1\\\\u03A3-\\\\u03F5\\\\u03F7-\\\\u0481\\\\u048A-\\\\u052F\\\\u0531-\\\\u0556\\\\u0559\\\\u0560-\\\\u0588\\\\u05D0-\\\\u05EA\\\\u05EF-\\\\u05F2\\\\u0620-\\\\u064A\\\\u066E-\\\\u066F\\\\u0671-\\\\u06D3\\\\u06D5\\\\u06E5-\\\\u06E6\\\\u06EE-\\\\u06EF\\\\u06FA-\\\\u06FC\\\\u06FF\\\\u0710\\\\u0712-\\\\u072F\\\\u074D-\\\\u07A5\\\\u07B1\\\\u07CA-\\\\u07EA\\\\u07F4-\\\\u07F5\\\\u07FA\\\\u0800-\\\\u0815\\\\u081A\\\\u0824\\\\u0828\\\\u0840-\\\\u0858\\\\u0860-\\\\u086A\\\\u0870-\\\\u0887\\\\u0889-\\\\u088F\\\\u08A0-\\\\u08C9\\\\u0904-\\\\u0939\\\\u093D\\\\u0950\\\\u0958-\\\\u0961\\\\u0971-\\\\u0980\\\\u0985-\\\\u098C\\\\u098F-\\\\u0990\\\\u0993-\\\\u09A8\\\\u09AA-\\\\u09B0\\\\u09B2\\\\u09B6-\\\\u09B9\\\\u09BD\\\\u09CE\\\\u09DC-\\\\u09DD\\\\u09DF-\\\\u09E1\\\\u09F0-\\\\u09F1\\\\u09FC\\\\u0A05-\\\\u0A0A\\\\u0A0F-\\\\u0A10\\\\u0A13-\\\\u0A28\\\\u0A2A-\\\\u0A30\\\\u0A32-\\\\u0A33\\\\u0A35-\\\\u0A36\\\\u0A38-\\\\u0A39\\\\u0A59-\\\\u0A5C\\\\u0A5E\\\\u0A72-\\\\u0A74\\\\u0A85-\\\\u0A8D\\\\u0A8F-\\\\u0A91\\\\u0A93-\\\\u0AA8\\\\u0AAA-\\\\u0AB0\\\\u0AB2-\\\\u0AB3\\\\u0AB5-\\\\u0AB9\\\\u0ABD\\\\u0AD0\\\\u0AE0-\\\\u0AE1\\\\u0AF9\\\\u0B05-\\\\u0B0C\\\\u0B0F-\\\\u0B10\\\\u0B13-\\\\u0B28\\\\u0B2A-\\\\u0B30\\\\u0B32-\\\\u0B33\\\\u0B35-\\\\u0B39\\\\u0B3D\\\\u0B5C-\\\\u0B5D\\\\u0B5F-\\\\u0B61\\\\u0B71\\\\u0B83\\\\u0B85-\\\\u0B8A\\\\u0B8E-\\\\u0B90\\\\u0B92-\\\\u0B95\\\\u0B99-\\\\u0B9A\\\\u0B9C\\\\u0B9E-\\\\u0B9F\\\\u0BA3-\\\\u0BA4\\\\u0BA8-\\\\u0BAA\\\\u0BAE-\\\\u0BB9\\\\u0BD0\\\\u0C05-\\\\u0C0C\\\\u0C0E-\\\\u0C10\\\\u0C12-\\\\u0C28\\\\u0C2A-\\\\u0C39\\\\u0C3D\\\\u0C58-\\\\u0C5A\\\\u0C5C-\\\\u0C5D\\\\u0C60-\\\\u0C61\\\\u0C80\\\\u0C85-\\\\u0C8C\\\\u0C8E-\\\\u0C90\\\\u0C92-\\\\u0CA8\\\\u0CAA-\\\\u0CB3\\\\u0CB5-\\\\u0CB9\\\\u0CBD\\\\u0CDC-\\\\u0CDE\\\\u0CE0-\\\\u0CE1\\\\u0CF1-\\\\u0CF2\\\\u0D04-\\\\u0D0C\\\\u0D0E-\\\\u0D10\\\\u0D12-\\\\u0D3A\\\\u0D3D\\\\u0D4E\\\\u0D54-\\\\u0D56\\\\u0D5F-\\\\u0D61\\\\u0D7A-\\\\u0D7F\\\\u0D85-\\\\u0D96\\\\u0D9A-\\\\u0DB1\\\\u0DB3-\\\\u0DBB\\\\u0DBD\\\\u0DC0-\\\\u0DC6\\\\u0E01-\\\\u0E30\\\\u0E32-\\\\u0E33\\\\u0E40-\\\\u0E46\\\\u0E81-\\\\u0E82\\\\u0E84\\\\u0E86-\\\\u0E8A\\\\u0E8C-\\\\u0EA3\\\\u0EA5\\\\u0EA7-\\\\u0EB0\\\\u0EB2-\\\\u0EB3\\\\u0EBD\\\\u0EC0-\\\\u0EC4\\\\u0EC6\\\\u0EDC-\\\\u0EDF\\\\u0F00\\\\u0F40-\\\\u0F47\\\\u0F49-\\\\u0F6C\\\\u0F88-\\\\u0F8C\\\\u1000-\\\\u102A\\\\u103F\\\\u1050-\\\\u1055\\\\u105A-\\\\u105D\\\\u1061\\\\u1065-\\\\u1066\\\\u106E-\\\\u1070\\\\u1075-\\\\u1081\\\\u108E\\\\u10A0-\\\\u10C5\\\\u10C7\\\\u10CD\\\\u10D0-\\\\u10FA\\\\u10FC-\\\\u1248\\\\u124A-\\\\u124D\\\\u1250-\\\\u1256\\\\u1258\\\\u125A-\\\\u125D\\\\u1260-\\\\u1288\\\\u128A-\\\\u128D\\\\u1290-\\\\u12B0\\\\u12B2-\\\\u12B5\\\\u12B8-\\\\u12BE\\\\u12C0\\\\u12C2-\\\\u12C5\\\\u12C8-\\\\u12D6\\\\u12D8-\\\\u1310\\\\u1312-\\\\u1315\\\\u1318-\\\\u135A\\\\u1380-\\\\u138F\\\\u13A0-\\\\u13F5\\\\u13F8-\\\\u13FD\\\\u1401-\\\\u166C\\\\u166F-\\\\u167F\\\\u1681-\\\\u169A\\\\u16A0-\\\\u16EA\\\\u16F1-\\\\u16F8\\\\u1700-\\\\u1711\\\\u171F-\\\\u1731\\\\u1740-\\\\u1751\\\\u1760-\\\\u176C\\\\u176E-\\\\u1770\\\\u1780-\\\\u17B3\\\\u17D7\\\\u17DC\\\\u1820-\\\\u1878\\\\u1880-\\\\u1884\\\\u1887-\\\\u18A8\\\\u18AA\\\\u18B0-\\\\u18F5\\\\u1900-\\\\u191E\\\\u1950-\\\\u196D\\\\u1970-\\\\u1974\\\\u1980-\\\\u19AB\\\\u19B0-\\\\u19C9\\\\u1A00-\\\\u1A16\\\\u1A20-\\\\u1A54\\\\u1AA7\\\\u1B05-\\\\u1B33\\\\u1B45-\\\\u1B4C\\\\u1B83-\\\\u1BA0\\\\u1BAE-\\\\u1BAF\\\\u1BBA-\\\\u1BE5\\\\u1C00-\\\\u1C23\\\\u1C4D-\\\\u1C4F\\\\u1C5A-\\\\u1C7D\\\\u1C80-\\\\u1C8A\\\\u1C90-\\\\u1CBA\\\\u1CBD-\\\\u1CBF\\\\u1CE9-\\\\u1CEC\\\\u1CEE-\\\\u1CF3\\\\u1CF5-\\\\u1CF6\\\\u1CFA\\\\u1D00-\\\\u1DBF\\\\u1E00-\\\\u1F15\\\\u1F18-\\\\u1F1D\\\\u1F20-\\\\u1F45\\\\u1F48-\\\\u1F4D\\\\u1F50-\\\\u1F57\\\\u1F59\\\\u1F5B\\\\u1F5D\\\\u1F5F-\\\\u1F7D\\\\u1F80-\\\\u1FB4\\\\u1FB6-\\\\u1FBC\\\\u1FBE\\\\u1FC2-\\\\u1FC4\\\\u1FC6-\\\\u1FCC\\\\u1FD0-\\\\u1FD3\\\\u1FD6-\\\\u1FDB\\\\u1FE0-\\\\u1FEC\\\\u1FF2-\\\\u1FF4\\\\u1FF6-\\\\u1FFC\\\\u2071\\\\u207F\\\\u2090-\\\\u209C\\\\u2102\\\\u2107\\\\u210A-\\\\u2113\\\\u2115\\\\u2119-\\\\u211D\\\\u2124\\\\u2126\\\\u2128\\\\u212A-\\\\u212D\\\\u212F-\\\\u2139\\\\u213C-\\\\u213F\\\\u2145-\\\\u2149\\\\u214E\\\\u2183-\\\\u2184\\\\u2C00-\\\\u2CE4\\\\u2CEB-\\\\u2CEE\\\\u2CF2-\\\\u2CF3\\\\u2D00-\\\\u2D25\\\\u2D27\\\\u2D2D\\\\u2D30-\\\\u2D67\\\\u2D6F\\\\u2D80-\\\\u2D96\\\\u2DA0-\\\\u2DA6\\\\u2DA8-\\\\u2DAE\\\\u2DB0-\\\\u2DB6\\\\u2DB8-\\\\u2DBE\\\\u2DC0-\\\\u2DC6\\\\u2DC8-\\\\u2DCE\\\\u2DD0-\\\\u2DD6\\\\u2DD8-\\\\u2DDE\\\\u2E2F\\\\u3005-\\\\u3006\\\\u3031-\\\\u3035\\\\u303B-\\\\u303C\\\\u3041-\\\\u3096\\\\u309D-\\\\u309F\\\\u30A1-\\\\u30FA\\\\u30FC-\\\\u30FF\\\\u3105-\\\\u312F\\\\u3131-\\\\u318E\\\\u31A0-\\\\u31BF\\\\u31F0-\\\\u31FF\\\\u3400-\\\\u4DBF\\\\u4E00-\\\\uA48C\\\\uA4D0-\\\\uA4FD\\\\uA500-\\\\uA60C\\\\uA610-\\\\uA61F\\\\uA62A-\\\\uA62B\\\\uA640-\\\\uA66E\\\\uA67F-\\\\uA69D\\\\uA6A0-\\\\uA6E5\\\\uA717-\\\\uA71F\\\\uA722-\\\\uA788\\\\uA78B-\\\\uA7DC\\\\uA7F1-\\\\uA801\\\\uA803-\\\\uA805\\\\uA807-\\\\uA80A\\\\uA80C-\\\\uA822\\\\uA840-\\\\uA873\\\\uA882-\\\\uA8B3\\\\uA8F2-\\\\uA8F7\\\\uA8FB\\\\uA8FD-\\\\uA8FE\\\\uA90A-\\\\uA925\\\\uA930-\\\\uA946\\\\uA960-\\\\uA97C\\\\uA984-\\\\uA9B2\\\\uA9CF\\\\uA9E0-\\\\uA9E4\\\\uA9E6-\\\\uA9EF\\\\uA9FA-\\\\uA9FE\\\\uAA00-\\\\uAA28\\\\uAA40-\\\\uAA42\\\\uAA44-\\\\uAA4B\\\\uAA60-\\\\uAA76\\\\uAA7A\\\\uAA7E-\\\\uAAAF\\\\uAAB1\\\\uAAB5-\\\\uAAB6\\\\uAAB9-\\\\uAABD\\\\uAAC0\\\\uAAC2\\\\uAADB-\\\\uAADD\\\\uAAE0-\\\\uAAEA\\\\uAAF2-\\\\uAAF4\\\\uAB01-\\\\uAB06\\\\uAB09-\\\\uAB0E\\\\uAB11-\\\\uAB16\\\\uAB20-\\\\uAB26\\\\uAB28-\\\\uAB2E\\\\uAB30-\\\\uAB5A\\\\uAB5C-\\\\uAB69\\\\uAB70-\\\\uABE2\\\\uAC00-\\\\uD7A3\\\\uD7B0-\\\\uD7C6\\\\uD7CB-\\\\uD7FB\\\\uF900-\\\\uFA6D\\\\uFA70-\\\\uFAD9\\\\uFB00-\\\\uFB06\\\\uFB13-\\\\uFB17\\\\uFB1D\\\\uFB1F-\\\\uFB28\\\\uFB2A-\\\\uFB36\\\\uFB38-\\\\uFB3C\\\\uFB3E\\\\uFB40-\\\\uFB41\\\\uFB43-\\\\uFB44\\\\uFB46-\\\\uFBB1\\\\uFBD3-\\\\uFD3D\\\\uFD50-\\\\uFD8F\\\\uFD92-\\\\uFDC7\\\\uFDF0-\\\\uFDFB\\\\uFE70-\\\\uFE74\\\\uFE76-\\\\uFEFC\\\\uFF21-\\\\uFF3A\\\\uFF41-\\\\uFF5A\\\\uFF66-\\\\uFFBE\\\\uFFC2-\\\\uFFC7\\\\uFFCA-\\\\uFFCF\\\\uFFD2-\\\\uFFD7\\\\uFFDA-\\\\uFFDC\\\\u{10000}-\\\\u{1000B}\\\\u{1000D}-\\\\u{10026}\\\\u{10028}-\\\\u{1003A}\\\\u{1003C}-\\\\u{1003D}\\\\u{1003F}-\\\\u{1004D}\\\\u{10050}-\\\\u{1005D}\\\\u{10080}-\\\\u{100FA}\\\\u{10280}-\\\\u{1029C}\\\\u{102A0}-\\\\u{102D0}\\\\u{10300}-\\\\u{1031F}\\\\u{1032D}-\\\\u{10340}\\\\u{10342}-\\\\u{10349}\\\\u{10350}-\\\\u{10375}\\\\u{10380}-\\\\u{1039D}\\\\u{103A0}-\\\\u{103C3}\\\\u{103C8}-\\\\u{103CF}\\\\u{10400}-\\\\u{1049D}\\\\u{104B0}-\\\\u{104D3}\\\\u{104D8}-\\\\u{104FB}\\\\u{10500}-\\\\u{10527}\\\\u{10530}-\\\\u{10563}\\\\u{10570}-\\\\u{1057A}\\\\u{1057C}-\\\\u{1058A}\\\\u{1058C}-\\\\u{10592}\\\\u{10594}-\\\\u{10595}\\\\u{10597}-\\\\u{105A1}\\\\u{105A3}-\\\\u{105B1}\\\\u{105B3}-\\\\u{105B9}\\\\u{105BB}-\\\\u{105BC}\\\\u{105C0}-\\\\u{105F3}\\\\u{10600}-\\\\u{10736}\\\\u{10740}-\\\\u{10755}\\\\u{10760}-\\\\u{10767}\\\\u{10780}-\\\\u{10785}\\\\u{10787}-\\\\u{107B0}\\\\u{107B2}-\\\\u{107BA}\\\\u{10800}-\\\\u{10805}\\\\u{10808}\\\\u{1080A}-\\\\u{10835}\\\\u{10837}-\\\\u{10838}\\\\u{1083C}\\\\u{1083F}-\\\\u{10855}\\\\u{10860}-\\\\u{10876}\\\\u{10880}-\\\\u{1089E}\\\\u{108E0}-\\\\u{108F2}\\\\u{108F4}-\\\\u{108F5}\\\\u{10900}-\\\\u{10915}\\\\u{10920}-\\\\u{10939}\\\\u{10940}-\\\\u{10959}\\\\u{10980}-\\\\u{109B7}\\\\u{109BE}-\\\\u{109BF}\\\\u{10A00}\\\\u{10A10}-\\\\u{10A13}\\\\u{10A15}-\\\\u{10A17}\\\\u{10A19}-\\\\u{10A35}\\\\u{10A60}-\\\\u{10A7C}\\\\u{10A80}-\\\\u{10A9C}\\\\u{10AC0}-\\\\u{10AC7}\\\\u{10AC9}-\\\\u{10AE4}\\\\u{10B00}-\\\\u{10B35}\\\\u{10B40}-\\\\u{10B55}\\\\u{10B60}-\\\\u{10B72}\\\\u{10B80}-\\\\u{10B91}\\\\u{10C00}-\\\\u{10C48}\\\\u{10C80}-\\\\u{10CB2}\\\\u{10CC0}-\\\\u{10CF2}\\\\u{10D00}-\\\\u{10D23}\\\\u{10D4A}-\\\\u{10D65}\\\\u{10D6F}-\\\\u{10D85}\\\\u{10E80}-\\\\u{10EA9}\\\\u{10EB0}-\\\\u{10EB1}\\\\u{10EC2}-\\\\u{10EC7}\\\\u{10F00}-\\\\u{10F1C}\\\\u{10F27}\\\\u{10F30}-\\\\u{10F45}\\\\u{10F70}-\\\\u{10F81}\\\\u{10FB0}-\\\\u{10FC4}\\\\u{10FE0}-\\\\u{10FF6}\\\\u{11003}-\\\\u{11037}\\\\u{11071}-\\\\u{11072}\\\\u{11075}\\\\u{11083}-\\\\u{110AF}\\\\u{110D0}-\\\\u{110E8}\\\\u{11103}-\\\\u{11126}\\\\u{11144}\\\\u{11147}\\\\u{11150}-\\\\u{11172}\\\\u{11176}\\\\u{11183}-\\\\u{111B2}\\\\u{111C1}-\\\\u{111C4}\\\\u{111DA}\\\\u{111DC}\\\\u{11200}-\\\\u{11211}\\\\u{11213}-\\\\u{1122B}\\\\u{1123F}-\\\\u{11240}\\\\u{11280}-\\\\u{11286}\\\\u{11288}\\\\u{1128A}-\\\\u{1128D}\\\\u{1128F}-\\\\u{1129D}\\\\u{1129F}-\\\\u{112A8}\\\\u{112B0}-\\\\u{112DE}\\\\u{11305}-\\\\u{1130C}\\\\u{1130F}-\\\\u{11310}\\\\u{11313}-\\\\u{11328}\\\\u{1132A}-\\\\u{11330}\\\\u{11332}-\\\\u{11333}\\\\u{11335}-\\\\u{11339}\\\\u{1133D}\\\\u{11350}\\\\u{1135D}-\\\\u{11361}\\\\u{11380}-\\\\u{11389}\\\\u{1138B}\\\\u{1138E}\\\\u{11390}-\\\\u{113B5}\\\\u{113B7}\\\\u{113D1}\\\\u{113D3}\\\\u{11400}-\\\\u{11434}\\\\u{11447}-\\\\u{1144A}\\\\u{1145F}-\\\\u{11461}\\\\u{11480}-\\\\u{114AF}\\\\u{114C4}-\\\\u{114C5}\\\\u{114C7}\\\\u{11580}-\\\\u{115AE}\\\\u{115D8}-\\\\u{115DB}\\\\u{11600}-\\\\u{1162F}\\\\u{11644}\\\\u{11680}-\\\\u{116AA}\\\\u{116B8}\\\\u{11700}-\\\\u{1171A}\\\\u{11740}-\\\\u{11746}\\\\u{11800}-\\\\u{1182B}\\\\u{118A0}-\\\\u{118DF}\\\\u{118FF}-\\\\u{11906}\\\\u{11909}\\\\u{1190C}-\\\\u{11913}\\\\u{11915}-\\\\u{11916}\\\\u{11918}-\\\\u{1192F}\\\\u{1193F}\\\\u{11941}\\\\u{119A0}-\\\\u{119A7}\\\\u{119AA}-\\\\u{119D0}\\\\u{119E1}\\\\u{119E3}\\\\u{11A00}\\\\u{11A0B}-\\\\u{11A32}\\\\u{11A3A}\\\\u{11A50}\\\\u{11A5C}-\\\\u{11A89}\\\\u{11A9D}\\\\u{11AB0}-\\\\u{11AF8}\\\\u{11BC0}-\\\\u{11BE0}\\\\u{11C00}-\\\\u{11C08}\\\\u{11C0A}-\\\\u{11C2E}\\\\u{11C40}\\\\u{11C72}-\\\\u{11C8F}\\\\u{11D00}-\\\\u{11D06}\\\\u{11D08}-\\\\u{11D09}\\\\u{11D0B}-\\\\u{11D30}\\\\u{11D46}\\\\u{11D60}-\\\\u{11D65}\\\\u{11D67}-\\\\u{11D68}\\\\u{11D6A}-\\\\u{11D89}\\\\u{11D98}\\\\u{11DB0}-\\\\u{11DDB}\\\\u{11EE0}-\\\\u{11EF2}\\\\u{11F02}\\\\u{11F04}-\\\\u{11F10}\\\\u{11F12}-\\\\u{11F33}\\\\u{11FB0}\\\\u{12000}-\\\\u{12399}\\\\u{12480}-\\\\u{12543}\\\\u{12F90}-\\\\u{12FF0}\\\\u{13000}-\\\\u{1342F}\\\\u{13441}-\\\\u{13446}\\\\u{13460}-\\\\u{143FA}\\\\u{14400}-\\\\u{14646}\\\\u{16100}-\\\\u{1611D}\\\\u{16800}-\\\\u{16A38}\\\\u{16A40}-\\\\u{16A5E}\\\\u{16A70}-\\\\u{16ABE}\\\\u{16AD0}-\\\\u{16AED}\\\\u{16B00}-\\\\u{16B2F}\\\\u{16B40}-\\\\u{16B43}\\\\u{16B63}-\\\\u{16B77}\\\\u{16B7D}-\\\\u{16B8F}\\\\u{16D40}-\\\\u{16D6C}\\\\u{16E40}-\\\\u{16E7F}\\\\u{16EA0}-\\\\u{16EB8}\\\\u{16EBB}-\\\\u{16ED3}\\\\u{16F00}-\\\\u{16F4A}\\\\u{16F50}\\\\u{16F93}-\\\\u{16F9F}\\\\u{16FE0}-\\\\u{16FE1}\\\\u{16FE3}\\\\u{16FF2}-\\\\u{16FF3}\\\\u{17000}-\\\\u{18CD5}\\\\u{18CFF}-\\\\u{18D1E}\\\\u{18D80}-\\\\u{18DF2}\\\\u{1AFF0}-\\\\u{1AFF3}\\\\u{1AFF5}-\\\\u{1AFFB}\\\\u{1AFFD}-\\\\u{1AFFE}\\\\u{1B000}-\\\\u{1B122}\\\\u{1B132}\\\\u{1B150}-\\\\u{1B152}\\\\u{1B155}\\\\u{1B164}-\\\\u{1B167}\\\\u{1B170}-\\\\u{1B2FB}\\\\u{1BC00}-\\\\u{1BC6A}\\\\u{1BC70}-\\\\u{1BC7C}\\\\u{1BC80}-\\\\u{1BC88}\\\\u{1BC90}-\\\\u{1BC99}\\\\u{1D400}-\\\\u{1D454}\\\\u{1D456}-\\\\u{1D49C}\\\\u{1D49E}-\\\\u{1D49F}\\\\u{1D4A2}\\\\u{1D4A5}-\\\\u{1D4A6}\\\\u{1D4A9}-\\\\u{1D4AC}\\\\u{1D4AE}-\\\\u{1D4B9}\\\\u{1D4BB}\\\\u{1D4BD}-\\\\u{1D4C3}\\\\u{1D4C5}-\\\\u{1D505}\\\\u{1D507}-\\\\u{1D50A}\\\\u{1D50D}-\\\\u{1D514}\\\\u{1D516}-\\\\u{1D51C}\\\\u{1D51E}-\\\\u{1D539}\\\\u{1D53B}-\\\\u{1D53E}\\\\u{1D540}-\\\\u{1D544}\\\\u{1D546}\\\\u{1D54A}-\\\\u{1D550}\\\\u{1D552}-\\\\u{1D6A5}\\\\u{1D6A8}-\\\\u{1D6C0}\\\\u{1D6C2}-\\\\u{1D6DA}\\\\u{1D6DC}-\\\\u{1D6FA}\\\\u{1D6FC}-\\\\u{1D714}\\\\u{1D716}-\\\\u{1D734}\\\\u{1D736}-\\\\u{1D74E}\\\\u{1D750}-\\\\u{1D76E}\\\\u{1D770}-\\\\u{1D788}\\\\u{1D78A}-\\\\u{1D7A8}\\\\u{1D7AA}-\\\\u{1D7C2}\\\\u{1D7C4}-\\\\u{1D7CB}\\\\u{1DF00}-\\\\u{1DF1E}\\\\u{1DF25}-\\\\u{1DF2A}\\\\u{1E030}-\\\\u{1E06D}\\\\u{1E100}-\\\\u{1E12C}\\\\u{1E137}-\\\\u{1E13D}\\\\u{1E14E}\\\\u{1E290}-\\\\u{1E2AD}\\\\u{1E2C0}-\\\\u{1E2EB}\\\\u{1E4D0}-\\\\u{1E4EB}\\\\u{1E5D0}-\\\\u{1E5ED}\\\\u{1E5F0}\\\\u{1E6C0}-\\\\u{1E6DE}\\\\u{1E6E0}-\\\\u{1E6E2}\\\\u{1E6E4}-\\\\u{1E6E5}\\\\u{1E6E7}-\\\\u{1E6ED}\\\\u{1E6F0}-\\\\u{1E6F4}\\\\u{1E6FE}-\\\\u{1E6FF}\\\\u{1E7E0}-\\\\u{1E7E6}\\\\u{1E7E8}-\\\\u{1E7EB}\\\\u{1E7ED}-\\\\u{1E7EE}\\\\u{1E7F0}-\\\\u{1E7FE}\\\\u{1E800}-\\\\u{1E8C4}\\\\u{1E900}-\\\\u{1E943}\\\\u{1E94B}\\\\u{1EE00}-\\\\u{1EE03}\\\\u{1EE05}-\\\\u{1EE1F}\\\\u{1EE21}-\\\\u{1EE22}\\\\u{1EE24}\\\\u{1EE27}\\\\u{1EE29}-\\\\u{1EE32}\\\\u{1EE34}-\\\\u{1EE37}\\\\u{1EE39}\\\\u{1EE3B}\\\\u{1EE42}\\\\u{1EE47}\\\\u{1EE49}\\\\u{1EE4B}\\\\u{1EE4D}-\\\\u{1EE4F}\\\\u{1EE51}-\\\\u{1EE52}\\\\u{1EE54}\\\\u{1EE57}\\\\u{1EE59}\\\\u{1EE5B}\\\\u{1EE5D}\\\\u{1EE5F}\\\\u{1EE61}-\\\\u{1EE62}\\\\u{1EE64}\\\\u{1EE67}-\\\\u{1EE6A}\\\\u{1EE6C}-\\\\u{1EE72}\\\\u{1EE74}-\\\\u{1EE77}\\\\u{1EE79}-\\\\u{1EE7C}\\\\u{1EE7E}\\\\u{1EE80}-\\\\u{1EE89}\\\\u{1EE8B}-\\\\u{1EE9B}\\\\u{1EEA1}-\\\\u{1EEA3}\\\\u{1EEA5}-\\\\u{1EEA9}\\\\u{1EEAB}-\\\\u{1EEBB}\\\\u{20000}-\\\\u{2A6DF}\\\\u{2A700}-\\\\u{2B81D}\\\\u{2B820}-\\\\u{2CEAD}\\\\u{2CEB0}-\\\\u{2EBE0}\\\\u{2EBF0}-\\\\u{2EE5D}\\\\u{2F800}-\\\\u{2FA1D}\\\\u{30000}-\\\\u{3134A}\\\\u{31350}-\\\\u{33479}]\", \"u\").test(u);\n    }\n    function c(u) {\n        return u === u.toUpperCase();\n    }\n    function f() {\n        return (u, e) => {\n            var t = u[e], r = 0;\n            Object.defineProperty(u, e, {\n                get: () => t,\n                set(u) {\n                    if (\"object\" == typeof u && (r = Object.values(u).reduce((u, e) => u + e)), 0 > u || 0 > r || u > 1 || r > 1) throw Error(\"\".concat(e, \" modifier value must be a number between 0 and 1\"));\n                    t = u;\n                },\n                enumerable: !0,\n                configurable: !0\n            });\n        };\n    }\n    function d(u) {\n        if (!u) return !1;\n        if (/[^a-z0-9\\:\\/\\?\\#\\[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\.\\-\\_\\~\\%]/i.test(u)) return !1;\n        if (/%[^0-9a-f]/i.test(u) || /%[0-9a-f](:?[^0-9a-f]|$)/i.test(u)) return !1;\n        var e = u.match(/(?:([^:\\/?#]+):)?(?:\\/\\/([^\\/?#]*))?([^?#]*)(?:\\?([^#]*))?(?:#(.*))?/);\n        if (!e) return !1;\n        var [, t, r, a] = e;\n        if (!t || !t.length || 0 > a.length) return !1;\n        if (r && r.length) {\n            if (0 !== a.length && !/^\\//.test(a)) return !1;\n        } else if (/^\\/\\//.test(a)) return !1;\n        return !!/^[a-z][a-z0-9\\+\\-\\.]*$/.test(t.toLowerCase());\n    }\n    var p = function(u, e, t, r) {\n        var a, n = arguments.length, s = 3 > n ? e : null === r ? r = Object.getOwnPropertyDescriptor(e, t) : r;\n        if (\"object\" == typeof Reflect && \"function\" == typeof Reflect.decorate) s = Reflect.decorate(u, e, t, r); else for (var A = u.length - 1; A >= 0; A--) (a = u[A]) && (s = (3 > n ? a(s) : n > 3 ? a(e, t, s) : a(e, t)) || s);\n        return n > 3 && s && Object.defineProperty(e, t, s), s;\n    }, h = {\n        SPACES: {\n            faces: .05,\n            actions: .075,\n            stutters: .1\n        },\n        WORDS: 1,\n        EXCLAMATIONS: 1\n    }, m = function() {\n        function u() {\n            var {spaces: e = h.SPACES, words: t = h.WORDS, exclamations: r = h.EXCLAMATIONS} = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {\n                spaces: h.SPACES,\n                words: h.WORDS,\n                exclamations: h.EXCLAMATIONS\n            };\n            ((u, e) => {\n                if (!(this instanceof e)) throw new TypeError(\"Cannot call a class as a function\");\n            })(0, u), Object.defineProperty(this, \"faces\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: [ \"(・`ω´・)\", \";;w;;\", \"OwO\", \"UwU\", \">w<\", \"^w^\", \"ÚwÚ\", \"^-^\", \":3\", \"x3\", \";3\", \":3c\" ]\n            }), Object.defineProperty(this, \"exclamations\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: [ \"!?\", \"?!!\", \"?!?1\", \"!!11\", \"?!?!\" ]\n            }), Object.defineProperty(this, \"actions\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: [ \"*blushes*\", \"*whispers to self*\", \"*cries*\", \"*screams*\", \"*sweats*\", \"*runs away*\", \"*screeches*\", \"*walks away*\", \"*looks at you*\", \"*huggles tightly*\", \"*boops your nose*\", \"*stares cutely*\", \"*blushes softly*\", \"*licks nose*\", \"*nuzzles closer*\", \"*licks neck*\", \"*twerks*\", \"*starts twerking*\" ]\n            }), Object.defineProperty(this, \"uwuMap\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: [ [ /(?:r|l)/g, \"w\" ], [ /(?:R|L)/g, \"W\" ], [ /n([aeiou])/g, \"ny$1\" ], [ /N([aeiou])/g, \"Ny$1\" ], [ /N([AEIOU])/g, \"Ny$1\" ], [ /ove/g, \"uv\" ] ]\n            }), Object.defineProperty(this, \"_spacesModifier\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: void 0\n            }), Object.defineProperty(this, \"_wordsModifier\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: void 0\n            }), Object.defineProperty(this, \"_exclamationsModifier\", {\n                enumerable: !0,\n                configurable: !0,\n                writable: !0,\n                value: void 0\n            }), this._spacesModifier = e ?? h.SPACES, this._wordsModifier = t ?? h.WORDS, this._exclamationsModifier = r ?? h.EXCLAMATIONS;\n        }\n        return e = u, (t = [ {\n            key: \"uwuifyWords\",\n            value(u) {\n                return u.split(\" \").map(u => {\n                    if (\"@\" === u.charAt(0)) return u;\n                    if (d(u)) return u;\n                    var e = new l(u);\n                    for (var [t, r] of this.uwuMap) e.random() > this._wordsModifier || (u = u.replace(t, r));\n                    return u;\n                }).join(\" \");\n            }\n        }, {\n            key: \"uwuifySpaces\",\n            value(u) {\n                var e = u.split(\" \"), t = this._spacesModifier.faces, r = this._spacesModifier.actions + t, a = this._spacesModifier.stutters + r;\n                return e.map((u, n) => {\n                    var s = new l(u), A = s.random(), [o] = u;\n                    if (t >= A && this.faces) u += \" \" + this.faces[s.randomInt(0, this.faces.length - 1)], \n                    E(); else if (r >= A && this.actions) u += \" \" + this.actions[s.randomInt(0, this.actions.length - 1)], \n                    E(); else if (a >= A && !d(u)) {\n                        var i = s.randomInt(0, 2);\n                        return (o + \"-\").repeat(i) + u;\n                    }\n                    function E() {\n                        if (o === o.toUpperCase() && .5 >= (u => {\n                            var e = 0, t = 0;\n                            for (var r of u) C(r) && (c(r) && t++, e++);\n                            return t / e;\n                        })(u)) if (0 === n) u = o.toLowerCase() + u.slice(1); else {\n                            var t = e[n - 1], r = t[t.length - 1];\n                            if (!RegExp(\"[.!?\\\\-]\").test(r)) return;\n                            u = o.toLowerCase() + u.slice(1);\n                        }\n                    }\n                    return u;\n                }).join(\" \");\n            }\n        }, {\n            key: \"uwuifyExclamations\",\n            value(u) {\n                var e = u.split(\" \"), t = RegExp(\"[?!]+$\");\n                return e.map(u => {\n                    var e = new l(u);\n                    return !t.test(u) || e.random() > this._exclamationsModifier ? u : (u = u.replace(t, \"\"), \n                    u += this.exclamations[e.randomInt(0, this.exclamations.length - 1)]);\n                }).join(\" \");\n            }\n        }, {\n            key: \"uwuifySentence\",\n            value(u) {\n                var e = u;\n                return e = this.uwuifyWords(e), e = this.uwuifyExclamations(e), this.uwuifySpaces(e);\n            }\n        } ]) && ((u, e) => {\n            for (var t = 0; e.length > t; t++) {\n                var r = e[t];\n                r.enumerable = r.enumerable || !1, r.configurable = !0, \"value\" in r && (r.writable = !0), \n                Object.defineProperty(u, r.key, r);\n            }\n        })(e.prototype, t), u;\n        var e, t;\n    }();\n    function g(u) {\n        return u ? (u => {\n            var e = u?.settings?.uwuifier ?? {}, t = e.spaces ?? {};\n            return new m({\n                spaces: {\n                    faces: t.faces ? .5 : 0,\n                    actions: t.actions ? .075 : 0,\n                    stutters: t.stutters ? .1 : 0\n                },\n                words: e.words ? 1 : 0,\n                exclamations: e.exclamations ? 1 : 0\n            });\n        })(u) : new m;\n    }\n    p([ f() ], m.prototype, \"_spacesModifier\", void 0), p([ f() ], m.prototype, \"_wordsModifier\", void 0), \n    p([ f() ], m.prototype, \"_exclamationsModifier\", void 0);\n    var y = [], v = {\n        stats: {\n            global_counter: 0,\n            history: []\n        },\n        settings: {\n            uwuifier: {\n                spaces: {\n                    faces: !0,\n                    actions: !0,\n                    stutters: !0\n                },\n                words: !0,\n                exclamations: !1\n            },\n            convert_messages: !0,\n            defaults: {\n                send: !0\n            }\n        }\n    };\n    return {\n        settings: () => (t.useProxy(e.storage), React.createElement(u.ReactNative.ScrollView, {\n            style: {\n                flex: 1\n            }\n        }, (e => [ {\n            label: \"Add faces\",\n            type: \"number\",\n            storage_path: \"settings.uwuifier.spaces.faces\"\n        }, {\n            label: \"Add actions\",\n            type: \"number\",\n            storage_path: \"settings.uwuifier.spaces.actions\"\n        }, {\n            label: \"Add stutters\",\n            type: \"number\",\n            storage_path: \"settings.uwuifier.spaces.stutters\"\n        }, {\n            label: \"Add words\",\n            type: \"number\",\n            storage_path: \"settings.uwuifier.words\"\n        }, {\n            label: \"Add exclamations\",\n            type: \"number\",\n            storage_path: \"settings.uwuifier.exclamations\"\n        }, {\n            type: \"spacer\",\n            style: {\n                height: 5\n            }\n        }, {\n            label: \"Convert message before sending\",\n            type: \"toggle\",\n            storage_path: \"settings.convert_messages\"\n        } ].map((t, a) => {\n            var n = t?.storage_path ?? t?.label ?? t?.id ?? a;\n            return \"button\" === t?.type ? React.createElement(r.Button, {\n                key: n,\n                style: t?.style ?? void 0,\n                text: t?.label ?? \"Unnamed\",\n                color: \"brand\",\n                size: \"small\",\n                disabled: !1,\n                onPress: t?.onPress ?? (() => {})\n            }) : \"spacer\" === t?.type ? React.createElement(u.ReactNative.View, {\n                key: n,\n                style: t?.style\n            }) : [ \"number\", \"toggle\" ].includes(t?.type) ? React.createElement(D, {\n                key: n,\n                label: t?.label ?? t?.storage_path ?? \"Unnamed\",\n                style: t?.style ?? void 0,\n                trailing: \"storage_path\" in t ? React.createElement(B, {\n                    value: i(e, t.storage_path),\n                    onValueChange(u) {\n                        console.log(\"changing to \".concat(u, \", current: \").concat(i(e, t.storage_path))), \n                        ((u, e, t) => {\n                            var {parent: r, key: a} = o(u, e);\n                            r[a] = t;\n                        })(e, t.storage_path, u), t?.onValueChange?.(u);\n                    }\n                }) : void 0\n            }) : React.createElement(D, {\n                key: n,\n                label: \"\".concat(t?.label ?? t?.id ?? \"no name\", \"(unknown type of config entry)\"),\n                style: t?.style ?? void 0\n            });\n        }))(e.storage))),\n        onUnload() {\n            for (var u of y) u();\n        },\n        onLoad() {\n            A(vendetta.plugin.storage, v), y.push(s.commands.registerCommand((u => {\n                var e, t;\n                if (!u?.name || !u?.description) throw Error(\"No name(\".concat(u?.name, \") or description(\").concat(u?.description, \") in the passed command\"));\n                if ((e = u).displayName ?? (e.displayName = u.name), (t = u).displayDescription ?? (t.displayDescription = u.description), \n                u.options) for (var r = 0; r < u.options.length; r++) {\n                    var a, n, s = u.options[r];\n                    if ((a = s).displayName ?? (a.displayName = s.name), (n = s).displayDescription ?? (n.displayDescription = s.description), \n                    s?.choices) for (var A = 0; A < s.choices.length; A++) {\n                        var o, i = s.choices[A];\n                        (o = i).displayName ?? (o.displayName = i.name);\n                    }\n                }\n                return u;\n            })({\n                type: 1,\n                applicationId: \"-1\",\n                inputType: 1,\n                name: \"uwuify\",\n                description: \"UwUify some text\",\n                options: [ {\n                    type: 3,\n                    required: !0,\n                    name: \"input\",\n                    description: \"Text to be UwUified\"\n                }, {\n                    type: 5,\n                    required: !1,\n                    name: \"send\",\n                    description: \"Whether to send the uwuified text as an actual message in chat (default: {default_action})\".replaceAll(\"{default_action}\", e.storage.settings.defaults.send)\n                } ],\n                execute(u) {\n                    try {\n                        var t = new Map(u.map(u => [ u.name, u ])), r = t.get(\"input\")?.value, n = g(e.storage).uwuifySentence(r), s = !(t.get(\"send\")?.value ?? e.storage.settings.defaults.send), A = e.storage.stats.history;\n                        A.unshift({\n                            timestamp: Date.now(),\n                            input: r\n                        }), A.length > 25 && A.pop(), ((u, e, t) => {\n                            if (E ?? (E = a.findByStoreName(\"SelectedChannelStore\")), F ?? (F = a.findByProps(\"sendBotMessage\")), \n                            \"currentChannel\" === u && (u = E.getChannelId()), \"string\" != typeof e && (e = e?.content, \n                            !e)) throw Error(\"No text to send\");\n                            if (t) return F.sendBotMessage(u, e);\n                            F.sendMessage(u, {\n                                content: e,\n                                _command_output: !0\n                            }, void 0, {\n                                nonce: Date.now().toString()\n                            });\n                        })(\"currentChannel\", n, s);\n                    } catch (u) {\n                        console.error(u), console.log(u.stack), alert(\"There was an error while running the command\\n\".concat(u.stack));\n                    }\n                }\n            })));\n            var u = a.findByProps(\"sendMessage\", \"receiveMessage\");\n            y.push(n.before(\"sendMessage\", u, u => {\n                e.storage.settings.convert_messages && !u[1]?._command_output && (u[1].content = g(e.storage).uwuifySentence(u[1].content));\n            }));\n        }\n    };\n})(vendetta.metro.common, vendetta.plugin, vendetta.storage, vendetta.ui.components, vendetta.metro, vendetta.patcher, vendetta);"); } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
+(() => { try { return (function(u, e, t, r, a, n, s) {
+    "use strict";
+    function A(u, e) {
+        if (void 0 === u) throw Error("No object passed to make defaults for");
+        if (void 0 === e) throw Error("No defaults object passed to make defaults off of");
+        for (var t in e) {
+            var r, a;
+            "object" != typeof e[t] || Array.isArray(e?.[t]) ? (r = u)[a = t] ?? (r[a] = e[t]) : ("object" != typeof u?.[t] && (u[t] = {}), 
+            A(u[t], e[t]));
+        }
+        return u;
+    }
+    function o(u, e) {
+        for (var t = e.split("."), r = u, a = 0; a < t.length; a++) {
+            var n = t[a];
+            if (null === r || "object" != typeof r) throw Error('Cannot resolve key "'.concat(n, '" because the previous property is not an object.'));
+            if (!(n in r)) throw Error('Key "'.concat(n, '" was not found in the path.'));
+            if (a === t.length - 1) return {
+                parent: r,
+                key: n
+            };
+            r = r[n];
+        }
+    }
+    function i(u, e) {
+        var {parent: t, key: r} = o(u, e);
+        return t[r];
+    }
+    var E, F, {FormRow: D, FormSwitch: B} = r.Forms, l = function() {
+        function u(e) {
+            ((u, e) => {
+                if (!(this instanceof e)) throw new TypeError("Cannot call a class as a function");
+            })(0, u), Object.defineProperty(this, "seeder", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: void 0
+            }), this.seeder = this.xmur3(e);
+        }
+        return e = u, t = [ {
+            key: "random",
+            value() {
+                var u = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 0, e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
+                if (u > e) throw Error("The minimum value must be below the maximum value");
+                if (u === e) throw Error("The minimum value cannot equal the maximum value");
+                return this.denormalize(this.sfc32(), u, e);
+            }
+        }, {
+            key: "randomInt",
+            value() {
+                var u = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 0, e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
+                return Math.round(this.random(u, e));
+            }
+        }, {
+            key: "denormalize",
+            value(u, e, t) {
+                return u * (t - e) + e;
+            }
+        }, {
+            key: "xmur3",
+            value(u) {
+                for (var e = 1779033703 ^ u.length, t = 0; t < u.length; t++) e = (e = Math.imul(e ^ u.charCodeAt(t), 3432918353)) << 13 | e >>> 19;
+                return () => (e = Math.imul(e ^ e >>> 16, 2246822507), e = Math.imul(e ^ e >>> 13, 3266489909), 
+                (e ^= e >>> 16) >>> 0);
+            }
+        }, {
+            key: "sfc32",
+            value() {
+                var u = this.seeder(), e = this.seeder(), t = this.seeder(), r = this.seeder(), a = (u >>>= 0) + (e >>>= 0) | 0;
+                return u = e ^ e >>> 9, e = (t >>>= 0) + (t << 3) | 0, t = (t = t << 21 | t >>> 11) + (a = a + (r = (r >>>= 0) + 1 | 0) | 0) | 0, 
+                (a >>> 0) / 4294967296;
+            }
+        } ], t && ((u, e) => {
+            for (var t = 0; e.length > t; t++) {
+                var r = e[t];
+                r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), 
+                Object.defineProperty(u, r.key, r);
+            }
+        })(e.prototype, t), u;
+        var e, t;
+    }();
+    function C(u) {
+        return RegExp("^[\\u0041-\\u005A\\u0061-\\u007A\\u00AA\\u00B5\\u00BA\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02C1\\u02C6-\\u02D1\\u02E0-\\u02E4\\u02EC\\u02EE\\u0370-\\u0374\\u0376-\\u0377\\u037A-\\u037D\\u037F\\u0386\\u0388-\\u038A\\u038C\\u038E-\\u03A1\\u03A3-\\u03F5\\u03F7-\\u0481\\u048A-\\u052F\\u0531-\\u0556\\u0559\\u0560-\\u0588\\u05D0-\\u05EA\\u05EF-\\u05F2\\u0620-\\u064A\\u066E-\\u066F\\u0671-\\u06D3\\u06D5\\u06E5-\\u06E6\\u06EE-\\u06EF\\u06FA-\\u06FC\\u06FF\\u0710\\u0712-\\u072F\\u074D-\\u07A5\\u07B1\\u07CA-\\u07EA\\u07F4-\\u07F5\\u07FA\\u0800-\\u0815\\u081A\\u0824\\u0828\\u0840-\\u0858\\u0860-\\u086A\\u0870-\\u0887\\u0889-\\u088F\\u08A0-\\u08C9\\u0904-\\u0939\\u093D\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098C\\u098F-\\u0990\\u0993-\\u09A8\\u09AA-\\u09B0\\u09B2\\u09B6-\\u09B9\\u09BD\\u09CE\\u09DC-\\u09DD\\u09DF-\\u09E1\\u09F0-\\u09F1\\u09FC\\u0A05-\\u0A0A\\u0A0F-\\u0A10\\u0A13-\\u0A28\\u0A2A-\\u0A30\\u0A32-\\u0A33\\u0A35-\\u0A36\\u0A38-\\u0A39\\u0A59-\\u0A5C\\u0A5E\\u0A72-\\u0A74\\u0A85-\\u0A8D\\u0A8F-\\u0A91\\u0A93-\\u0AA8\\u0AAA-\\u0AB0\\u0AB2-\\u0AB3\\u0AB5-\\u0AB9\\u0ABD\\u0AD0\\u0AE0-\\u0AE1\\u0AF9\\u0B05-\\u0B0C\\u0B0F-\\u0B10\\u0B13-\\u0B28\\u0B2A-\\u0B30\\u0B32-\\u0B33\\u0B35-\\u0B39\\u0B3D\\u0B5C-\\u0B5D\\u0B5F-\\u0B61\\u0B71\\u0B83\\u0B85-\\u0B8A\\u0B8E-\\u0B90\\u0B92-\\u0B95\\u0B99-\\u0B9A\\u0B9C\\u0B9E-\\u0B9F\\u0BA3-\\u0BA4\\u0BA8-\\u0BAA\\u0BAE-\\u0BB9\\u0BD0\\u0C05-\\u0C0C\\u0C0E-\\u0C10\\u0C12-\\u0C28\\u0C2A-\\u0C39\\u0C3D\\u0C58-\\u0C5A\\u0C5C-\\u0C5D\\u0C60-\\u0C61\\u0C80\\u0C85-\\u0C8C\\u0C8E-\\u0C90\\u0C92-\\u0CA8\\u0CAA-\\u0CB3\\u0CB5-\\u0CB9\\u0CBD\\u0CDC-\\u0CDE\\u0CE0-\\u0CE1\\u0CF1-\\u0CF2\\u0D04-\\u0D0C\\u0D0E-\\u0D10\\u0D12-\\u0D3A\\u0D3D\\u0D4E\\u0D54-\\u0D56\\u0D5F-\\u0D61\\u0D7A-\\u0D7F\\u0D85-\\u0D96\\u0D9A-\\u0DB1\\u0DB3-\\u0DBB\\u0DBD\\u0DC0-\\u0DC6\\u0E01-\\u0E30\\u0E32-\\u0E33\\u0E40-\\u0E46\\u0E81-\\u0E82\\u0E84\\u0E86-\\u0E8A\\u0E8C-\\u0EA3\\u0EA5\\u0EA7-\\u0EB0\\u0EB2-\\u0EB3\\u0EBD\\u0EC0-\\u0EC4\\u0EC6\\u0EDC-\\u0EDF\\u0F00\\u0F40-\\u0F47\\u0F49-\\u0F6C\\u0F88-\\u0F8C\\u1000-\\u102A\\u103F\\u1050-\\u1055\\u105A-\\u105D\\u1061\\u1065-\\u1066\\u106E-\\u1070\\u1075-\\u1081\\u108E\\u10A0-\\u10C5\\u10C7\\u10CD\\u10D0-\\u10FA\\u10FC-\\u1248\\u124A-\\u124D\\u1250-\\u1256\\u1258\\u125A-\\u125D\\u1260-\\u1288\\u128A-\\u128D\\u1290-\\u12B0\\u12B2-\\u12B5\\u12B8-\\u12BE\\u12C0\\u12C2-\\u12C5\\u12C8-\\u12D6\\u12D8-\\u1310\\u1312-\\u1315\\u1318-\\u135A\\u1380-\\u138F\\u13A0-\\u13F5\\u13F8-\\u13FD\\u1401-\\u166C\\u166F-\\u167F\\u1681-\\u169A\\u16A0-\\u16EA\\u16F1-\\u16F8\\u1700-\\u1711\\u171F-\\u1731\\u1740-\\u1751\\u1760-\\u176C\\u176E-\\u1770\\u1780-\\u17B3\\u17D7\\u17DC\\u1820-\\u1878\\u1880-\\u1884\\u1887-\\u18A8\\u18AA\\u18B0-\\u18F5\\u1900-\\u191E\\u1950-\\u196D\\u1970-\\u1974\\u1980-\\u19AB\\u19B0-\\u19C9\\u1A00-\\u1A16\\u1A20-\\u1A54\\u1AA7\\u1B05-\\u1B33\\u1B45-\\u1B4C\\u1B83-\\u1BA0\\u1BAE-\\u1BAF\\u1BBA-\\u1BE5\\u1C00-\\u1C23\\u1C4D-\\u1C4F\\u1C5A-\\u1C7D\\u1C80-\\u1C8A\\u1C90-\\u1CBA\\u1CBD-\\u1CBF\\u1CE9-\\u1CEC\\u1CEE-\\u1CF3\\u1CF5-\\u1CF6\\u1CFA\\u1D00-\\u1DBF\\u1E00-\\u1F15\\u1F18-\\u1F1D\\u1F20-\\u1F45\\u1F48-\\u1F4D\\u1F50-\\u1F57\\u1F59\\u1F5B\\u1F5D\\u1F5F-\\u1F7D\\u1F80-\\u1FB4\\u1FB6-\\u1FBC\\u1FBE\\u1FC2-\\u1FC4\\u1FC6-\\u1FCC\\u1FD0-\\u1FD3\\u1FD6-\\u1FDB\\u1FE0-\\u1FEC\\u1FF2-\\u1FF4\\u1FF6-\\u1FFC\\u2071\\u207F\\u2090-\\u209C\\u2102\\u2107\\u210A-\\u2113\\u2115\\u2119-\\u211D\\u2124\\u2126\\u2128\\u212A-\\u212D\\u212F-\\u2139\\u213C-\\u213F\\u2145-\\u2149\\u214E\\u2183-\\u2184\\u2C00-\\u2CE4\\u2CEB-\\u2CEE\\u2CF2-\\u2CF3\\u2D00-\\u2D25\\u2D27\\u2D2D\\u2D30-\\u2D67\\u2D6F\\u2D80-\\u2D96\\u2DA0-\\u2DA6\\u2DA8-\\u2DAE\\u2DB0-\\u2DB6\\u2DB8-\\u2DBE\\u2DC0-\\u2DC6\\u2DC8-\\u2DCE\\u2DD0-\\u2DD6\\u2DD8-\\u2DDE\\u2E2F\\u3005-\\u3006\\u3031-\\u3035\\u303B-\\u303C\\u3041-\\u3096\\u309D-\\u309F\\u30A1-\\u30FA\\u30FC-\\u30FF\\u3105-\\u312F\\u3131-\\u318E\\u31A0-\\u31BF\\u31F0-\\u31FF\\u3400-\\u4DBF\\u4E00-\\uA48C\\uA4D0-\\uA4FD\\uA500-\\uA60C\\uA610-\\uA61F\\uA62A-\\uA62B\\uA640-\\uA66E\\uA67F-\\uA69D\\uA6A0-\\uA6E5\\uA717-\\uA71F\\uA722-\\uA788\\uA78B-\\uA7DC\\uA7F1-\\uA801\\uA803-\\uA805\\uA807-\\uA80A\\uA80C-\\uA822\\uA840-\\uA873\\uA882-\\uA8B3\\uA8F2-\\uA8F7\\uA8FB\\uA8FD-\\uA8FE\\uA90A-\\uA925\\uA930-\\uA946\\uA960-\\uA97C\\uA984-\\uA9B2\\uA9CF\\uA9E0-\\uA9E4\\uA9E6-\\uA9EF\\uA9FA-\\uA9FE\\uAA00-\\uAA28\\uAA40-\\uAA42\\uAA44-\\uAA4B\\uAA60-\\uAA76\\uAA7A\\uAA7E-\\uAAAF\\uAAB1\\uAAB5-\\uAAB6\\uAAB9-\\uAABD\\uAAC0\\uAAC2\\uAADB-\\uAADD\\uAAE0-\\uAAEA\\uAAF2-\\uAAF4\\uAB01-\\uAB06\\uAB09-\\uAB0E\\uAB11-\\uAB16\\uAB20-\\uAB26\\uAB28-\\uAB2E\\uAB30-\\uAB5A\\uAB5C-\\uAB69\\uAB70-\\uABE2\\uAC00-\\uD7A3\\uD7B0-\\uD7C6\\uD7CB-\\uD7FB\\uF900-\\uFA6D\\uFA70-\\uFAD9\\uFB00-\\uFB06\\uFB13-\\uFB17\\uFB1D\\uFB1F-\\uFB28\\uFB2A-\\uFB36\\uFB38-\\uFB3C\\uFB3E\\uFB40-\\uFB41\\uFB43-\\uFB44\\uFB46-\\uFBB1\\uFBD3-\\uFD3D\\uFD50-\\uFD8F\\uFD92-\\uFDC7\\uFDF0-\\uFDFB\\uFE70-\\uFE74\\uFE76-\\uFEFC\\uFF21-\\uFF3A\\uFF41-\\uFF5A\\uFF66-\\uFFBE\\uFFC2-\\uFFC7\\uFFCA-\\uFFCF\\uFFD2-\\uFFD7\\uFFDA-\\uFFDC\\u{10000}-\\u{1000B}\\u{1000D}-\\u{10026}\\u{10028}-\\u{1003A}\\u{1003C}-\\u{1003D}\\u{1003F}-\\u{1004D}\\u{10050}-\\u{1005D}\\u{10080}-\\u{100FA}\\u{10280}-\\u{1029C}\\u{102A0}-\\u{102D0}\\u{10300}-\\u{1031F}\\u{1032D}-\\u{10340}\\u{10342}-\\u{10349}\\u{10350}-\\u{10375}\\u{10380}-\\u{1039D}\\u{103A0}-\\u{103C3}\\u{103C8}-\\u{103CF}\\u{10400}-\\u{1049D}\\u{104B0}-\\u{104D3}\\u{104D8}-\\u{104FB}\\u{10500}-\\u{10527}\\u{10530}-\\u{10563}\\u{10570}-\\u{1057A}\\u{1057C}-\\u{1058A}\\u{1058C}-\\u{10592}\\u{10594}-\\u{10595}\\u{10597}-\\u{105A1}\\u{105A3}-\\u{105B1}\\u{105B3}-\\u{105B9}\\u{105BB}-\\u{105BC}\\u{105C0}-\\u{105F3}\\u{10600}-\\u{10736}\\u{10740}-\\u{10755}\\u{10760}-\\u{10767}\\u{10780}-\\u{10785}\\u{10787}-\\u{107B0}\\u{107B2}-\\u{107BA}\\u{10800}-\\u{10805}\\u{10808}\\u{1080A}-\\u{10835}\\u{10837}-\\u{10838}\\u{1083C}\\u{1083F}-\\u{10855}\\u{10860}-\\u{10876}\\u{10880}-\\u{1089E}\\u{108E0}-\\u{108F2}\\u{108F4}-\\u{108F5}\\u{10900}-\\u{10915}\\u{10920}-\\u{10939}\\u{10940}-\\u{10959}\\u{10980}-\\u{109B7}\\u{109BE}-\\u{109BF}\\u{10A00}\\u{10A10}-\\u{10A13}\\u{10A15}-\\u{10A17}\\u{10A19}-\\u{10A35}\\u{10A60}-\\u{10A7C}\\u{10A80}-\\u{10A9C}\\u{10AC0}-\\u{10AC7}\\u{10AC9}-\\u{10AE4}\\u{10B00}-\\u{10B35}\\u{10B40}-\\u{10B55}\\u{10B60}-\\u{10B72}\\u{10B80}-\\u{10B91}\\u{10C00}-\\u{10C48}\\u{10C80}-\\u{10CB2}\\u{10CC0}-\\u{10CF2}\\u{10D00}-\\u{10D23}\\u{10D4A}-\\u{10D65}\\u{10D6F}-\\u{10D85}\\u{10E80}-\\u{10EA9}\\u{10EB0}-\\u{10EB1}\\u{10EC2}-\\u{10EC7}\\u{10F00}-\\u{10F1C}\\u{10F27}\\u{10F30}-\\u{10F45}\\u{10F70}-\\u{10F81}\\u{10FB0}-\\u{10FC4}\\u{10FE0}-\\u{10FF6}\\u{11003}-\\u{11037}\\u{11071}-\\u{11072}\\u{11075}\\u{11083}-\\u{110AF}\\u{110D0}-\\u{110E8}\\u{11103}-\\u{11126}\\u{11144}\\u{11147}\\u{11150}-\\u{11172}\\u{11176}\\u{11183}-\\u{111B2}\\u{111C1}-\\u{111C4}\\u{111DA}\\u{111DC}\\u{11200}-\\u{11211}\\u{11213}-\\u{1122B}\\u{1123F}-\\u{11240}\\u{11280}-\\u{11286}\\u{11288}\\u{1128A}-\\u{1128D}\\u{1128F}-\\u{1129D}\\u{1129F}-\\u{112A8}\\u{112B0}-\\u{112DE}\\u{11305}-\\u{1130C}\\u{1130F}-\\u{11310}\\u{11313}-\\u{11328}\\u{1132A}-\\u{11330}\\u{11332}-\\u{11333}\\u{11335}-\\u{11339}\\u{1133D}\\u{11350}\\u{1135D}-\\u{11361}\\u{11380}-\\u{11389}\\u{1138B}\\u{1138E}\\u{11390}-\\u{113B5}\\u{113B7}\\u{113D1}\\u{113D3}\\u{11400}-\\u{11434}\\u{11447}-\\u{1144A}\\u{1145F}-\\u{11461}\\u{11480}-\\u{114AF}\\u{114C4}-\\u{114C5}\\u{114C7}\\u{11580}-\\u{115AE}\\u{115D8}-\\u{115DB}\\u{11600}-\\u{1162F}\\u{11644}\\u{11680}-\\u{116AA}\\u{116B8}\\u{11700}-\\u{1171A}\\u{11740}-\\u{11746}\\u{11800}-\\u{1182B}\\u{118A0}-\\u{118DF}\\u{118FF}-\\u{11906}\\u{11909}\\u{1190C}-\\u{11913}\\u{11915}-\\u{11916}\\u{11918}-\\u{1192F}\\u{1193F}\\u{11941}\\u{119A0}-\\u{119A7}\\u{119AA}-\\u{119D0}\\u{119E1}\\u{119E3}\\u{11A00}\\u{11A0B}-\\u{11A32}\\u{11A3A}\\u{11A50}\\u{11A5C}-\\u{11A89}\\u{11A9D}\\u{11AB0}-\\u{11AF8}\\u{11BC0}-\\u{11BE0}\\u{11C00}-\\u{11C08}\\u{11C0A}-\\u{11C2E}\\u{11C40}\\u{11C72}-\\u{11C8F}\\u{11D00}-\\u{11D06}\\u{11D08}-\\u{11D09}\\u{11D0B}-\\u{11D30}\\u{11D46}\\u{11D60}-\\u{11D65}\\u{11D67}-\\u{11D68}\\u{11D6A}-\\u{11D89}\\u{11D98}\\u{11DB0}-\\u{11DDB}\\u{11EE0}-\\u{11EF2}\\u{11F02}\\u{11F04}-\\u{11F10}\\u{11F12}-\\u{11F33}\\u{11FB0}\\u{12000}-\\u{12399}\\u{12480}-\\u{12543}\\u{12F90}-\\u{12FF0}\\u{13000}-\\u{1342F}\\u{13441}-\\u{13446}\\u{13460}-\\u{143FA}\\u{14400}-\\u{14646}\\u{16100}-\\u{1611D}\\u{16800}-\\u{16A38}\\u{16A40}-\\u{16A5E}\\u{16A70}-\\u{16ABE}\\u{16AD0}-\\u{16AED}\\u{16B00}-\\u{16B2F}\\u{16B40}-\\u{16B43}\\u{16B63}-\\u{16B77}\\u{16B7D}-\\u{16B8F}\\u{16D40}-\\u{16D6C}\\u{16E40}-\\u{16E7F}\\u{16EA0}-\\u{16EB8}\\u{16EBB}-\\u{16ED3}\\u{16F00}-\\u{16F4A}\\u{16F50}\\u{16F93}-\\u{16F9F}\\u{16FE0}-\\u{16FE1}\\u{16FE3}\\u{16FF2}-\\u{16FF3}\\u{17000}-\\u{18CD5}\\u{18CFF}-\\u{18D1E}\\u{18D80}-\\u{18DF2}\\u{1AFF0}-\\u{1AFF3}\\u{1AFF5}-\\u{1AFFB}\\u{1AFFD}-\\u{1AFFE}\\u{1B000}-\\u{1B122}\\u{1B132}\\u{1B150}-\\u{1B152}\\u{1B155}\\u{1B164}-\\u{1B167}\\u{1B170}-\\u{1B2FB}\\u{1BC00}-\\u{1BC6A}\\u{1BC70}-\\u{1BC7C}\\u{1BC80}-\\u{1BC88}\\u{1BC90}-\\u{1BC99}\\u{1D400}-\\u{1D454}\\u{1D456}-\\u{1D49C}\\u{1D49E}-\\u{1D49F}\\u{1D4A2}\\u{1D4A5}-\\u{1D4A6}\\u{1D4A9}-\\u{1D4AC}\\u{1D4AE}-\\u{1D4B9}\\u{1D4BB}\\u{1D4BD}-\\u{1D4C3}\\u{1D4C5}-\\u{1D505}\\u{1D507}-\\u{1D50A}\\u{1D50D}-\\u{1D514}\\u{1D516}-\\u{1D51C}\\u{1D51E}-\\u{1D539}\\u{1D53B}-\\u{1D53E}\\u{1D540}-\\u{1D544}\\u{1D546}\\u{1D54A}-\\u{1D550}\\u{1D552}-\\u{1D6A5}\\u{1D6A8}-\\u{1D6C0}\\u{1D6C2}-\\u{1D6DA}\\u{1D6DC}-\\u{1D6FA}\\u{1D6FC}-\\u{1D714}\\u{1D716}-\\u{1D734}\\u{1D736}-\\u{1D74E}\\u{1D750}-\\u{1D76E}\\u{1D770}-\\u{1D788}\\u{1D78A}-\\u{1D7A8}\\u{1D7AA}-\\u{1D7C2}\\u{1D7C4}-\\u{1D7CB}\\u{1DF00}-\\u{1DF1E}\\u{1DF25}-\\u{1DF2A}\\u{1E030}-\\u{1E06D}\\u{1E100}-\\u{1E12C}\\u{1E137}-\\u{1E13D}\\u{1E14E}\\u{1E290}-\\u{1E2AD}\\u{1E2C0}-\\u{1E2EB}\\u{1E4D0}-\\u{1E4EB}\\u{1E5D0}-\\u{1E5ED}\\u{1E5F0}\\u{1E6C0}-\\u{1E6DE}\\u{1E6E0}-\\u{1E6E2}\\u{1E6E4}-\\u{1E6E5}\\u{1E6E7}-\\u{1E6ED}\\u{1E6F0}-\\u{1E6F4}\\u{1E6FE}-\\u{1E6FF}\\u{1E7E0}-\\u{1E7E6}\\u{1E7E8}-\\u{1E7EB}\\u{1E7ED}-\\u{1E7EE}\\u{1E7F0}-\\u{1E7FE}\\u{1E800}-\\u{1E8C4}\\u{1E900}-\\u{1E943}\\u{1E94B}\\u{1EE00}-\\u{1EE03}\\u{1EE05}-\\u{1EE1F}\\u{1EE21}-\\u{1EE22}\\u{1EE24}\\u{1EE27}\\u{1EE29}-\\u{1EE32}\\u{1EE34}-\\u{1EE37}\\u{1EE39}\\u{1EE3B}\\u{1EE42}\\u{1EE47}\\u{1EE49}\\u{1EE4B}\\u{1EE4D}-\\u{1EE4F}\\u{1EE51}-\\u{1EE52}\\u{1EE54}\\u{1EE57}\\u{1EE59}\\u{1EE5B}\\u{1EE5D}\\u{1EE5F}\\u{1EE61}-\\u{1EE62}\\u{1EE64}\\u{1EE67}-\\u{1EE6A}\\u{1EE6C}-\\u{1EE72}\\u{1EE74}-\\u{1EE77}\\u{1EE79}-\\u{1EE7C}\\u{1EE7E}\\u{1EE80}-\\u{1EE89}\\u{1EE8B}-\\u{1EE9B}\\u{1EEA1}-\\u{1EEA3}\\u{1EEA5}-\\u{1EEA9}\\u{1EEAB}-\\u{1EEBB}\\u{20000}-\\u{2A6DF}\\u{2A700}-\\u{2B81D}\\u{2B820}-\\u{2CEAD}\\u{2CEB0}-\\u{2EBE0}\\u{2EBF0}-\\u{2EE5D}\\u{2F800}-\\u{2FA1D}\\u{30000}-\\u{3134A}\\u{31350}-\\u{33479}]", "u").test(u);
+    }
+    function c(u) {
+        return u === u.toUpperCase();
+    }
+    function f() {
+        return (u, e) => {
+            var t = u[e], r = 0;
+            Object.defineProperty(u, e, {
+                get: () => t,
+                set(u) {
+                    if ("object" == typeof u && (r = Object.values(u).reduce((u, e) => u + e)), 0 > u || 0 > r || u > 1 || r > 1) throw Error("".concat(e, " modifier value must be a number between 0 and 1"));
+                    t = u;
+                },
+                enumerable: !0,
+                configurable: !0
+            });
+        };
+    }
+    function d(u) {
+        if (!u) return !1;
+        if (/[^a-z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(u)) return !1;
+        if (/%[^0-9a-f]/i.test(u) || /%[0-9a-f](:?[^0-9a-f]|$)/i.test(u)) return !1;
+        var e = u.match(/(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/);
+        if (!e) return !1;
+        var [, t, r, a] = e;
+        if (!t || !t.length || 0 > a.length) return !1;
+        if (r && r.length) {
+            if (0 !== a.length && !/^\//.test(a)) return !1;
+        } else if (/^\/\//.test(a)) return !1;
+        return !!/^[a-z][a-z0-9\+\-\.]*$/.test(t.toLowerCase());
+    }
+    var p = function(u, e, t, r) {
+        var a, n = arguments.length, s = 3 > n ? e : null === r ? r = Object.getOwnPropertyDescriptor(e, t) : r;
+        if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) s = Reflect.decorate(u, e, t, r); else for (var A = u.length - 1; A >= 0; A--) (a = u[A]) && (s = (3 > n ? a(s) : n > 3 ? a(e, t, s) : a(e, t)) || s);
+        return n > 3 && s && Object.defineProperty(e, t, s), s;
+    }, h = {
+        SPACES: {
+            faces: .05,
+            actions: .075,
+            stutters: .1
+        },
+        WORDS: 1,
+        EXCLAMATIONS: 1
+    }, m = function() {
+        function u() {
+            var {spaces: e = h.SPACES, words: t = h.WORDS, exclamations: r = h.EXCLAMATIONS} = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+                spaces: h.SPACES,
+                words: h.WORDS,
+                exclamations: h.EXCLAMATIONS
+            };
+            ((u, e) => {
+                if (!(this instanceof e)) throw new TypeError("Cannot call a class as a function");
+            })(0, u), Object.defineProperty(this, "faces", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: [ "(・`ω´・)", ";;w;;", "OwO", "UwU", ">w<", "^w^", "ÚwÚ", "^-^", ":3", "x3", ";3", ":3c" ]
+            }), Object.defineProperty(this, "exclamations", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: [ "!?", "?!!", "?!?1", "!!11", "?!?!" ]
+            }), Object.defineProperty(this, "actions", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: [ "*blushes*", "*whispers to self*", "*cries*", "*screams*", "*sweats*", "*runs away*", "*screeches*", "*walks away*", "*looks at you*", "*huggles tightly*", "*boops your nose*", "*stares cutely*", "*blushes softly*", "*licks nose*", "*nuzzles closer*", "*licks neck*", "*twerks*", "*starts twerking*" ]
+            }), Object.defineProperty(this, "uwuMap", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: [ [ /(?:r|l)/g, "w" ], [ /(?:R|L)/g, "W" ], [ /n([aeiou])/g, "ny$1" ], [ /N([aeiou])/g, "Ny$1" ], [ /N([AEIOU])/g, "Ny$1" ], [ /ove/g, "uv" ] ]
+            }), Object.defineProperty(this, "_spacesModifier", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: void 0
+            }), Object.defineProperty(this, "_wordsModifier", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: void 0
+            }), Object.defineProperty(this, "_exclamationsModifier", {
+                enumerable: !0,
+                configurable: !0,
+                writable: !0,
+                value: void 0
+            }), this._spacesModifier = e ?? h.SPACES, this._wordsModifier = t ?? h.WORDS, this._exclamationsModifier = r ?? h.EXCLAMATIONS;
+        }
+        return e = u, (t = [ {
+            key: "uwuifyWords",
+            value(u) {
+                return u.split(" ").map(u => {
+                    if ("@" === u.charAt(0)) return u;
+                    if (d(u)) return u;
+                    var e = new l(u);
+                    for (var [t, r] of this.uwuMap) e.random() > this._wordsModifier || (u = u.replace(t, r));
+                    return u;
+                }).join(" ");
+            }
+        }, {
+            key: "uwuifySpaces",
+            value(u) {
+                var e = u.split(" "), t = this._spacesModifier.faces, r = this._spacesModifier.actions + t, a = this._spacesModifier.stutters + r;
+                return e.map((u, n) => {
+                    var s = new l(u), A = s.random(), [o] = u;
+                    if (t >= A && this.faces) u += " " + this.faces[s.randomInt(0, this.faces.length - 1)], 
+                    E(); else if (r >= A && this.actions) u += " " + this.actions[s.randomInt(0, this.actions.length - 1)], 
+                    E(); else if (a >= A && !d(u)) {
+                        var i = s.randomInt(0, 2);
+                        return (o + "-").repeat(i) + u;
+                    }
+                    function E() {
+                        if (o === o.toUpperCase() && .5 >= (u => {
+                            var e = 0, t = 0;
+                            for (var r of u) C(r) && (c(r) && t++, e++);
+                            return t / e;
+                        })(u)) if (0 === n) u = o.toLowerCase() + u.slice(1); else {
+                            var t = e[n - 1], r = t[t.length - 1];
+                            if (!RegExp("[.!?\\-]").test(r)) return;
+                            u = o.toLowerCase() + u.slice(1);
+                        }
+                    }
+                    return u;
+                }).join(" ");
+            }
+        }, {
+            key: "uwuifyExclamations",
+            value(u) {
+                var e = u.split(" "), t = RegExp("[?!]+$");
+                return e.map(u => {
+                    var e = new l(u);
+                    return !t.test(u) || e.random() > this._exclamationsModifier ? u : (u = u.replace(t, ""), 
+                    u += this.exclamations[e.randomInt(0, this.exclamations.length - 1)]);
+                }).join(" ");
+            }
+        }, {
+            key: "uwuifySentence",
+            value(u) {
+                var e = u;
+                return e = this.uwuifyWords(e), e = this.uwuifyExclamations(e), this.uwuifySpaces(e);
+            }
+        } ]) && ((u, e) => {
+            for (var t = 0; e.length > t; t++) {
+                var r = e[t];
+                r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), 
+                Object.defineProperty(u, r.key, r);
+            }
+        })(e.prototype, t), u;
+        var e, t;
+    }();
+    function g(u) {
+        return u ? (u => {
+            var e = u?.settings?.uwuifier ?? {}, t = e.spaces ?? {};
+            return new m({
+                spaces: {
+                    faces: t.faces ? .5 : 0,
+                    actions: t.actions ? .075 : 0,
+                    stutters: t.stutters ? .1 : 0
+                },
+                words: e.words ? 1 : 0,
+                exclamations: e.exclamations ? 1 : 0
+            });
+        })(u) : new m;
+    }
+    p([ f() ], m.prototype, "_spacesModifier", void 0), p([ f() ], m.prototype, "_wordsModifier", void 0), 
+    p([ f() ], m.prototype, "_exclamationsModifier", void 0);
+    var y = [], v = {
+        stats: {
+            global_counter: 0,
+            history: []
+        },
+        settings: {
+            uwuifier: {
+                spaces: {
+                    faces: !0,
+                    actions: !0,
+                    stutters: !0
+                },
+                words: !0,
+                exclamations: !1
+            },
+            convert_messages: !0,
+            defaults: {
+                send: !0
+            }
+        }
+    };
+    return {
+        settings: () => (t.useProxy(e.storage), React.createElement(u.ReactNative.ScrollView, {
+            style: {
+                flex: 1
+            }
+        }, (e => [ {
+            label: "Add faces",
+            type: "number",
+            storage_path: "settings.uwuifier.spaces.faces"
+        }, {
+            label: "Add actions",
+            type: "number",
+            storage_path: "settings.uwuifier.spaces.actions"
+        }, {
+            label: "Add stutters",
+            type: "number",
+            storage_path: "settings.uwuifier.spaces.stutters"
+        }, {
+            label: "Add words",
+            type: "number",
+            storage_path: "settings.uwuifier.words"
+        }, {
+            label: "Add exclamations",
+            type: "number",
+            storage_path: "settings.uwuifier.exclamations"
+        }, {
+            type: "spacer",
+            style: {
+                height: 5
+            }
+        }, {
+            label: "Convert message before sending",
+            type: "toggle",
+            storage_path: "settings.convert_messages"
+        } ].map((t, a) => {
+            var n = t?.storage_path ?? t?.label ?? t?.id ?? a;
+            return "button" === t?.type ? React.createElement(r.Button, {
+                key: n,
+                style: t?.style ?? void 0,
+                text: t?.label ?? "Unnamed",
+                color: "brand",
+                size: "small",
+                disabled: !1,
+                onPress: t?.onPress ?? (() => {})
+            }) : "spacer" === t?.type ? React.createElement(u.ReactNative.View, {
+                key: n,
+                style: t?.style
+            }) : [ "number", "toggle" ].includes(t?.type) ? React.createElement(D, {
+                key: n,
+                label: t?.label ?? t?.storage_path ?? "Unnamed",
+                style: t?.style ?? void 0,
+                trailing: "storage_path" in t ? React.createElement(B, {
+                    value: i(e, t.storage_path),
+                    onValueChange(u) {
+                        console.log("changing to ".concat(u, ", current: ").concat(i(e, t.storage_path))), 
+                        ((u, e, t) => {
+                            var {parent: r, key: a} = o(u, e);
+                            r[a] = t;
+                        })(e, t.storage_path, u), t?.onValueChange?.(u);
+                    }
+                }) : void 0
+            }) : React.createElement(D, {
+                key: n,
+                label: "".concat(t?.label ?? t?.id ?? "no name", "(unknown type of config entry)"),
+                style: t?.style ?? void 0
+            });
+        }))(e.storage))),
+        onUnload() {
+            for (var u of y) u();
+        },
+        onLoad() {
+            A(vendetta.plugin.storage, v), y.push(s.commands.registerCommand((u => {
+                var e, t;
+                if (!u?.name || !u?.description) throw Error("No name(".concat(u?.name, ") or description(").concat(u?.description, ") in the passed command"));
+                if ((e = u).displayName ?? (e.displayName = u.name), (t = u).displayDescription ?? (t.displayDescription = u.description), 
+                u.options) for (var r = 0; r < u.options.length; r++) {
+                    var a, n, s = u.options[r];
+                    if ((a = s).displayName ?? (a.displayName = s.name), (n = s).displayDescription ?? (n.displayDescription = s.description), 
+                    s?.choices) for (var A = 0; A < s.choices.length; A++) {
+                        var o, i = s.choices[A];
+                        (o = i).displayName ?? (o.displayName = i.name);
+                    }
+                }
+                return u;
+            })({
+                type: 1,
+                applicationId: "-1",
+                inputType: 1,
+                name: "uwuify",
+                description: "UwUify some text",
+                options: [ {
+                    type: 3,
+                    required: !0,
+                    name: "input",
+                    description: "Text to be UwUified"
+                }, {
+                    type: 5,
+                    required: !1,
+                    name: "send",
+                    description: "Whether to send the uwuified text as an actual message in chat (default: {default_action})".replaceAll("{default_action}", e.storage.settings.defaults.send)
+                } ],
+                execute(u) {
+                    try {
+                        var t = new Map(u.map(u => [ u.name, u ])), r = t.get("input")?.value, n = g(e.storage).uwuifySentence(r), s = !(t.get("send")?.value ?? e.storage.settings.defaults.send), A = e.storage.stats.history;
+                        A.unshift({
+                            timestamp: Date.now(),
+                            input: r
+                        }), A.length > 25 && A.pop(), ((u, e, t) => {
+                            if (E ?? (E = a.findByStoreName("SelectedChannelStore")), F ?? (F = a.findByProps("sendBotMessage")), 
+                            "currentChannel" === u && (u = E.getChannelId()), "string" != typeof e && (e = e?.content, 
+                            !e)) throw Error("No text to send");
+                            if (t) return F.sendBotMessage(u, e);
+                            F.sendMessage(u, {
+                                content: e,
+                                _command_output: !0
+                            }, void 0, {
+                                nonce: Date.now().toString()
+                            });
+                        })("currentChannel", n, s);
+                    } catch (u) {
+                        console.error(u), console.log(u.stack), alert("There was an error while running the command\n".concat(u.stack));
+                    }
+                }
+            })));
+            var u = a.findByProps("sendMessage", "receiveMessage");
+            y.push(n.before("sendMessage", u, u => {
+                e.storage.settings.convert_messages && !u[1]?._command_output && (u[1].content = g(e.storage).uwuifySentence(u[1].content));
+            }));
+        }
+    };
+})(vendetta.metro.common, vendetta.plugin, vendetta.storage, vendetta.ui.components, vendetta.metro, vendetta.patcher, vendetta);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
