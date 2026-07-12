@@ -326,7 +326,7 @@
                 alignItems: "center",
                 paddingBottom: 96
             }
-        }, o.createElement(pt, {
+        }, o.createElement(gt, {
             variant: "redesign/heading-18/bold",
             color: "header-primary",
             style: {
@@ -351,7 +351,7 @@
             uri: n(e.config),
             isSelected: e.skuId === c,
             onPress: () => f(e.skuId)
-        }))))), o.createElement(lt, {
+        }))))), o.createElement(ct, {
             text: "Apply",
             textStyle: {
                 fontSize: 16
@@ -371,7 +371,7 @@
     }
     function Pe(e) {
         var {label: t, uri: r, isSelected: i, onPress: n} = e;
-        return o.createElement(vt, {
+        return o.createElement(Pt, {
             accessibilityLabel: t,
             accessibilityRole: "button",
             accessibilityState: {
@@ -403,7 +403,7 @@
                 width: "100%",
                 height: "100%"
             }
-        }) : null), o.createElement(pt, {
+        }) : null), o.createElement(gt, {
             variant: "text-xs/medium",
             color: "header-secondary",
             style: {
@@ -450,7 +450,7 @@
     var _e = 3;
     function we(e) {
         var {label: t, isSelected: r, size: i, colors: n, onPress: a, style: s, children: l} = e, [c, f, d] = n;
-        return o.createElement(vt, {
+        return o.createElement(Pt, {
             accessibilityLabel: t,
             accessibilityRole: "button",
             accessibilityState: {
@@ -495,7 +495,7 @@
                 alignItems: "center",
                 paddingBottom: 88
             }
-        }, o.createElement(pt, {
+        }, o.createElement(gt, {
             variant: "redesign/heading-18/bold",
             color: "header-primary",
             style: {
@@ -506,7 +506,7 @@
                 width: "72%",
                 minHeight: 38
             }
-        }, o.createElement(pt, {
+        }, o.createElement(gt, {
             variant: "heading-md/bold",
             color: "header-primary",
             style: {
@@ -518,7 +518,7 @@
                 width: "92%",
                 marginTop: 3
             }
-        }, o.createElement(gt, {
+        }, o.createElement(ht, {
             accessibilityLabel: "Profile Effect Selection Section",
             numColumns: 1,
             estimatedItemSize: 98,
@@ -549,7 +549,7 @@
                     onPress() {
                         a(e.id);
                     }
-                }, o.createElement(mt, {
+                }, o.createElement(pt, {
                     effect: e.config
                 })) : null === e ? o.createElement(we, {
                     label: "None",
@@ -563,10 +563,10 @@
                         alignItems: "center",
                         justifyContent: "center"
                     }
-                }, o.createElement(ut, {
+                }, o.createElement(mt, {
                     source: Be,
-                    size: ut.Sizes.LARGE
-                }), o.createElement(pt, {
+                    size: mt.Sizes.LARGE
+                }), o.createElement(gt, {
                     variant: "text-sm/medium",
                     color: "header-primary",
                     style: {
@@ -582,7 +582,7 @@
             onLayout(e) {
                 c((e.nativeEvent.layout.width - 64) / _e);
             }
-        })))), o.createElement(lt, {
+        })))), o.createElement(ct, {
             text: "Apply",
             textStyle: {
                 fontSize: 16
@@ -667,42 +667,42 @@
     }
     var Ye = t.findByProps("BottomSheet")?.BottomSheet ?? t.findByProps("ActionSheet")?.ActionSheet ?? (() => {
         throw Error("FakeProfileThemesAndEffects threw an error to avoid an otherwise-inevitable, unrecoverable freeze.");
-    }), Ze = t.findByProps("BottomSheetScrollView")?.BottomSheetScrollView ?? (() => null), qe = t.findByProps("showActionSheet"), Je = qe?.showActionSheet ?? (() => {}), Qe = qe?.default?.hideActionSheet ?? (() => {}), $e = c.Forms.FormSection, et = c.Forms.FormRow, tt = c.Forms.FormRadioRow, rt = c.Forms.FormSwitchRow, ot = c.Forms.FormCardSection, it = t.findByProps("saveProfileChanges"), {useStateFromStores: nt} = t.findByProps("useStateFromStores") ?? {};
-    function at(e) {
+    }), Ze = t.findByProps("BottomSheetScrollView")?.BottomSheetScrollView ?? (() => null), qe = t.findByProps("showActionSheet"), Je = qe?.showActionSheet ?? (() => {}), Qe = qe?.default?.hideActionSheet ?? (() => {}), $e = c.Forms.FormSection, et = c.Forms.FormRow, tt = c.Forms.FormRadioRow, rt = c.Forms.FormSwitchRow, ot = c.Forms.FormCardSection, it = t.findByProps("saveProfileChanges"), {useStateFromStores: nt} = t.findByProps("useStateFromStores") ?? {}, at = [ k, B ];
+    function st(e) {
         var {guildId: t} = e, [r, i] = q(null), [n, l] = $(null), [c, f] = o.useState(null);
         (() => {
             var [e, t] = o.useState(() => Y = !0);
         })();
-        var [u, h] = o.useState(!1), {theme: E = "dark"} = X(), [P, S] = o.useMemo(() => [ V.HEADER_SECONDARY ? M(E, V.HEADER_SECONDARY) : "#B5BAC1", V.BACKGROUND_ACCENT ? M(E, V.BACKGROUND_ACCENT) : "#111214" ], [ E ]), C = G(x.getCurrentUser().getAvatarURL(t, 80), S, !1), [b, A] = o.useState(null), [_, N] = o.useState(null), [L, U] = o.useState(null), [H, j] = o.useState(null), [W, K] = o.useState(null), [Z, J] = o.useState(null), Q = nt ? nt([ k, B ], () => D.profileEffects) : D.profileEffects, te = nt ? nt([ k, B ], () => T.decorations) : T.decorations, re = nt ? nt([ k, B ], () => w.nameplates) : w.nameplates;
+        var [u, h] = o.useState(!1), {theme: E = "dark"} = X(), [P, S] = o.useMemo(() => [ V.HEADER_SECONDARY ? M(E, V.HEADER_SECONDARY) : "#B5BAC1", V.BACKGROUND_ACCENT ? M(E, V.BACKGROUND_ACCENT) : "#111214" ], [ E ]), C = G(x.getCurrentUser().getAvatarURL(t, 80), S, !1), [b, k] = o.useState(null), [B, A] = o.useState(null), [_, N] = o.useState(null), [L, U] = o.useState(null), [H, j] = o.useState(null), [W, K] = o.useState(null), Z = nt ? nt(at, () => D.profileEffects) : D.profileEffects, J = nt ? nt(at, () => T.decorations) : T.decorations, Q = nt ? nt(at, () => w.nameplates) : w.nameplates;
         o.useEffect(() => {
             var e = x.getCurrentUser();
             if (e) {
                 var t = R.getUserProfile(e.id);
                 if (t) {
-                    U(t.bio ?? null);
+                    N(t.bio ?? null);
                     var r = z(t.bio);
                     r.primary > -1 && i(r.primary), r.accent > -1 ? l(r.accent) : r.primary > -1 && l(r.primary), 
-                    r.effectSku && (j(r.effectSku), D.fetch()), r.decorationSku && (K(r.decorationSku), 
-                    T.fetch()), r.nameplateSku && (J(r.nameplateSku), w.fetch());
+                    r.effectSku && (U(r.effectSku), D.fetch()), r.decorationSku && (j(r.decorationSku), 
+                    T.fetch()), r.nameplateSku && (K(r.nameplateSku), w.fetch());
                 }
             }
         }, []), o.useEffect(() => {
-            if (H && !c) {
-                var e = Q.find(e => e.skuId === H || e.id === H);
+            if (L && !c) {
+                var e = Z.find(e => e.skuId === L || e.id === L);
                 e && f(e.config);
             }
-        }, [ H, Q, c ]), o.useEffect(() => {
-            if (W && !b) {
-                var e = te.find(e => e.skuId === W);
+        }, [ L, Z, c ]), o.useEffect(() => {
+            if (H && !b) {
+                var e = J.find(e => e.skuId === H);
+                e && k(e.config);
+            }
+        }, [ H, J, b ]), o.useEffect(() => {
+            if (W && !B) {
+                var e = Q.find(e => e.skuId === W);
                 e && A(e.config);
             }
-        }, [ W, te, b ]), o.useEffect(() => {
-            if (Z && !_) {
-                var e = re.find(e => e.skuId === Z);
-                e && N(e.config);
-            }
-        }, [ Z, re, _ ]);
-        var oe = null !== L && F(L), ie = null !== r || null !== n || null !== c || null !== b || null !== _, ne = ((e, t, r, o, i, n) => {
+        }, [ W, Q, B ]);
+        var te = null !== _ && F(_), re = null !== r || null !== n || null !== c || null !== b || null !== B, oe = ((e, t, r, o, i, n) => {
             var a, s = e => e ? (e => {
                 if (0n === e) return String.fromCodePoint(g);
                 for (var t = ""; e > 0n; e /= BigInt(p)) t = String.fromCodePoint(Number(e % BigInt(p)) + g) + t;
@@ -714,7 +714,7 @@
             } else a = [ v(e), v(t), ...l ]; else a = [ y(0 > e ? t : e, 0 > e ? t : 0 > t ? e : t), ...l ];
             for (;a.length && "" === a[a.length - 1]; ) a.pop();
             return a.join(m);
-        })(r ?? -1, n ?? -1, c?.sku_id ?? c?.id ?? "", b?.sku_id ?? b?.skuId ?? "", _?.sku_id ?? _?.skuId ?? "", u), ae = oe && !ie ? "Remove FPTE" : "Apply FPTE", se = ie || oe;
+        })(r ?? -1, n ?? -1, c?.sku_id ?? c?.id ?? "", b?.sku_id ?? b?.skuId ?? "", B?.sku_id ?? B?.skuId ?? "", u), ie = te && !re ? "Remove FPTE" : "Apply FPTE", ne = re || te;
         return o.createElement(ot, {
             title: o.createElement(s.View, {
                 style: {
@@ -728,11 +728,11 @@
                 }
             }, "FPTE Builder"), o.createElement(s.Text, {
                 style: {
-                    color: oe ? "#4CAF50" : "#F44336",
+                    color: te ? "#4CAF50" : "#F44336",
                     fontSize: 17,
                     marginLeft: 8
                 }
-            }, oe ? "Active" : "Inactive")),
+            }, te ? "Active" : "Inactive")),
             cardStyle: {
                 backgroundColor: "transparent"
             }
@@ -741,7 +741,7 @@
                 flexDirection: "row",
                 justifyContent: "space-between"
             }
-        }, o.createElement(st, {
+        }, o.createElement(lt, {
             fgColor: P,
             label: "Primary",
             bgColor: r,
@@ -750,7 +750,7 @@
                 onSelect: i,
                 suggestedColors: C
             })
-        }), o.createElement(st, {
+        }), o.createElement(lt, {
             fgColor: P,
             label: "Accent",
             bgColor: n,
@@ -759,7 +759,7 @@
                 onSelect: l,
                 suggestedColors: C
             })
-        }), o.createElement(st, {
+        }), o.createElement(lt, {
             fgColor: P,
             label: "Effect",
             onPress() {
@@ -774,7 +774,7 @@
                 });
                 var e, t;
             }
-        }, c && o.createElement(mt, {
+        }, c && o.createElement(pt, {
             effect: c,
             style: {
                 width: "140%",
@@ -786,21 +786,21 @@
                 alignItems: "center",
                 marginLeft: 12
             }
-        }, o.createElement(lt, {
-            text: ae,
-            size: lt.Sizes.SMALL,
+        }, o.createElement(ct, {
+            text: ie,
+            size: ct.Sizes.SMALL,
             onPress() {
                 var e = x.getCurrentUser();
                 if (e) {
-                    var t = L ?? "";
-                    if (!oe || ie) {
-                        if (ne) {
-                            F(t) && (t = I(t)), t.length > 0 && (t += " "), (t += ne).length > 190 && a.showToast("Heads up: bio is over the 190 character limit, it may not save.");
+                    var t = _ ?? "";
+                    if (!te || re) {
+                        if (oe) {
+                            F(t) && (t = I(t)), t.length > 0 && (t += " "), (t += oe).length > 190 && a.showToast("Heads up: bio is over the 190 character limit, it may not save.");
                             try {
                                 it.saveProfileChanges({
                                     ...R.getUserProfile(e.id),
                                     bio: t
-                                }), U(t), O(e.id, z(t)), a.showToast("FPTE applied!");
+                                }), N(t), O(e.id, z(t)), a.showToast("FPTE applied!");
                             } catch (e) {
                                 a.showToast("Failed to update bio!"), console.error(e);
                             }
@@ -811,7 +811,7 @@
                             it.saveProfileChanges({
                                 ...R.getUserProfile(e.id),
                                 bio: t
-                            }), U(t), O(e.id, z(t)), a.showToast("FPTE removed!");
+                            }), N(t), O(e.id, z(t)), a.showToast("FPTE removed!");
                         } catch (e) {
                             a.showToast("Failed to update bio!"), console.error(e);
                         }
@@ -821,22 +821,22 @@
             style: {
                 marginBottom: 6,
                 paddingHorizontal: 12,
-                opacity: se ? 1 : 0
+                opacity: ne ? 1 : 0
             },
-            pointerEvents: se ? "auto" : "none"
-        }), o.createElement(lt, {
+            pointerEvents: ne ? "auto" : "none"
+        }), o.createElement(ct, {
             text: "Reset",
-            look: lt.Looks.LINK,
-            color: lt.Colors.TRANSPARENT,
-            size: lt.Sizes.SMALL,
-            ...ie ? {} : {
+            look: ct.Looks.LINK,
+            color: ct.Colors.TRANSPARENT,
+            size: ct.Sizes.SMALL,
+            ...re ? {} : {
                 pointerEvents: "none",
                 style: {
                     opacity: 0
                 }
             },
             onPress() {
-                i(null), l(null), f(null), A(null), N(null);
+                i(null), l(null), f(null), k(null), A(null);
             }
         }))), o.createElement(s.View, {
             style: {
@@ -845,11 +845,11 @@
                 gap: 12,
                 marginTop: 12
             }
-        }, o.createElement(st, {
+        }, o.createElement(lt, {
             fgColor: P,
             label: "Decoration",
             onPress() {
-                return e = A, t = b?.sku_id ?? b?.skuId, T.isLoaded || T.fetch(), void Je({
+                return e = k, t = b?.sku_id ?? b?.skuId, T.isLoaded || T.fetch(), void Je({
                     content: o.createElement(Ue, {
                         onSelect: e,
                         currentSkuId: t
@@ -867,11 +867,11 @@
                 width: "100%",
                 height: "100%"
             }
-        })), o.createElement(st, {
+        })), o.createElement(lt, {
             fgColor: P,
             label: "Nameplate",
             onPress() {
-                return e = N, t = _?.sku_id ?? _?.skuId, w.isLoaded || w.fetch(), void Je({
+                return e = A, t = B?.sku_id ?? B?.skuId, w.isLoaded || w.fetch(), void Je({
                     content: o.createElement(Ke, {
                         onSelect: e,
                         currentSkuId: t
@@ -880,9 +880,9 @@
                 });
                 var e, t;
             }
-        }, _?.asset && o.createElement(s.Image, {
+        }, B?.asset && o.createElement(s.Image, {
             source: {
-                uri: "https://cdn.discordapp.com/assets/collectibles/".concat(_.asset, "static.png")
+                uri: "https://cdn.discordapp.com/assets/collectibles/".concat(B.asset, "static.png")
             },
             resizeMode: "cover",
             style: {
@@ -891,13 +891,13 @@
             }
         }))));
     }
-    var st = e => {
+    var lt = e => {
         var {label: t, fgColor: r, bgColor: i, onPress: n, children: a} = e;
         return o.createElement(s.View, {
             style: {
                 width: 50
             }
-        }, o.createElement(vt, {
+        }, o.createElement(Pt, {
             accessibilityLabel: t,
             accessibilityRole: "button",
             onPress: n,
@@ -917,23 +917,23 @@
             }, !!a && {
                 borderWidth: 0
             } ]
-        }, a ?? (null == i && o.createElement(yt, {
+        }, a ?? (null == i && o.createElement(Et, {
             fill: r,
             width: "40%",
             height: "40%",
             viewBox: "0 0 144 144"
-        }, o.createElement(Et, {
+        }, o.createElement(vt, {
             d: "M144 64H80V0H64v64H0v16h64v64h16V80h64Z"
-        })))), !!t && o.createElement(pt, {
+        })))), !!t && o.createElement(gt, {
             variant: "text-sm/normal",
             style: {
                 marginTop: he.PX_4,
                 textAlign: "center"
             }
         }, t));
-    }, lt = c.Button, ct = t.findByProps("IconSizes"), ft = ct?.default ?? ct?.Icon ?? (() => null), dt = ct?.IconSizes ?? ft.Sizes ?? {}, ut = Object.assign(ft, {
-        Sizes: dt
-    }), mt = e => {
+    }, ct = c.Button, ft = t.findByProps("IconSizes"), dt = ft?.default ?? ft?.Icon ?? (() => null), ut = ft?.IconSizes ?? dt.Sizes ?? {}, mt = Object.assign(dt, {
+        Sizes: ut
+    }), pt = e => {
         var {effect: t, style: r} = e;
         return o.createElement(s.View, {
             style: r
@@ -957,19 +957,19 @@
                 aspectRatio: Ae
             }
         }));
-    }, pt = t.findByProps("TextStyleSheet")?.Text ?? (() => null), gt = t.findByName("FlashList") ?? (() => null), ht = t.findByProps("Svg"), yt = ht?.Svg ?? (() => null), Et = ht?.Path ?? (() => null), vt = t.findByProps("PressableOpacity")?.PressableOpacity ?? (() => null), Pt = t.findByName("UserProfileEditForm", !1), St = t.findByName("UserProfileEditForm", !1);
-    function Ct(e) {
+    }, gt = t.findByProps("TextStyleSheet")?.Text ?? (() => null), ht = t.findByName("FlashList") ?? (() => null), yt = t.findByProps("Svg"), Et = yt?.Svg ?? (() => null), vt = yt?.Path ?? (() => null), Pt = t.findByProps("PressableOpacity")?.PressableOpacity ?? (() => null), St = t.findByName("UserProfileEditForm", !1), Ct = t.findByName("UserProfileEditForm", !1);
+    function bt(e) {
         if (!e) return null;
         if (fe(e) && "UserProfilePremiumUpsellCard" === ue(e.type)) return null;
         if (e.props?.children) {
             var t = e.props.children;
             Array.isArray(t) || (t = [ t ]);
-            var r = t.map(Ct).filter(e => null !== e);
+            var r = t.map(bt).filter(e => null !== e);
             e.props.children = 1 === r.length ? r[0] : r;
         }
         return e;
     }
-    function bt() {
+    function Ft() {
         var e = x.getCurrentUser();
         if (e) {
             var t = R.getUserProfile(e.id);
@@ -981,9 +981,9 @@
             });
         }
     }
-    var Ft = [], It = {
+    var It = [], kt = {
         onLoad() {
-            Ft.push(r.instead("getPurchase", B, (e, t) => J ? {
+            It.push(r.instead("getPurchase", B, (e, t) => J ? {
                 purchasedAt: new Date
             } : t(e)), r.after("getUserProfile", R, (e, t) => {
                 if (!t || t.profileFetchFailed) return t;
@@ -1006,16 +1006,16 @@
             }), ...se.map(e => r.after("default", e, (e, t) => (J && (void 0 !== D.profileEffects ? (t.splice(1), 
             t[0].items.splice(1), D.profileEffects.forEach(e => {
                 t[0].items.push(new re(e));
-            }), ae = t) : t = ae), t))), te(), r.after("default", Pt, (e, t) => {
+            }), ae = t) : t = ae), t))), te(), r.after("default", St, (e, t) => {
                 if (n.storage.hideBuilder) return t;
                 var r = pe(t, e => Array.isArray(e) && e.some(e => fe(e) && "UserProfileEditFormTextField" === ue(e.type)));
                 if (r) {
                     var i = r.props.children.reduce((e, t, r) => (fe(t) && "UserProfileEditFormTextField" === ue(t.type) && e.push(r), 
                     e), []);
-                    3 > i.length || r.props.children.splice(i[2] + 1, 0, o.createElement(at, null));
+                    3 > i.length || r.props.children.splice(i[2] + 1, 0, o.createElement(st, null));
                 }
                 return t;
-            }), void (St && r.after("default", St, (e, t) => Ct(t) || t)), r.after("getUser", x, (e, t) => {
+            }), void (Ct && r.after("default", Ct, (e, t) => bt(t) || t)), r.after("getUser", x, (e, t) => {
                 try {
                     if (!t?.id) return t;
                     var r = (a = t.id, L.get(a));
@@ -1051,12 +1051,12 @@
                     var t = R.getUserProfile(e.id);
                     t && H(e.id, t.bio);
                 }
-            })(), bt();
+            })(), Ft();
         },
         onUnload() {
-            Ft.forEach(e => {
+            It.forEach(e => {
                 e();
-            }), bt();
+            }), Ft();
         },
         settings: () => (f.useProxy(n.storage), o.createElement(s.ScrollView, null, o.createElement($e, {
             title: "Settings"
@@ -1089,5 +1089,5 @@
             }
         }))))
     };
-    return It;
+    return kt;
 })(vendetta.metro.common, vendetta.metro, vendetta.patcher, React, vendetta.ui, vendetta.plugin, vendetta.ui.toasts, vendetta.metro.common.ReactNative, vendetta.ui.assets, vendetta.ui.components, vendetta.storage);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
