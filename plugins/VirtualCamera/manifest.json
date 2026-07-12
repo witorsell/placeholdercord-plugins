@@ -1,6 +1,6 @@
 {
   "name": "Virtual Camera",
-  "description": "Show a photo, video, or GIF instead of your real camera in Discord video calls. Requires the Native Bridge plugin.",
+  "description": "Show a photo instead of your real camera in Discord video calls. Requires the Native Bridge plugin.",
   "authors": [
     {
       "name": "witorsell",
