@@ -179,6 +179,12 @@ function Settings() {
     };
 
     return h(ScrollView, { style: { flex: 1 }, contentContainerStyle: { padding: 16 } },
+        h(View, {
+            style: { backgroundColor: "#4a3a1a", borderRadius: 8, padding: 12, marginBottom: 16, borderLeftWidth: 3, borderLeftColor: "#faa61a" },
+        },
+            h(Text, { style: { color: "#faa61a", fontWeight: "700", fontSize: 12, marginBottom: 4 } }, "Disclaimer"),
+            h(Text, { style: { color: "#ddb877", fontSize: 12 } },
+                "This messes with what your account reports to Discord's gateway. Realistically very low risk (~1%, the cosmetic fields alone aren't something Discord is known to detect-and-act on), but not zero risk, it's still touching data their systems can see. Use at your own judgement.")),
         h(Text, { style: { color: "#ffffff", fontSize: 16, fontWeight: "600", marginBottom: 4 } }, "Report as"),
         h(Text, { style: { color: "#949ba4", fontSize: 12, marginBottom: 16 } },
             "Picking a preset only takes effect on the next IDENTIFY. Use Reconnect below to force one immediately, no logout needed."),

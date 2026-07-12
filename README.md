@@ -56,9 +56,14 @@ device/super-properties. Not meant to stay enabled long-term.
 
 Reports a different platform to Discord's backend instead of Android: Desktop (Windows), Web
 (Chrome), or Embedded (Console). Pure JS, patches the Gateway socket's outgoing IDENTIFY payload
-directly, no Native Bridge required. Only takes effect on a genuine fresh IDENTIFY (logout/login,
-or a real new connection), a short reconnect resumes the existing session instead and won't pick
-up a preset change.
+directly, no Native Bridge required. Has a Reconnect button that forces a fresh IDENTIFY without
+logging out, and auto-reconnects on launch once a preset is picked. Leaves `device_vendor_id`
+untouched in every preset, only the cosmetic platform fields (os/browser/user-agent) get spoofed.
+
+**Disclaimer:** this messes with what your account reports to Discord's gateway. Realistically
+very low risk, maybe around 1%, since the cosmetic fields alone aren't something Discord is known
+to detect and act on, but it's not zero risk either, it's still touching data their systems can
+see. Use at your own judgement.
 
 ### Install
 
