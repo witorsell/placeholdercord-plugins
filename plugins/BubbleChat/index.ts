@@ -43,23 +43,20 @@ function toast(msg: string) {
     try { showToast(msg); } catch { /* ignore */ }
 }
 
-async function apply() {
+function apply() {
     const native = getNative();
     if (!native) {
         toast("Enable the Native Bridge plugin first");
         return;
     }
     const c = cfg();
-    try {
-        await native.bubbles.setEnabled(true);
-        await native.bubbles.configure({
-            avatarRadius: c.avatarRadius,
-            bubbleRadius: c.bubbleRadius,
-            bubbleColor: c.bubbleColor
-        });
-    } catch (e: any) {
+    native.bubbles.setEnabled(true).then(() => native.bubbles.configure({
+        avatarRadius: c.avatarRadius,
+        bubbleRadius: c.bubbleRadius,
+        bubbleColor: c.bubbleColor
+    })).catch((e: any) => {
         toast("Bubble error: " + (e?.message ?? e));
-    }
+    });
 }
 
 // Discord's native color picker action sheet, same one the built-in plugin and FPTE use.
