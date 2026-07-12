@@ -119,7 +119,7 @@ function Settings() {
             backgroundColor: "#5865F2", borderRadius: 10,
             paddingVertical: 14, alignItems: "center", marginBottom: 10
         }
-    }, h(Text, { style: { color: "#ffffff", fontWeight: "700", fontSize: 15 } }, "📁  Choose Photo / Video / GIF")));
+    }, h(Text, { style: { color: "#ffffff", fontWeight: "700", fontSize: 15 } }, "📁  Choose Photo")));
 
     children.push(h(View, { key: "orDivider", style: { flexDirection: "row", alignItems: "center", marginBottom: 10 } },
         h(View, { style: { flex: 1, height: 1, backgroundColor: "#3f4147" } }),
