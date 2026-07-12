@@ -73,6 +73,7 @@ function toast(msg: string) {
 }
 
 let unpatchSend: (() => void) | null = null;
+let gatewayInstance: any = null;
 const patchedInstances = new WeakSet<object>();
 
 function applyPresetToPayload(payload: any) {
@@ -86,6 +87,7 @@ function applyPresetToPayload(payload: any) {
 }
 
 function patchInstance(instance: any) {
+    gatewayInstance = instance;
     if (!instance || patchedInstances.has(instance) || typeof instance.send !== "function") return;
     patchedInstances.add(instance);
     unpatchSend = before("send", instance, (args: any[]) => {
@@ -95,6 +97,33 @@ function patchInstance(instance: any) {
             toast("Platform Spoofer: failed to apply preset: " + e);
         }
     });
+}
+
+/**
+ * Forces a fresh IDENTIFY without logging out. _doIdentify's own bytecode clears
+ * sessionId/seq as its first step (that's what makes a real login always IDENTIFY
+ * instead of RESUME), so replicating that and then closing the socket makes the
+ * class's own existing reconnect logic (the same one a network drop already
+ * triggers) come back up with nothing to resume, forcing a real IDENTIFY.
+ */
+function forceReidentify() {
+    if (!gatewayInstance) {
+        toast("Platform Spoofer: no gateway connection seen yet");
+        return;
+    }
+    try {
+        gatewayInstance.sessionId = null;
+        gatewayInstance.seq = 0;
+    } catch (e) {
+        toast("Platform Spoofer: couldn't clear session state: " + e);
+        return;
+    }
+    if (typeof gatewayInstance.close === "function") {
+        gatewayInstance.close();
+        toast("Reconnecting with a fresh IDENTIFY...");
+    } else {
+        toast("Session cleared, but no close() method found to force a reconnect");
+    }
 }
 
 function patchGateway() {
@@ -119,7 +148,7 @@ function Settings() {
     const pick = (key: string) => {
         store.preset = key;
         rerender();
-        toast("Platform set to " + PRESETS[key].label + ". Reconnect (logout/login) to apply.");
+        toast("Platform set to " + PRESETS[key].label + ". Tap Reconnect below to apply.");
     };
 
     const presetButton = (key: string) => {
@@ -138,8 +167,12 @@ function Settings() {
     return h(ScrollView, { style: { flex: 1 }, contentContainerStyle: { padding: 16 } },
         h(Text, { style: { color: "#ffffff", fontSize: 16, fontWeight: "600", marginBottom: 4 } }, "Report as"),
         h(Text, { style: { color: "#949ba4", fontSize: 12, marginBottom: 16 } },
-            "Only affects a fresh IDENTIFY (logout/login, or a genuinely new connection), not a short reconnect, which resumes the existing session instead."),
+            "Picking a preset only takes effect on the next IDENTIFY. Use Reconnect below to force one immediately, no logout needed."),
         Object.keys(PRESETS).map(presetButton),
+        h(Pressable, {
+            onPress: forceReidentify,
+            style: { backgroundColor: "#248046", borderRadius: 8, paddingVertical: 12, alignItems: "center", marginTop: 8 },
+        }, h(Text, { style: { color: "#ffffff", fontWeight: "600" } }, "Reconnect now (apply without logging out)")),
     );
 }
 
