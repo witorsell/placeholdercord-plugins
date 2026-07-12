@@ -127,9 +127,18 @@ function forceReidentify() {
 }
 
 function patchGateway() {
+    // The socket connects long before this plugin loads, so _doIdentify won't fire again
+    // on its own. Some other module holds the already-connected instance directly (found
+    // empirically: a wrapper object exposing it as .socket), grab that now so Reconnect
+    // works immediately without waiting for a fresh connection first.
+    const wrapper = find((m: any) => m && m.socket && typeof m.socket._doIdentify === "function");
+    if (wrapper?.socket) {
+        patchInstance(wrapper.socket);
+    }
+
     const gwClass = find((m: any) => m && m.prototype && typeof m.prototype._doIdentify === "function");
     if (!gwClass) {
-        toast("Platform Spoofer: GatewaySocket class not found, nothing patched");
+        if (!gatewayInstance) toast("Platform Spoofer: GatewaySocket class not found, nothing patched");
         return null;
     }
     return before("_doIdentify", gwClass.prototype, function (this: any) {
