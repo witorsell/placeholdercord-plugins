@@ -17,22 +17,20 @@
             r.showToast(e);
         } catch (e) {}
     }
-    async function p() {
+    function p() {
         var e = c();
         if (e) {
             var t = f();
-            try {
-                await e.bubbles.setEnabled(!0), await e.bubbles.configure({
-                    avatarRadius: t.avatarRadius,
-                    bubbleRadius: t.bubbleRadius,
-                    bubbleColor: t.bubbleColor
-                });
-            } catch (e) {
+            e.bubbles.setEnabled(!0).then(() => e.bubbles.configure({
+                avatarRadius: t.avatarRadius,
+                bubbleRadius: t.bubbleRadius,
+                bubbleColor: t.bubbleColor
+            })).catch(e => {
                 g("Bubble error: " + (e?.message ?? e));
-            }
+            });
         } else g("Enable the Native Bridge plugin first");
     }
-    var h = e.findByName("showCustomColorPickerActionSheet") ?? e.findByName("showCustomColorPickerActionSheet", !1), y = "function" == typeof h ? h : "function" == typeof h?.default ? h.default : () => {}, m = e => "#" + (16777215 & e).toString(16).padStart(6, "0");
+    var h = e.findByName("showCustomColorPickerActionSheet") ?? e.findByName("showCustomColorPickerActionSheet", !1), m = "function" == typeof h ? h : "function" == typeof h?.default ? h.default : () => {}, y = e => "#" + (16777215 & e).toString(16).padStart(6, "0");
     return {
         onLoad() {
             if (!c()) throw g("Bubble Chat needs the Native Bridge plugin enabled. Disabling."), 
@@ -135,12 +133,12 @@
                 }
             })), e(i, {
                 onPress() {
-                    return y({
+                    return m({
                         color: (e = r.bubbleColor, t = parseInt((e || "").replace(/[^0-9a-fA-F]/g, ""), 16), 
                         Number.isNaN(t) ? 0 : 16777215 & t),
                         suggestedColors: [ "#000000", "#1e1f22", "#5865F2", "#248046", "#DA373C" ],
                         onSelect: e => C({
-                            bubbleColor: m(e)
+                            bubbleColor: y(e)
                         })
                     });
                     var e, t;
