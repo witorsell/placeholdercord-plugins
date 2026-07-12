@@ -1,75 +1,75 @@
-(() => { try { return ((e, t, r, o, i, n, a, s, l, c, f, d) => {
+(() => { try { return ((e, t, r, o, i, n, a, s, l, c, f) => {
     "use strict";
-    var u = e.FluxDispatcher, m = 8203, p = String.fromCodePoint(m), g = 4096, h = 917504, y = 921599;
-    function E(e, t) {
-        return String.fromCodePoint(...[ ..."[#".concat(e.toString(16), ",#").concat(t.toString(16), "]") ].map(e => e.codePointAt(0) + h));
+    var d = e.FluxDispatcher, u = 8203, m = String.fromCodePoint(u), p = 4096, g = 917504, h = 921599;
+    function y(e, t) {
+        return String.fromCodePoint(...[ ..."[#".concat(e.toString(16), ",#").concat(t.toString(16), "]") ].map(e => e.codePointAt(0) + g));
     }
-    function v(e) {
+    function E(e) {
         var [t, r] = e.matchAll(/(?<=#)[\dA-Fa-f]{1,6}/g);
         return [ t ? parseInt(t[0], 16) : -1, r ? parseInt(r[0], 16) : -1 ];
     }
-    function P(e) {
-        if (0 === e) return String.fromCodePoint(h);
-        for (var t = ""; e > 0; e = Math.trunc(e / g)) t = String.fromCodePoint(e % g + h) + t;
+    function v(e) {
+        if (0 === e) return String.fromCodePoint(g);
+        for (var t = ""; e > 0; e = Math.trunc(e / p)) t = String.fromCodePoint(e % p + g) + t;
         return t;
     }
-    function S(e) {
+    function P(e) {
         if ("" === e) return -1;
         for (var t = 0, r = 0; r < e.length; r++) {
             if (t > 16777215) return -2;
-            t += e.codePointAt(r) * g ** (e.length - 1 - r);
+            t += e.codePointAt(r) * p ** (e.length - 1 - r);
         }
         return t;
     }
-    function C(e) {
+    function S(e) {
         if ("" === e) return -1n;
         for (var t = 0n, r = 0; r < e.length; r++) {
             if (t >= 10000000000000000000n) return -2n;
-            t += BigInt(e.codePointAt(r)) * BigInt(g) ** BigInt(e.length - 1 - r);
+            t += BigInt(e.codePointAt(r)) * BigInt(p) ** BigInt(e.length - 1 - r);
         }
         return t;
     }
-    var b = C;
-    function F(e) {
+    var C = S;
+    function b(e) {
         var t = [ "", "", "", "", "" ], r = 0;
         for (var o of e) {
             var i = o.codePointAt(0);
-            if (i === m) {
+            if (i === u) {
                 if (r >= 4) break;
                 r++;
-            } else if (h > i || i > y) {
+            } else if (g > i || i > h) {
                 if (r > 0 || t[0]) break;
-            } else t[r] += String.fromCodePoint(i - h);
+            } else t[r] += String.fromCodePoint(i - g);
         }
         return t;
     }
-    function I(e) {
+    function F(e) {
         for (var t of e) {
             var r = t.codePointAt(0);
-            if (r >= h && y >= r || r === m) return !0;
+            if (r >= g && h >= r || r === u) return !0;
         }
         return !1;
     }
-    function k(e) {
+    function I(e) {
         return [ ...e ].filter(e => {
             var t = e.codePointAt(0);
-            return (h > t || t > y) && t !== m;
+            return (g > t || t > h) && t !== u;
         }).join("").trim();
     }
-    var B = t.findByStoreName("CollectiblesCategoryStore"), A = t.findByStoreName("CollectiblesPurchaseStore"), T = t.findByProps("fetchCollectiblesCategories"), _ = {
+    var k = t.findByStoreName("CollectiblesCategoryStore"), B = t.findByStoreName("CollectiblesPurchaseStore"), A = t.findByProps("fetchCollectiblesCategories"), T = {
         fetch() {
             try {
-                T?.fetchCollectiblesCategories?.();
+                A?.fetchCollectiblesCategories?.();
             } catch (e) {
                 console.warn("[FPTE] fetchCollectiblesCategories failed", e);
             }
         },
         get isLoaded() {
-            var e = B?.categories;
+            var e = k?.categories;
             return !!e && (e.size ?? 0) > 0;
         },
         get decorations() {
-            var e = t.findByProps("getAvatarDecorationsFromCategories", "getAvatarDecorationsFromPurchases") ?? t.findByProps("getAvatarDecorationsFromCategories") ?? t.findByProps("getAvatarDecorationsFromPurchases"), r = B?.categories, o = A?.purchases, i = [];
+            var e = t.findByProps("getAvatarDecorationsFromCategories", "getAvatarDecorationsFromPurchases") ?? t.findByProps("getAvatarDecorationsFromCategories") ?? t.findByProps("getAvatarDecorationsFromPurchases"), r = k?.categories, o = B?.purchases, i = [];
             try {
                 e?.getAvatarDecorationsFromCategories && r && i.push(...e.getAvatarDecorationsFromCategories(r) ?? []);
             } catch (e) {
@@ -94,20 +94,20 @@
                 };
             }).filter(e => !(!e.id || n.has(e.id) || (n.add(e.id), 0)));
         }
-    }, w = t.findByProps("fetchCollectiblesCategories"), N = {
+    }, _ = t.findByProps("fetchCollectiblesCategories"), w = {
         fetch() {
             try {
-                w?.fetchCollectiblesCategories?.();
+                _?.fetchCollectiblesCategories?.();
             } catch (e) {
                 console.warn("[FPTE] fetchCollectiblesCategories failed", e);
             }
         },
         get isLoaded() {
-            var e = B?.categories;
+            var e = k?.categories;
             return !!e && (e.size ?? 0) > 0;
         },
         get nameplates() {
-            var e = t.findByProps("getNameplatesFromCategories", "getNameplatesFromPurchases") ?? t.findByProps("getNameplatesFromCategories") ?? t.findByProps("getNameplatesFromPurchases"), r = B?.categories, o = A?.purchases, i = [];
+            var e = t.findByProps("getNameplatesFromCategories", "getNameplatesFromPurchases") ?? t.findByProps("getNameplatesFromCategories") ?? t.findByProps("getNameplatesFromPurchases"), r = k?.categories, o = B?.purchases, i = [];
             try {
                 e?.getNameplatesFromCategories && r && i.push(...e.getNameplatesFromCategories(r) ?? []);
             } catch (e) {
@@ -132,20 +132,20 @@
                 };
             }).filter(e => !(!e.id || n.has(e.id) || (n.add(e.id), 0)));
         }
-    }, D = t.findByProps("fetchCollectiblesCategories"), R = {
+    }, N = t.findByProps("fetchCollectiblesCategories"), D = {
         fetch() {
             try {
-                D?.fetchCollectiblesCategories?.();
+                N?.fetchCollectiblesCategories?.();
             } catch (e) {
                 console.warn("[FPTE] fetchCollectiblesCategories failed", e);
             }
         },
         get isLoaded() {
-            var e = B?.categories;
+            var e = k?.categories;
             return !!e && (e.size ?? 0) > 0;
         },
         get profileEffects() {
-            var e = t.findByProps("getProfileEffects", "getProfileEffectsFromCategories") ?? t.findByProps("getProfileEffectsFromCategories") ?? t.findByProps("getProfileEffectsFromPurchases"), r = B?.categories, o = A?.purchases, i = [];
+            var e = t.findByProps("getProfileEffects", "getProfileEffectsFromCategories") ?? t.findByProps("getProfileEffectsFromCategories") ?? t.findByProps("getProfileEffectsFromPurchases"), r = k?.categories, o = B?.purchases, i = [];
             try {
                 e?.getProfileEffectsFromCategories && r && i.push(...e.getProfileEffectsFromCategories(r) ?? []);
             } catch (e) {
@@ -172,88 +172,88 @@
                 };
             }).filter(e => !(!e.id || n.has(e.id) || (n.add(e.id), 0)));
         }
-    }, x = t.findByStoreName("UserProfileStore"), L = t.findByStoreName("UserStore"), U = new Map;
-    function z(e) {
-        var t = b(e);
+    }, R = t.findByStoreName("UserProfileStore"), x = t.findByStoreName("UserStore"), L = new Map;
+    function U(e) {
+        var t = C(e);
         return t > -1n ? t.toString() : null;
     }
-    function O(e) {
-        var t = F(e ?? ""), r = S(t[0]);
+    function z(e) {
+        var t = b(e ?? ""), r = P(t[0]);
         if (-2 === r) {
-            var [o, i] = v(t[0]);
+            var [o, i] = E(t[0]);
             return {
                 primary: o,
                 accent: i,
-                effectSku: z(t[1]),
-                decorationSku: z(t[2]),
-                nameplateSku: z(t[3])
+                effectSku: U(t[1]),
+                decorationSku: U(t[2]),
+                nameplateSku: U(t[3])
             };
         }
         return {
             primary: r,
-            accent: S(t[1]),
-            effectSku: z(t[2]),
-            decorationSku: z(t[3]),
-            nameplateSku: z(t[4])
+            accent: P(t[1]),
+            effectSku: U(t[2]),
+            decorationSku: U(t[3]),
+            nameplateSku: U(t[4])
         };
     }
+    function O(e, t) {
+        L.set(e, t);
+    }
     function H(e, t) {
-        U.set(e, t);
+        O(e, z(t));
     }
-    function V(e, t) {
-        H(e, O(t));
-    }
-    var M = i.semanticColors, G = t.find(e => e.default?.internal?.resolveSemanticColor)?.default.internal.resolveSemanticColor ?? t.find(e => e.meta?.resolveSemanticColor)?.meta.resolveSemanticColor ?? (() => {}), j = t.findByProps("useAvatarColors")?.useAvatarColors ?? (() => {}), X = t.findByProps("getProfileTheme").getProfileTheme, W = t.findByProps("useThemeContext")?.useThemeContext ?? (() => ({})), K = t.findByProps("ThemeContextProvider")?.ThemeContextProvider ?? (e => {
+    var V = i.semanticColors, M = t.find(e => e.default?.internal?.resolveSemanticColor)?.default.internal.resolveSemanticColor ?? t.find(e => e.meta?.resolveSemanticColor)?.meta.resolveSemanticColor ?? (() => {}), G = t.findByProps("useAvatarColors")?.useAvatarColors ?? (() => {}), j = t.findByProps("getProfileTheme").getProfileTheme, X = t.findByProps("useThemeContext")?.useThemeContext ?? (() => ({})), W = t.findByProps("ThemeContextProvider")?.ThemeContextProvider ?? (e => {
         var {children: t} = e;
         return t;
     });
-    function Y() {
-        u.dispatch({
+    function K() {
+        d.dispatch({
             type: "USER_SETTINGS_ACCOUNT_SUBMIT_SUCCESS"
         });
     }
-    var Z = !0, q = null;
-    function J(e) {
-        var [t, r] = o.useState(() => q = e);
+    var Y = !0, Z = null;
+    function q(e) {
+        var [t, r] = o.useState(() => Z = e);
         return [ t, e => {
-            r(q = e), Z && Y();
+            r(Z = e), Y && K();
         } ];
     }
-    var Q, $ = null;
+    var J, Q = null;
+    function $(e) {
+        var [t, r] = o.useState(() => Q = e);
+        return [ t, e => {
+            r(Q = e), Y && K();
+        } ];
+    }
     function ee(e) {
-        var [t, r] = o.useState(() => $ = e);
-        return [ t, e => {
-            r($ = e), Z && Y();
-        } ];
+        J = e;
     }
-    function te(e) {
-        Q = e;
-    }
-    var re = (() => {
+    var te = (() => {
         var e = t.findByName("useProfileTheme", !1);
         return e ? () => r.after("default", e, (e, t) => {
             var [r] = e, {user: o} = r;
-            return (null != o && o.id === Q || "pendingThemeColors" in r) && Z && (null !== q ? (t.theme = X(q), 
-            t.primaryColor = q, t.secondaryColor = $ ?? q) : null !== $ && (t.theme = X($), 
-            t.primaryColor = $, t.secondaryColor = $)), t;
+            return (null != o && o.id === J || "pendingThemeColors" in r) && Y && (null !== Z ? (t.theme = j(Z), 
+            t.primaryColor = Z, t.secondaryColor = Q ?? Z) : null !== Q && (t.theme = j(Q), 
+            t.primaryColor = Q, t.secondaryColor = Q)), t;
         }) : (e = t.findByName("useProfileThemeColors", !1)) ? () => r.after("default", e, (e, t) => {
             var [r, o, i] = e;
-            if ((null != r && r.id === Q || i) && Z) {
-                if (null !== q) return [ q, $ ?? q ];
-                if (null !== $) return [ $, $ ];
+            if ((null != r && r.id === J || i) && Y) {
+                if (null !== Z) return [ Z, Q ?? Z ];
+                if (null !== Q) return [ Q, Q ];
             }
             return t;
         }) : () => () => !0;
-    })(), oe = t.findByName("ProfileEffectRecord");
-    function ie(e, t, r) {
+    })(), re = t.findByName("ProfileEffectRecord");
+    function oe(e, t, r) {
         t > -1 ? (e.themeColors = [ t, r > -1 ? r : t ], e.premiumType = 2) : r > -1 && (e.themeColors = [ r, r ], 
         e.premiumType = 2);
     }
-    function ne(e, t) {
+    function ie(e, t) {
         if (t > -1n) {
             var r = t.toString();
             try {
-                e.profileEffect = new oe({
+                e.profileEffect = new re({
                     id: r,
                     skuId: r
                 });
@@ -268,57 +268,57 @@
             e.profileEffectSkuId = e.profileEffectId = e.profileEffectID = r, e.premiumType = 2;
         }
     }
-    function ae(e) {
+    function ne(e) {
         return !!(e.profileEffect || e.profileEffectSkuId || e.profileEffectId || e.profileEffectID);
     }
-    var se, le = t.findByPropsAll("NONE_ITEM");
-    function ce(e) {
+    var ae, se = t.findByPropsAll("NONE_ITEM");
+    function le(e) {
         return "function" == typeof e[Symbol.iterator];
     }
-    function fe(e) {
+    function ce(e) {
         return null !== e && "object" == typeof e;
     }
-    function de(e) {
-        return fe(e) && "type" in e;
+    function fe(e) {
+        return ce(e) && "type" in e;
     }
-    function ue(e) {
+    function de(e) {
         return "children" in e.props;
     }
-    function me(e) {
-        return "symbol" == typeof e ? Symbol.keyFor(e) || null : "function" == typeof e ? e.displayName || e.name || null : "_context" in e ? e._context.displayName || null : e.displayName ? e.displayName : "render" in e ? e.render.displayName || e.render.name || null : "type" in e ? me(e.type) : null;
+    function ue(e) {
+        return "symbol" == typeof e ? Symbol.keyFor(e) || null : "function" == typeof e ? e.displayName || e.name || null : "_context" in e ? e._context.displayName || null : e.displayName ? e.displayName : "render" in e ? e.render.displayName || e.render.name || null : "type" in e ? ue(e.type) : null;
     }
-    function pe(e, t) {
+    function me(e, t) {
         var r = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 200;
-        if (fe(e)) if (ce(e)) {
+        if (ce(e)) if (le(e)) {
             if (r > 0) for (var o of e) {
-                var i = pe(o, t, r - 1);
+                var i = me(o, t, r - 1);
                 if (i) return i;
             }
         } else {
             if (t(e)) return e;
-            if (ue(e)) return pe(e.props.children, t, r - 1);
+            if (de(e)) return me(e.props.children, t, r - 1);
         }
         return null;
     }
-    function ge(e, t) {
+    function pe(e, t) {
         var r = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 200;
-        if (fe(e)) if (ce(e)) {
+        if (ce(e)) if (le(e)) {
             if (r > 0) for (var o of e) {
-                var i = ge(o, t, r - 1);
+                var i = pe(o, t, r - 1);
                 if (i) return i;
             }
-        } else if (ue(e)) return t(e.props.children) ? e : ge(e.props.children, t, r - 1);
+        } else if (de(e)) return t(e.props.children) ? e : pe(e.props.children, t, r - 1);
         return null;
     }
-    var he = t.findByProps("Radius")?.Radius ?? {}, ye = t.findByProps("Spacing")?.Spacing ?? {}, Ee = t.findByProps("SafeAreaContext")?.SafeAreaContext, ve = t.findByName("useWindowDimensions") ?? (() => {});
-    function Pe(e) {
-        var {title: t, items: r, currentSkuId: i, getPreviewUri: n, getLabel: a, onSelect: l} = e, [c, f] = o.useState(i), d = ve(), u = o.useContext(Ee), m = o.useMemo(() => r.find(e => e.skuId === c)?.config ?? null, [ r, c ]);
-        return o.createElement(Ze, {
+    var ge = t.findByProps("Radius")?.Radius ?? {}, he = t.findByProps("Spacing")?.Spacing ?? {}, ye = t.findByProps("SafeAreaContext")?.SafeAreaContext, Ee = t.findByName("useWindowDimensions") ?? (() => {});
+    function ve(e) {
+        var {title: t, items: r, currentSkuId: i, getPreviewUri: n, getLabel: a, onSelect: l} = e, [c, f] = o.useState(i), d = Ee(), u = o.useContext(ye), m = o.useMemo(() => r.find(e => e.skuId === c)?.config ?? null, [ r, c ]);
+        return o.createElement(Ye, {
             transparentHeader: !0,
             scrollable: !0,
             startExpanded: !0,
             startHeight: d.height - u.top
-        }, o.createElement(qe, {
+        }, o.createElement(Ze, {
             scrollsToTop: !1
         }, o.createElement(s.View, {
             style: {
@@ -326,32 +326,32 @@
                 alignItems: "center",
                 paddingBottom: 96
             }
-        }, o.createElement(gt, {
+        }, o.createElement(pt, {
             variant: "redesign/heading-18/bold",
             color: "header-primary",
             style: {
-                margin: ye.PX_16
+                margin: he.PX_16
             }
         }, t), o.createElement(s.View, {
             style: {
                 flexDirection: "row",
                 flexWrap: "wrap",
                 justifyContent: "center",
-                gap: ye.PX_12,
+                gap: he.PX_12,
                 width: "92%"
             }
-        }, o.createElement(Se, {
+        }, o.createElement(Pe, {
             label: "None",
             uri: void 0,
             isSelected: !c,
             onPress: () => f(void 0)
-        }), r.map(e => o.createElement(Se, {
+        }), r.map(e => o.createElement(Pe, {
             key: e.id,
             label: a(e.config),
             uri: n(e.config),
             isSelected: e.skuId === c,
             onPress: () => f(e.skuId)
-        }))))), o.createElement(ct, {
+        }))))), o.createElement(lt, {
             text: "Apply",
             textStyle: {
                 fontSize: 16
@@ -364,14 +364,14 @@
                 left: 0,
                 height: 48,
                 marginHorizontal: 36,
-                marginBottom: ye.PX_48,
-                borderRadius: he.round
+                marginBottom: he.PX_48,
+                borderRadius: ge.round
             }
         }));
     }
-    function Se(e) {
+    function Pe(e) {
         var {label: t, uri: r, isSelected: i, onPress: n} = e;
-        return o.createElement(Pt, {
+        return o.createElement(vt, {
             accessibilityLabel: t,
             accessibilityRole: "button",
             accessibilityState: {
@@ -382,7 +382,7 @@
                 width: 84,
                 alignItems: "center",
                 padding: 4,
-                borderRadius: he.sm,
+                borderRadius: ge.sm,
                 borderWidth: 2,
                 borderColor: i ? "#FFFFFF" : "transparent"
             }
@@ -390,7 +390,7 @@
             style: {
                 width: 68,
                 height: 68,
-                borderRadius: he.sm,
+                borderRadius: ge.sm,
                 overflow: "hidden",
                 backgroundColor: "#2B2D31"
             }
@@ -403,7 +403,7 @@
                 width: "100%",
                 height: "100%"
             }
-        }) : null), o.createElement(gt, {
+        }) : null), o.createElement(pt, {
             variant: "text-xs/medium",
             color: "header-secondary",
             style: {
@@ -412,45 +412,45 @@
             numberOfLines: 1
         }, t));
     }
-    var Ce, be = t.findByName("EditProfileEffectActionSheet"), Fe = be ? e => {
-        var {currentEffectId: t, effects: r, onSelect: i, user: a} = e, s = be({
+    var Se, Ce = t.findByName("EditProfileEffectActionSheet"), be = Ce ? e => {
+        var {currentEffectId: t, effects: r, onSelect: i, user: a} = e, s = Ce({
             user: a
-        }), l = W(), c = o.useMemo(() => r.map(e => ({
-            items: new oe(e)
+        }), l = X(), c = o.useMemo(() => r.map(e => ({
+            items: new re(e)
         })), [ r ]);
-        if (n.storage.forceFallbackEffectPicker) return o.createElement(De, e);
-        var f = !1, d = pe(s, e => "EditProfileEffectInner" === me(e.type) || "profileEffects" in e.props && "selectedProfileEffect" in e.props && "function" == typeof e.props.setSelectedProfileEffect && (f = !0));
-        if (!d) return Ce || o.createElement(De, e);
-        var u = pe(s, e => "Button" === me(e.type));
-        if (!u) return Ce || o.createElement(De, e);
+        if (n.storage.forceFallbackEffectPicker) return o.createElement(Ne, e);
+        var f = !1, d = me(s, e => "EditProfileEffectInner" === ue(e.type) || "profileEffects" in e.props && "selectedProfileEffect" in e.props && "function" == typeof e.props.setSelectedProfileEffect && (f = !0));
+        if (!d) return Se || o.createElement(Ne, e);
+        var u = me(s, e => "Button" === ue(e.type));
+        if (!u) return Se || o.createElement(Ne, e);
         if (f) {
             void 0 === d.props.selectedProfileEffect && d.props.setSelectedProfileEffect(e.currentEffectId ? {
                 id: e.currentEffectId
             } : null), d.props.profileEffects = e.effects;
-            var m = ge(s, e => Array.isArray(e) && e.some(e => "DisplayBanner" === me(e.type)));
+            var m = pe(s, e => Array.isArray(e) && e.some(e => "DisplayBanner" === ue(e.type)));
             if (m) {
                 var p = s;
-                m.props.children = o.createElement(K, {
+                m.props.children = o.createElement(W, {
                     theme: p.props.theme,
                     primaryColor: p.props.primaryColor,
                     secondaryColor: p.props.secondaryColor,
                     children: m.props.children
                 }), p.props.theme = l.theme ?? "dark", p.props.primaryColor = l.primaryColor, p.props.secondaryColor = l.secondaryColor;
             }
-        } else void 0 === d.props.selectedProfileEffect && d.props.setSelectedProfileEffect(t ? new oe({
+        } else void 0 === d.props.selectedProfileEffect && d.props.setSelectedProfileEffect(t ? new re({
             id: t
         }) : null), d.props.purchases = c;
-        return te(a.id), u.props.onPress = () => {
-            te(void 0), i(r.find(e => e.id === d.props.selectedProfileEffect?.id)?.config ?? null);
-        }, Ce = s;
-    } : De, Ie = t.findByProps("triggerHapticFeedback"), ke = Ie?.HapticFeedbackTypes ?? {}, Be = Ie?.triggerHapticFeedback ?? (() => {}), Ae = c.getAssetIDByName("img_none"), Te = t.findByProps("DEFAULT_PROFILE_EFFECT_WH_RATIO")?.DEFAULT_PROFILE_EFFECT_WH_RATIO ?? 45 / 88, _e = c.getAssetIDByName("sample-profile-small") ?? {
+        return ee(a.id), u.props.onPress = () => {
+            ee(void 0), i(r.find(e => e.id === d.props.selectedProfileEffect?.id)?.config ?? null);
+        }, Se = s;
+    } : Ne, Fe = t.findByProps("triggerHapticFeedback"), Ie = Fe?.HapticFeedbackTypes ?? {}, ke = Fe?.triggerHapticFeedback ?? (() => {}), Be = l.getAssetIDByName("img_none"), Ae = t.findByProps("DEFAULT_PROFILE_EFFECT_WH_RATIO")?.DEFAULT_PROFILE_EFFECT_WH_RATIO ?? 45 / 88, Te = l.getAssetIDByName("sample-profile-small") ?? {
         uri: "https://discordapp.com/assets/f328a6f8209d4f1f5022.png"
     };
-    c.getAssetIDByName("toast_copy_link"), c.getAssetIDByName("Small");
-    var we = 3;
-    function Ne(e) {
+    l.getAssetIDByName("toast_copy_link"), l.getAssetIDByName("Small");
+    var _e = 3;
+    function we(e) {
         var {label: t, isSelected: r, size: i, colors: n, onPress: a, style: s, children: l} = e, [c, f, d] = n;
-        return o.createElement(Pt, {
+        return o.createElement(vt, {
             accessibilityLabel: t,
             accessibilityRole: "button",
             accessibilityState: {
@@ -458,7 +458,7 @@
             },
             disabled: r,
             onPress() {
-                Be(ke.IMPACT_LIGHT), a();
+                ke(Ie.IMPACT_LIGHT), a();
             },
             style: [ {
                 height: i,
@@ -466,24 +466,27 @@
                 overflow: "hidden",
                 backgroundColor: f,
                 borderColor: c,
-                borderRadius: he.sm,
+                borderRadius: ge.sm,
                 borderWidth: 2
             }, r && {
                 borderColor: d
             }, s ]
         }, l);
     }
-    function De(e) {
-        var {currentEffectId: t, effects: r, onSelect: i} = e, [n, a] = o.useState(t), [c, f] = o.useState(0), {theme: d = "dark"} = W(), u = o.useMemo(() => [ M.BACKGROUND_PRIMARY ? G(d, M.BACKGROUND_PRIMARY) : "#313338", M.BACKGROUND_FLOATING ? G(d, M.BACKGROUND_FLOATING) : "#2B2D31", M.BUTTON_OUTLINE_BRAND_BORDER_ACTIVE ? G(d, M.BUTTON_OUTLINE_BRAND_BORDER_ACTIVE) : "#FFFFFF" ], [ d ]), m = ve(), p = o.useContext(Ee), g = o.useMemo(() => {
-            for (var e = l.chunk([ null, ...r ], we), t = e[e.length - 1]; 3 > t.length; ) t.push(void 0);
+    function Ne(e) {
+        var {currentEffectId: t, effects: r, onSelect: i} = e, [n, a] = o.useState(t), [l, c] = o.useState(0), {theme: f = "dark"} = X(), d = o.useMemo(() => [ V.BACKGROUND_PRIMARY ? M(f, V.BACKGROUND_PRIMARY) : "#313338", V.BACKGROUND_FLOATING ? M(f, V.BACKGROUND_FLOATING) : "#2B2D31", V.BUTTON_OUTLINE_BRAND_BORDER_ACTIVE ? M(f, V.BUTTON_OUTLINE_BRAND_BORDER_ACTIVE) : "#FFFFFF" ], [ f ]), u = Ee(), m = o.useContext(ye), p = o.useMemo(() => {
+            for (var e = ((e, t) => {
+                for (var r = [], o = 0; o < e.length; o += t) r.push(e.slice(o, o + t));
+                return r;
+            })([ null, ...r ], _e), t = e[e.length - 1]; 3 > t.length; ) t.push(void 0);
             return e;
         }, [ r ]);
-        return o.createElement(Ze, {
+        return o.createElement(Ye, {
             transparentHeader: !0,
             scrollable: !0,
             startExpanded: !0,
-            startHeight: m.height - p.top
-        }, o.createElement(qe, {
+            startHeight: u.height - m.top
+        }, o.createElement(Ze, {
             scrollsToTop: !1
         }, o.createElement(s.View, {
             style: {
@@ -492,18 +495,18 @@
                 alignItems: "center",
                 paddingBottom: 88
             }
-        }, o.createElement(gt, {
+        }, o.createElement(pt, {
             variant: "redesign/heading-18/bold",
             color: "header-primary",
             style: {
-                margin: ye.PX_16
+                margin: he.PX_16
             }
         }, t ? "Change Effect" : "Add Profile Effect"), o.createElement(s.View, {
             style: {
                 width: "72%",
                 minHeight: 38
             }
-        }, o.createElement(gt, {
+        }, o.createElement(pt, {
             variant: "heading-md/bold",
             color: "header-primary",
             style: {
@@ -515,19 +518,19 @@
                 width: "92%",
                 marginTop: 3
             }
-        }, o.createElement(ht, {
+        }, o.createElement(gt, {
             accessibilityLabel: "Profile Effect Selection Section",
             numColumns: 1,
             estimatedItemSize: 98,
             ItemSeparatorComponent: () => o.createElement(s.View, {
                 style: {
-                    height: ye.PX_16
+                    height: he.PX_16
                 }
             }),
             contentContainerStyle: {
-                paddingHorizontal: ye.PX_4
+                paddingHorizontal: he.PX_4
             },
-            data: g,
+            data: p,
             extraData: n,
             renderItem(e) {
                 var {item: t} = e;
@@ -536,23 +539,23 @@
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        paddingHorizontal: ye.PX_16
+                        paddingHorizontal: he.PX_16
                     }
-                }, t.map(e => e ? o.createElement(Ne, {
+                }, t.map(e => e ? o.createElement(we, {
                     label: e.config?.accessibilityLabel ?? "Profile Effect",
                     isSelected: e.id === n,
-                    size: c,
-                    colors: u,
+                    size: l,
+                    colors: d,
                     onPress() {
                         a(e.id);
                     }
-                }, o.createElement(pt, {
+                }, o.createElement(mt, {
                     effect: e.config
-                })) : null === e ? o.createElement(Ne, {
+                })) : null === e ? o.createElement(we, {
                     label: "None",
                     isSelected: !n,
-                    size: c,
-                    colors: u,
+                    size: l,
+                    colors: d,
                     onPress() {
                         a(void 0);
                     },
@@ -560,26 +563,26 @@
                         alignItems: "center",
                         justifyContent: "center"
                     }
-                }, o.createElement(mt, {
-                    source: Ae,
-                    size: mt.Sizes.LARGE
-                }), o.createElement(gt, {
+                }, o.createElement(ut, {
+                    source: Be,
+                    size: ut.Sizes.LARGE
+                }), o.createElement(pt, {
                     variant: "text-sm/medium",
                     color: "header-primary",
                     style: {
-                        marginTop: ye.PX_4
+                        marginTop: he.PX_4
                     }
                 }, "None")) : o.createElement(s.View, {
                     style: {
-                        width: c,
-                        height: c
+                        width: l,
+                        height: l
                     }
                 })));
             },
             onLayout(e) {
-                f((e.nativeEvent.layout.width - 64) / we);
+                c((e.nativeEvent.layout.width - 64) / _e);
             }
-        })))), o.createElement(ct, {
+        })))), o.createElement(lt, {
             text: "Apply",
             textStyle: {
                 fontSize: 16
@@ -594,125 +597,125 @@
                 left: 0,
                 height: 48,
                 marginHorizontal: 36,
-                marginBottom: ye.PX_48,
-                borderRadius: he.round
+                marginBottom: he.PX_48,
+                borderRadius: ge.round
             }
         }));
     }
-    var Re = "__FPTE_DECO__", {useStateFromStores: xe} = t.findByProps("useStateFromStores");
-    function Le(e) {
+    var De = "__FPTE_DECO__", {useStateFromStores: Re} = t.findByProps("useStateFromStores");
+    function xe(e) {
         if (e?.asset) return "https://cdn.discordapp.com/avatar-decoration-presets/".concat(e.asset, ".png?size=128&passthrough=false");
     }
-    function Ue(e) {
+    function Le(e) {
         return e?.label ?? e?.name ?? "Decoration";
     }
-    function ze(e) {
-        var {onSelect: t, currentSkuId: r} = e, i = xe ? xe([ B, A ], () => _.decorations) : _.decorations;
+    function Ue(e) {
+        var {onSelect: t, currentSkuId: r} = e, i = Re ? Re([ k, B ], () => T.decorations) : T.decorations;
         return o.useEffect(() => {
-            _.isLoaded || _.fetch();
-        }, []), o.createElement(Pe, {
+            T.isLoaded || T.fetch();
+        }, []), o.createElement(ve, {
             title: "Avatar Decoration",
             items: i,
             currentSkuId: r,
-            getPreviewUri: Le,
-            getLabel: Ue,
+            getPreviewUri: xe,
+            getLabel: Le,
             onSelect(e) {
-                t(e), $e(Re);
+                t(e), Qe(De);
             }
         });
     }
-    var Oe = t.findByName("showCustomColorPickerActionSheet") ?? (() => {});
-    function He(e) {
+    var ze = t.findByName("showCustomColorPickerActionSheet") ?? (() => {});
+    function Oe(e) {
         var t;
-        return (t = e).color ?? (t.color = 0), Oe(e);
+        return (t = e).color ?? (t.color = 0), ze(e);
     }
-    var Ve = "__FPTE__", {useStateFromStores: Me} = t.findByProps("useStateFromStores");
-    function Ge(e) {
-        var {onSelect: t, currentEffectId: r} = e, i = Me ? Me([ B, A ], () => R.profileEffects) : R.profileEffects;
+    var He = "__FPTE__", {useStateFromStores: Ve} = t.findByProps("useStateFromStores");
+    function Me(e) {
+        var {onSelect: t, currentEffectId: r} = e, i = Ve ? Ve([ k, B ], () => D.profileEffects) : D.profileEffects;
         return o.useEffect(() => {
-            R.isLoaded || R.fetch();
-        }, []), o.createElement(Fe, {
+            D.isLoaded || D.fetch();
+        }, []), o.createElement(be, {
             effects: i,
             onSelect(e) {
-                t(e), $e(Ve);
+                t(e), Qe(He);
             },
-            user: L.getCurrentUser(),
+            user: x.getCurrentUser(),
             currentEffectId: r
         });
     }
-    var je = "__FPTE_NAMEPLATE__", {useStateFromStores: Xe} = t.findByProps("useStateFromStores");
-    function We(e) {
+    var Ge = "__FPTE_NAMEPLATE__", {useStateFromStores: je} = t.findByProps("useStateFromStores");
+    function Xe(e) {
         if (e?.asset) return "https://cdn.discordapp.com/assets/collectibles/".concat(e.asset, "static.png");
     }
-    function Ke(e) {
+    function We(e) {
         return e?.label ?? e?.name ?? "Nameplate";
     }
-    function Ye(e) {
-        var {onSelect: t, currentSkuId: r} = e, i = Xe ? Xe([ B, A ], () => N.nameplates) : N.nameplates;
+    function Ke(e) {
+        var {onSelect: t, currentSkuId: r} = e, i = je ? je([ k, B ], () => w.nameplates) : w.nameplates;
         return o.useEffect(() => {
-            N.isLoaded || N.fetch();
-        }, []), o.createElement(Pe, {
+            w.isLoaded || w.fetch();
+        }, []), o.createElement(ve, {
             title: "Nameplate",
             items: i,
             currentSkuId: r,
-            getPreviewUri: We,
-            getLabel: Ke,
+            getPreviewUri: Xe,
+            getLabel: We,
             onSelect(e) {
-                t(e), $e(je);
+                t(e), Qe(Ge);
             }
         });
     }
-    var Ze = t.findByProps("BottomSheet")?.BottomSheet ?? t.findByProps("ActionSheet")?.ActionSheet ?? (() => {
+    var Ye = t.findByProps("BottomSheet")?.BottomSheet ?? t.findByProps("ActionSheet")?.ActionSheet ?? (() => {
         throw Error("FakeProfileThemesAndEffects threw an error to avoid an otherwise-inevitable, unrecoverable freeze.");
-    }), qe = t.findByProps("BottomSheetScrollView")?.BottomSheetScrollView ?? (() => null), Je = t.findByProps("showActionSheet"), Qe = Je?.showActionSheet ?? (() => {}), $e = Je?.default?.hideActionSheet ?? (() => {}), et = f.Forms.FormSection, tt = f.Forms.FormRow, rt = f.Forms.FormRadioRow, ot = f.Forms.FormSwitchRow, it = f.Forms.FormCardSection, nt = t.findByProps("saveProfileChanges"), {useStateFromStores: at} = t.findByProps("useStateFromStores") ?? {};
-    function st(e) {
-        var {guildId: t} = e, [r, i] = J(null), [n, l] = ee(null), [c, f] = o.useState(null);
+    }), Ze = t.findByProps("BottomSheetScrollView")?.BottomSheetScrollView ?? (() => null), qe = t.findByProps("showActionSheet"), Je = qe?.showActionSheet ?? (() => {}), Qe = qe?.default?.hideActionSheet ?? (() => {}), $e = c.Forms.FormSection, et = c.Forms.FormRow, tt = c.Forms.FormRadioRow, rt = c.Forms.FormSwitchRow, ot = c.Forms.FormCardSection, it = t.findByProps("saveProfileChanges"), {useStateFromStores: nt} = t.findByProps("useStateFromStores") ?? {};
+    function at(e) {
+        var {guildId: t} = e, [r, i] = q(null), [n, l] = $(null), [c, f] = o.useState(null);
         (() => {
-            var [e, t] = o.useState(() => Z = !0);
+            var [e, t] = o.useState(() => Y = !0);
         })();
-        var [d, m] = o.useState(!1), {theme: y = "dark"} = W(), [v, S] = o.useMemo(() => [ M.HEADER_SECONDARY ? G(y, M.HEADER_SECONDARY) : "#B5BAC1", M.BACKGROUND_ACCENT ? G(y, M.BACKGROUND_ACCENT) : "#111214" ], [ y ]), C = j(L.getCurrentUser().getAvatarURL(t, 80), S, !1), [b, F] = o.useState(null), [T, w] = o.useState(null), [D, U] = o.useState(null), [z, V] = o.useState(null), [X, K] = o.useState(null), [Y, q] = o.useState(null), Q = at ? at([ B, A ], () => R.profileEffects) : R.profileEffects, $ = at ? at([ B, A ], () => _.decorations) : _.decorations, re = at ? at([ B, A ], () => N.nameplates) : N.nameplates;
+        var [u, h] = o.useState(!1), {theme: E = "dark"} = X(), [P, S] = o.useMemo(() => [ V.HEADER_SECONDARY ? M(E, V.HEADER_SECONDARY) : "#B5BAC1", V.BACKGROUND_ACCENT ? M(E, V.BACKGROUND_ACCENT) : "#111214" ], [ E ]), C = G(x.getCurrentUser().getAvatarURL(t, 80), S, !1), [b, A] = o.useState(null), [_, N] = o.useState(null), [L, U] = o.useState(null), [H, j] = o.useState(null), [W, K] = o.useState(null), [Z, J] = o.useState(null), Q = nt ? nt([ k, B ], () => D.profileEffects) : D.profileEffects, te = nt ? nt([ k, B ], () => T.decorations) : T.decorations, re = nt ? nt([ k, B ], () => w.nameplates) : w.nameplates;
         o.useEffect(() => {
-            var e = L.getCurrentUser();
+            var e = x.getCurrentUser();
             if (e) {
-                var t = x.getUserProfile(e.id);
+                var t = R.getUserProfile(e.id);
                 if (t) {
                     U(t.bio ?? null);
-                    var r = O(t.bio);
+                    var r = z(t.bio);
                     r.primary > -1 && i(r.primary), r.accent > -1 ? l(r.accent) : r.primary > -1 && l(r.primary), 
-                    r.effectSku && (V(r.effectSku), R.fetch()), r.decorationSku && (K(r.decorationSku), 
-                    _.fetch()), r.nameplateSku && (q(r.nameplateSku), N.fetch());
+                    r.effectSku && (j(r.effectSku), D.fetch()), r.decorationSku && (K(r.decorationSku), 
+                    T.fetch()), r.nameplateSku && (J(r.nameplateSku), w.fetch());
                 }
             }
         }, []), o.useEffect(() => {
-            if (z && !c) {
-                var e = Q.find(e => e.skuId === z || e.id === z);
+            if (H && !c) {
+                var e = Q.find(e => e.skuId === H || e.id === H);
                 e && f(e.config);
             }
-        }, [ z, Q, c ]), o.useEffect(() => {
-            if (X && !b) {
-                var e = $.find(e => e.skuId === X);
-                e && F(e.config);
+        }, [ H, Q, c ]), o.useEffect(() => {
+            if (W && !b) {
+                var e = te.find(e => e.skuId === W);
+                e && A(e.config);
             }
-        }, [ X, $, b ]), o.useEffect(() => {
-            if (Y && !T) {
-                var e = re.find(e => e.skuId === Y);
-                e && w(e.config);
+        }, [ W, te, b ]), o.useEffect(() => {
+            if (Z && !_) {
+                var e = re.find(e => e.skuId === Z);
+                e && N(e.config);
             }
-        }, [ Y, re, T ]);
-        var oe = null !== D && I(D), ie = null !== r || null !== n || null !== c || null !== b || null !== T, ne = ((e, t, r, o, i, n) => {
+        }, [ Z, re, _ ]);
+        var oe = null !== L && F(L), ie = null !== r || null !== n || null !== c || null !== b || null !== _, ne = ((e, t, r, o, i, n) => {
             var a, s = e => e ? (e => {
-                if (0n === e) return String.fromCodePoint(h);
-                for (var t = ""; e > 0n; e /= BigInt(g)) t = String.fromCodePoint(Number(e % BigInt(g)) + h) + t;
+                if (0n === e) return String.fromCodePoint(g);
+                for (var t = ""; e > 0n; e /= BigInt(p)) t = String.fromCodePoint(Number(e % BigInt(p)) + g) + t;
                 return t;
             })(BigInt(e)) : "", l = [ s(r), s(o), s(i) ];
             if (!n || 0 > e && 0 > t) if (n || 0 > e || 0 > t || e === t) {
                 var c = 0 > e ? t : e;
-                a = [ 0 > c ? "" : P(c), "", ...l ];
-            } else a = [ P(e), P(t), ...l ]; else a = [ E(0 > e ? t : e, 0 > e ? t : 0 > t ? e : t), ...l ];
+                a = [ 0 > c ? "" : v(c), "", ...l ];
+            } else a = [ v(e), v(t), ...l ]; else a = [ y(0 > e ? t : e, 0 > e ? t : 0 > t ? e : t), ...l ];
             for (;a.length && "" === a[a.length - 1]; ) a.pop();
-            return a.join(p);
-        })(r ?? -1, n ?? -1, c?.sku_id ?? c?.id ?? "", b?.sku_id ?? b?.skuId ?? "", T?.sku_id ?? T?.skuId ?? "", d), ae = oe && !ie ? "Remove FPTE" : "Apply FPTE", se = ie || oe;
-        return o.createElement(it, {
+            return a.join(m);
+        })(r ?? -1, n ?? -1, c?.sku_id ?? c?.id ?? "", b?.sku_id ?? b?.skuId ?? "", _?.sku_id ?? _?.skuId ?? "", u), ae = oe && !ie ? "Remove FPTE" : "Apply FPTE", se = ie || oe;
+        return o.createElement(ot, {
             title: o.createElement(s.View, {
                 style: {
                     flexDirection: "row",
@@ -738,40 +741,40 @@
                 flexDirection: "row",
                 justifyContent: "space-between"
             }
-        }, o.createElement(lt, {
-            fgColor: v,
+        }, o.createElement(st, {
+            fgColor: P,
             label: "Primary",
             bgColor: r,
-            onPress: () => He({
+            onPress: () => Oe({
                 color: r,
                 onSelect: i,
                 suggestedColors: C
             })
-        }), o.createElement(lt, {
-            fgColor: v,
+        }), o.createElement(st, {
+            fgColor: P,
             label: "Accent",
             bgColor: n,
-            onPress: () => He({
+            onPress: () => Oe({
                 color: n,
                 onSelect: l,
                 suggestedColors: C
             })
-        }), o.createElement(lt, {
-            fgColor: v,
+        }), o.createElement(st, {
+            fgColor: P,
             label: "Effect",
             onPress() {
-                return e = f, t = c?.id, u.subscribe("HIDE_ACTION_SHEET", function e(t) {
-                    t.key === Ve && (u.unsubscribe("HIDE_ACTION_SHEET", e), te(void 0));
-                }), R.isLoaded || R.fetch(), void Qe({
-                    content: o.createElement(Ge, {
+                return e = f, t = c?.id, d.subscribe("HIDE_ACTION_SHEET", function e(t) {
+                    t.key === He && (d.unsubscribe("HIDE_ACTION_SHEET", e), ee(void 0));
+                }), D.isLoaded || D.fetch(), void Je({
+                    content: o.createElement(Me, {
                         onSelect: e,
                         currentEffectId: t
                     }),
-                    key: Ve
+                    key: He
                 });
                 var e, t;
             }
-        }, c && o.createElement(pt, {
+        }, c && o.createElement(mt, {
             effect: c,
             style: {
                 width: "140%",
@@ -783,32 +786,32 @@
                 alignItems: "center",
                 marginLeft: 12
             }
-        }, o.createElement(ct, {
+        }, o.createElement(lt, {
             text: ae,
-            size: ct.Sizes.SMALL,
+            size: lt.Sizes.SMALL,
             onPress() {
-                var e = L.getCurrentUser();
+                var e = x.getCurrentUser();
                 if (e) {
-                    var t = D ?? "";
+                    var t = L ?? "";
                     if (!oe || ie) {
                         if (ne) {
-                            I(t) && (t = k(t)), t.length > 0 && (t += " "), (t += ne).length > 190 && a.showToast("Heads up: bio is over the 190 character limit, it may not save.");
+                            F(t) && (t = I(t)), t.length > 0 && (t += " "), (t += ne).length > 190 && a.showToast("Heads up: bio is over the 190 character limit, it may not save.");
                             try {
-                                nt.saveProfileChanges({
-                                    ...x.getUserProfile(e.id),
+                                it.saveProfileChanges({
+                                    ...R.getUserProfile(e.id),
                                     bio: t
-                                }), U(t), H(e.id, O(t)), a.showToast("FPTE applied!");
+                                }), U(t), O(e.id, z(t)), a.showToast("FPTE applied!");
                             } catch (e) {
                                 a.showToast("Failed to update bio!"), console.error(e);
                             }
                         }
                     } else {
-                        t = k(t);
+                        t = I(t);
                         try {
-                            nt.saveProfileChanges({
-                                ...x.getUserProfile(e.id),
+                            it.saveProfileChanges({
+                                ...R.getUserProfile(e.id),
                                 bio: t
-                            }), U(t), H(e.id, O(t)), a.showToast("FPTE removed!");
+                            }), U(t), O(e.id, z(t)), a.showToast("FPTE removed!");
                         } catch (e) {
                             a.showToast("Failed to update bio!"), console.error(e);
                         }
@@ -821,11 +824,11 @@
                 opacity: se ? 1 : 0
             },
             pointerEvents: se ? "auto" : "none"
-        }), o.createElement(ct, {
+        }), o.createElement(lt, {
             text: "Reset",
-            look: ct.Looks.LINK,
-            color: ct.Colors.TRANSPARENT,
-            size: ct.Sizes.SMALL,
+            look: lt.Looks.LINK,
+            color: lt.Colors.TRANSPARENT,
+            size: lt.Sizes.SMALL,
             ...ie ? {} : {
                 pointerEvents: "none",
                 style: {
@@ -833,7 +836,7 @@
                 }
             },
             onPress() {
-                i(null), l(null), f(null), F(null), w(null);
+                i(null), l(null), f(null), A(null), N(null);
             }
         }))), o.createElement(s.View, {
             style: {
@@ -842,16 +845,16 @@
                 gap: 12,
                 marginTop: 12
             }
-        }, o.createElement(lt, {
-            fgColor: v,
+        }, o.createElement(st, {
+            fgColor: P,
             label: "Decoration",
             onPress() {
-                return e = F, t = b?.sku_id ?? b?.skuId, _.isLoaded || _.fetch(), void Qe({
-                    content: o.createElement(ze, {
+                return e = A, t = b?.sku_id ?? b?.skuId, T.isLoaded || T.fetch(), void Je({
+                    content: o.createElement(Ue, {
                         onSelect: e,
                         currentSkuId: t
                     }),
-                    key: Re
+                    key: De
                 });
                 var e, t;
             }
@@ -864,22 +867,22 @@
                 width: "100%",
                 height: "100%"
             }
-        })), o.createElement(lt, {
-            fgColor: v,
+        })), o.createElement(st, {
+            fgColor: P,
             label: "Nameplate",
             onPress() {
-                return e = w, t = T?.sku_id ?? T?.skuId, N.isLoaded || N.fetch(), void Qe({
-                    content: o.createElement(Ye, {
+                return e = N, t = _?.sku_id ?? _?.skuId, w.isLoaded || w.fetch(), void Je({
+                    content: o.createElement(Ke, {
                         onSelect: e,
                         currentSkuId: t
                     }),
-                    key: je
+                    key: Ge
                 });
                 var e, t;
             }
-        }, T?.asset && o.createElement(s.Image, {
+        }, _?.asset && o.createElement(s.Image, {
             source: {
-                uri: "https://cdn.discordapp.com/assets/collectibles/".concat(T.asset, "static.png")
+                uri: "https://cdn.discordapp.com/assets/collectibles/".concat(_.asset, "static.png")
             },
             resizeMode: "cover",
             style: {
@@ -888,13 +891,13 @@
             }
         }))));
     }
-    var lt = e => {
+    var st = e => {
         var {label: t, fgColor: r, bgColor: i, onPress: n, children: a} = e;
         return o.createElement(s.View, {
             style: {
                 width: 50
             }
-        }, o.createElement(Pt, {
+        }, o.createElement(vt, {
             accessibilityLabel: t,
             accessibilityRole: "button",
             onPress: n,
@@ -907,36 +910,36 @@
                 borderColor: r,
                 borderStyle: "dashed",
                 borderWidth: 2,
-                borderRadius: he.xs
+                borderRadius: ge.xs
             }, null != i && {
                 backgroundColor: "#" + i.toString(16).padStart(6, "0"),
                 borderStyle: "solid"
             }, !!a && {
                 borderWidth: 0
             } ]
-        }, a ?? (null == i && o.createElement(Et, {
+        }, a ?? (null == i && o.createElement(yt, {
             fill: r,
             width: "40%",
             height: "40%",
             viewBox: "0 0 144 144"
-        }, o.createElement(vt, {
+        }, o.createElement(Et, {
             d: "M144 64H80V0H64v64H0v16h64v64h16V80h64Z"
-        })))), !!t && o.createElement(gt, {
+        })))), !!t && o.createElement(pt, {
             variant: "text-sm/normal",
             style: {
-                marginTop: ye.PX_4,
+                marginTop: he.PX_4,
                 textAlign: "center"
             }
         }, t));
-    }, ct = f.Button, ft = t.findByProps("IconSizes"), dt = ft?.default ?? ft?.Icon ?? (() => null), ut = ft?.IconSizes ?? dt.Sizes ?? {}, mt = Object.assign(dt, {
-        Sizes: ut
-    }), pt = e => {
+    }, lt = c.Button, ct = t.findByProps("IconSizes"), ft = ct?.default ?? ct?.Icon ?? (() => null), dt = ct?.IconSizes ?? ft.Sizes ?? {}, ut = Object.assign(ft, {
+        Sizes: dt
+    }), mt = e => {
         var {effect: t, style: r} = e;
         return o.createElement(s.View, {
             style: r
         }, o.createElement(s.Image, {
             resizeMode: "cover",
-            source: _e,
+            source: Te,
             style: {
                 width: "100%",
                 height: "100%"
@@ -951,26 +954,26 @@
             style: {
                 position: "absolute",
                 width: "100%",
-                aspectRatio: Te
+                aspectRatio: Ae
             }
         }));
-    }, gt = t.findByProps("TextStyleSheet")?.Text ?? (() => null), ht = t.findByName("FlashList") ?? (() => null), yt = t.findByProps("Svg"), Et = yt?.Svg ?? (() => null), vt = yt?.Path ?? (() => null), Pt = t.findByProps("PressableOpacity")?.PressableOpacity ?? (() => null), St = t.findByName("UserProfileEditForm", !1), Ct = t.findByName("UserProfileEditForm", !1);
-    function bt(e) {
+    }, pt = t.findByProps("TextStyleSheet")?.Text ?? (() => null), gt = t.findByName("FlashList") ?? (() => null), ht = t.findByProps("Svg"), yt = ht?.Svg ?? (() => null), Et = ht?.Path ?? (() => null), vt = t.findByProps("PressableOpacity")?.PressableOpacity ?? (() => null), Pt = t.findByName("UserProfileEditForm", !1), St = t.findByName("UserProfileEditForm", !1);
+    function Ct(e) {
         if (!e) return null;
-        if (de(e) && "UserProfilePremiumUpsellCard" === me(e.type)) return null;
+        if (fe(e) && "UserProfilePremiumUpsellCard" === ue(e.type)) return null;
         if (e.props?.children) {
             var t = e.props.children;
             Array.isArray(t) || (t = [ t ]);
-            var r = t.map(bt).filter(e => null !== e);
+            var r = t.map(Ct).filter(e => null !== e);
             e.props.children = 1 === r.length ? r[0] : r;
         }
         return e;
     }
-    function Ft() {
-        var e = L.getCurrentUser();
+    function bt() {
+        var e = x.getCurrentUser();
         if (e) {
-            var t = x.getUserProfile(e.id);
-            t && u.dispatch({
+            var t = R.getUserProfile(e.id);
+            t && d.dispatch({
                 type: "USER_PROFILE_FETCH_SUCCESS",
                 user: e,
                 user_profile: t,
@@ -978,47 +981,47 @@
             });
         }
     }
-    var It = [], kt = {
+    var Ft = [], It = {
         onLoad() {
-            It.push(r.instead("getPurchase", A, (e, t) => Q ? {
+            Ft.push(r.instead("getPurchase", B, (e, t) => J ? {
                 purchasedAt: new Date
-            } : t(e)), r.after("getUserProfile", x, (e, t) => {
+            } : t(e)), r.after("getUserProfile", R, (e, t) => {
                 if (!t || t.profileFetchFailed) return t;
-                if (V(t.userId, t.bio), n.storage.prioritizeNitro) {
+                if (H(t.userId, t.bio), n.storage.prioritizeNitro) {
                     if (t.themeColors) {
-                        if (!ae(t)) {
-                            var r = F(t.bio);
-                            -2 === S(r[0]) ? ne(t, C(r[1])) : ne(t, C(r[2]));
+                        if (!ne(t)) {
+                            var r = b(t.bio);
+                            -2 === P(r[0]) ? ie(t, S(r[1])) : ie(t, S(r[2]));
                         }
                         return t;
                     }
-                    if (ae(t)) {
-                        var o = F(t.bio), i = S(o[0]);
-                        return -2 === i ? ie(t, ...v(o[0])) : ie(t, i, S(o[1])), t;
+                    if (ne(t)) {
+                        var o = b(t.bio), i = P(o[0]);
+                        return -2 === i ? oe(t, ...E(o[0])) : oe(t, i, P(o[1])), t;
                     }
                 }
-                var a = F(t.bio), s = S(a[0]);
-                return -2 === s ? (ie(t, ...v(a[0])), ne(t, C(a[1]))) : (ie(t, s, S(a[1])), ne(t, C(a[2]))), 
+                var a = b(t.bio), s = P(a[0]);
+                return -2 === s ? (oe(t, ...E(a[0])), ie(t, S(a[1]))) : (oe(t, s, P(a[1])), ie(t, S(a[2]))), 
                 t;
-            }), ...le.map(e => r.after("default", e, (e, t) => (Q && (void 0 !== R.profileEffects ? (t.splice(1), 
-            t[0].items.splice(1), R.profileEffects.forEach(e => {
-                t[0].items.push(new oe(e));
-            }), se = t) : t = se), t))), re(), r.after("default", St, (e, t) => {
+            }), ...se.map(e => r.after("default", e, (e, t) => (J && (void 0 !== D.profileEffects ? (t.splice(1), 
+            t[0].items.splice(1), D.profileEffects.forEach(e => {
+                t[0].items.push(new re(e));
+            }), ae = t) : t = ae), t))), te(), r.after("default", Pt, (e, t) => {
                 if (n.storage.hideBuilder) return t;
-                var r = ge(t, e => Array.isArray(e) && e.some(e => de(e) && "UserProfileEditFormTextField" === me(e.type)));
+                var r = pe(t, e => Array.isArray(e) && e.some(e => fe(e) && "UserProfileEditFormTextField" === ue(e.type)));
                 if (r) {
-                    var i = r.props.children.reduce((e, t, r) => (de(t) && "UserProfileEditFormTextField" === me(t.type) && e.push(r), 
+                    var i = r.props.children.reduce((e, t, r) => (fe(t) && "UserProfileEditFormTextField" === ue(t.type) && e.push(r), 
                     e), []);
-                    3 > i.length || r.props.children.splice(i[2] + 1, 0, o.createElement(st, null));
+                    3 > i.length || r.props.children.splice(i[2] + 1, 0, o.createElement(at, null));
                 }
                 return t;
-            }), void (Ct && r.after("default", Ct, (e, t) => bt(t) || t)), r.after("getUser", L, (e, t) => {
+            }), void (St && r.after("default", St, (e, t) => Ct(t) || t)), r.after("getUser", x, (e, t) => {
                 try {
                     if (!t?.id) return t;
-                    var r = (a = t.id, U.get(a));
+                    var r = (a = t.id, L.get(a));
                     if (!r) return t;
                     if (r.decorationSku) {
-                        var o = (n = r.decorationSku, _.isLoaded ? _.decorations.find(e => e.skuId === n)?.config ?? null : (_.fetch(), 
+                        var o = (n = r.decorationSku, T.isLoaded ? T.decorations.find(e => e.skuId === n)?.config ?? null : (T.fetch(), 
                         null));
                         if (o) {
                             t.avatarDecorationData = {
@@ -1032,7 +1035,7 @@
                         }
                     }
                     if (r.nameplateSku) {
-                        var i = (e => N.isLoaded ? N.nameplates.find(t => t.skuId === e)?.config ?? null : (N.fetch(), 
+                        var i = (e => w.isLoaded ? w.nameplates.find(t => t.skuId === e)?.config ?? null : (w.fetch(), 
                         null))(r.nameplateSku);
                         i && (t.collectibles = {
                             ...t.collectibles ?? {},
@@ -1043,42 +1046,42 @@
                 var n, a;
                 return t;
             })), (() => {
-                var e = L.getCurrentUser();
+                var e = x.getCurrentUser();
                 if (e) {
-                    var t = x.getUserProfile(e.id);
-                    t && V(e.id, t.bio);
+                    var t = R.getUserProfile(e.id);
+                    t && H(e.id, t.bio);
                 }
-            })(), Ft();
+            })(), bt();
         },
         onUnload() {
-            It.forEach(e => {
+            Ft.forEach(e => {
                 e();
-            }), Ft();
+            }), bt();
         },
-        settings: () => (d.useProxy(n.storage), o.createElement(s.ScrollView, null, o.createElement(et, {
+        settings: () => (f.useProxy(n.storage), o.createElement(s.ScrollView, null, o.createElement($e, {
             title: "Settings"
-        }, o.createElement(tt, {
+        }, o.createElement(et, {
             label: "Source to prioritize"
-        }), o.createElement(rt, {
+        }), o.createElement(tt, {
             label: "Nitro",
             selected: !!n.storage.prioritizeNitro,
             onPress() {
                 n.storage.prioritizeNitro = !0;
             }
-        }), o.createElement(rt, {
+        }), o.createElement(tt, {
             label: "About Me",
             selected: !n.storage.prioritizeNitro,
             onPress() {
                 n.storage.prioritizeNitro = !1;
             }
-        }), o.createElement(ot, {
+        }), o.createElement(rt, {
             label: "Hide Builder",
             subLabel: "Hide the FPTE Builder in the User Profile and Server Profiles settings pages",
             value: !!n.storage.hideBuilder,
             onValueChange(e) {
                 n.storage.hideBuilder = e;
             }
-        }), o.createElement(ot, {
+        }), o.createElement(rt, {
             label: "Force fallback effect picker",
             value: !!n.storage.forceFallbackEffectPicker,
             onValueChange(e) {
@@ -1086,5 +1089,5 @@
             }
         }))))
     };
-    return kt;
-})(vendetta.metro.common, vendetta.metro, vendetta.patcher, React, vendetta.ui, vendetta.plugin, vendetta.ui.toasts, vendetta.metro.common.ReactNative, lodash, vendetta.ui.assets, vendetta.ui.components, vendetta.storage);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
+    return It;
+})(vendetta.metro.common, vendetta.metro, vendetta.patcher, React, vendetta.ui, vendetta.plugin, vendetta.ui.toasts, vendetta.metro.common.ReactNative, vendetta.ui.assets, vendetta.ui.components, vendetta.storage);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
