@@ -1,6 +1,6 @@
 (() => { try { return (function(e, o, t, r, n) {
     "use strict";
-    var {ScrollView: s, View: a, Text: i, Pressable: l} = o.ReactNative, d = [ "device", "device_vendor_id", "design_id", "client_app_state", "is_fast_connect", "gateway_connect_reasons" ], c = {
+    var {ScrollView: s, View: a, Text: i, Pressable: l} = o.ReactNative, c = [ "device", "device_vendor_id", "design_id", "client_app_state", "is_fast_connect", "gateway_connect_reasons" ], d = {
         android: {
             label: "Android (off, real)",
             properties: null
@@ -39,28 +39,39 @@
                 browser_version: ""
             }
         }
-    }, p = t.storage;
-    function f() {
-        return p.preset && c[p.preset] ? p.preset : "android";
+    }, f = t.storage;
+    function p() {
+        return f.preset && d[f.preset] ? f.preset : "android";
     }
     function b(e) {
         try {
             n.showToast(e);
         } catch (e) {}
     }
-    var u = null, _ = new WeakSet, g = null;
+    var u = null, g = null, y = new WeakSet;
+    function m() {
+        if (g) {
+            try {
+                g.sessionId = null, g.seq = 0;
+            } catch (e) {
+                return void b("Platform Spoofer: couldn't clear session state: " + e);
+            }
+            "function" == typeof g.close ? (g.close(), b("Reconnecting with a fresh IDENTIFY...")) : b("Session cleared, but no close() method found to force a reconnect");
+        } else b("Platform Spoofer: no gateway connection seen yet");
+    }
+    var w = null;
     return {
         onLoad() {
             var o;
             o = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify), 
-            g = o ? r.before("_doIdentify", o.prototype, function() {
+            w = o ? r.before("_doIdentify", o.prototype, function() {
                 var e;
-                (e = this) && !_.has(e) && "function" == typeof e.send && (_.add(e), u = r.before("send", e, e => {
+                g = e = this, e && !y.has(e) && "function" == typeof e.send && (y.add(e), u = r.before("send", e, e => {
                     try {
                         (e => {
-                            var o = c[f()];
+                            var o = d[p()];
                             if (o && o.properties && e && e.properties) for (var t of (Object.assign(e.properties, o.properties), 
-                            d)) delete e.properties[t];
+                            c)) delete e.properties[t];
                         })(e[1]);
                     } catch (e) {
                         b("Platform Spoofer: failed to apply preset: " + e);
@@ -69,10 +80,10 @@
             }) : (b("Platform Spoofer: GatewaySocket class not found, nothing patched"), null);
         },
         onUnload() {
-            u && u(), g && g();
+            u && u(), w && w();
         },
         settings() {
-            var e = o.React.createElement, [, t] = o.React.useState(0), r = f();
+            var e = o.React.createElement, [, t] = o.React.useState(0), r = p();
             return e(s, {
                 style: {
                     flex: 1
@@ -93,12 +104,12 @@
                     fontSize: 12,
                     marginBottom: 16
                 }
-            }, "Only affects a fresh IDENTIFY (logout/login, or a genuinely new connection), not a short reconnect, which resumes the existing session instead."), Object.keys(c).map(o => {
+            }, "Picking a preset only takes effect on the next IDENTIFY. Use Reconnect below to force one immediately, no logout needed."), Object.keys(d).map(o => {
                 var n = o === r;
                 return e(l, {
                     key: o,
                     onPress: () => (e => {
-                        p.preset = e, t(e => e + 1), b("Platform set to " + c[e].label + ". Reconnect (logout/login) to apply.");
+                        f.preset = e, t(e => e + 1), b("Platform set to " + d[e].label + ". Tap Reconnect below to apply.");
                     })(o),
                     style: {
                         paddingVertical: 12,
@@ -112,8 +123,22 @@
                         color: "#ffffff",
                         fontWeight: n ? "700" : "400"
                     }
-                }, c[o].label));
-            }));
+                }, d[o].label));
+            }), e(l, {
+                onPress: m,
+                style: {
+                    backgroundColor: "#248046",
+                    borderRadius: 8,
+                    paddingVertical: 12,
+                    alignItems: "center",
+                    marginTop: 8
+                }
+            }, e(i, {
+                style: {
+                    color: "#ffffff",
+                    fontWeight: "600"
+                }
+            }, "Reconnect now (apply without logging out)")));
         }
     };
 })(vendetta.metro, vendetta.metro.common, vendetta.plugin, vendetta.patcher, vendetta.ui.toasts);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
