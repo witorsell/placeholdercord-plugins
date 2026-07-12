@@ -69,13 +69,15 @@ export default (await Promise.all(readdirSync("./plugins", { withFileTypes: true
             {
                 name: "manifest",
                 renderChunk(code: string) {
+                    const wrappedCode = `(() => { try { return ${code}; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()`;
                     manifest.main = "index.js";
-                    manifest.hash = createHash("sha256").update(code + "\n").digest("base64");
+                    manifest.hash = createHash("sha256").update(wrappedCode + "\\n").digest("base64");
                     this.emitFile({
                         type: "asset",
                         fileName: "manifest.json",
                         source: JSON.stringify(manifest)
                     });
+                    return wrappedCode;
                 }
             }
         ]
