@@ -1,6 +1,6 @@
 (() => { try { return (function(e, o, t, n, r) {
     "use strict";
-    var {ScrollView: s, View: a, Text: i, Pressable: l} = o.ReactNative, c = [ "device", "device_vendor_id", "design_id", "client_app_state", "is_fast_connect", "gateway_connect_reasons" ], d = {
+    var {ScrollView: s, View: a, Text: i, Pressable: l} = o.ReactNative, c = [ "device", "design_id", "client_app_state", "is_fast_connect", "gateway_connect_reasons" ], d = {
         android: {
             label: "Android (off, real)",
             properties: null
@@ -62,7 +62,7 @@
             }
         }));
     }
-    function _() {
+    function w() {
         if (y) {
             try {
                 y.sessionId = null, y.seq = 0;
@@ -72,10 +72,10 @@
             "function" == typeof y.close ? (y.close(), u("Reconnecting with a fresh IDENTIFY...")) : u("Session cleared, but no close() method found to force a reconnect");
         } else u("Platform Spoofer: no gateway connection seen yet");
     }
-    var w = null;
+    var _ = null;
     return {
         onLoad() {
-            w = function() {
+            _ = function() {
                 var o = e.find(e => e && e.socket && "function" == typeof e.socket._doIdentify);
                 o?.socket && m(o.socket);
                 var t = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify);
@@ -83,10 +83,10 @@
                     m(this);
                 }) : (y || u("Platform Spoofer: GatewaySocket class not found, nothing patched"), 
                 null);
-            }(), "android" !== p() && y && _();
+            }(), "android" !== p() && y && w();
         },
         onUnload() {
-            b && b(), w && w();
+            b && b(), _ && _();
         },
         settings() {
             var e = o.React.createElement, [, t] = o.React.useState(0), n = p();
@@ -131,7 +131,7 @@
                     }
                 }, d[o].label));
             }), e(l, {
-                onPress: _,
+                onPress: w,
                 style: {
                     backgroundColor: "#248046",
                     borderRadius: 8,
