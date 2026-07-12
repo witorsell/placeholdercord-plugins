@@ -17,6 +17,9 @@ const { useStateFromStores } = (findByProps("useStateFromStores") ?? {}) as {
     useStateFromStores?: <T>(stores: unknown[], getState: () => T) => T;
 };
 
+// needs a stable ref or useStateFromStores resubscribes every render and loops
+const COLLECTIBLE_STORES = [CollectiblesCategoryStore, CollectiblesPurchaseStore];
+
 export interface BuilderProps {
     guildId?: string | undefined;
 }
@@ -48,13 +51,13 @@ export function Builder({ guildId }: BuilderProps) {
     const [appliedNameplateSku, setAppliedNameplateSku] = useState<string | null>(null);
 
     const availableEffects = useStateFromStores
-        ? useStateFromStores([CollectiblesCategoryStore, CollectiblesPurchaseStore], () => ProfileEffectStore.profileEffects)
+        ? useStateFromStores(COLLECTIBLE_STORES, () => ProfileEffectStore.profileEffects)
         : ProfileEffectStore.profileEffects;
     const availableDecorations = useStateFromStores
-        ? useStateFromStores([CollectiblesCategoryStore, CollectiblesPurchaseStore], () => AvatarDecorationStore.decorations)
+        ? useStateFromStores(COLLECTIBLE_STORES, () => AvatarDecorationStore.decorations)
         : AvatarDecorationStore.decorations;
     const availableNameplates = useStateFromStores
-        ? useStateFromStores([CollectiblesCategoryStore, CollectiblesPurchaseStore], () => NameplateStore.nameplates)
+        ? useStateFromStores(COLLECTIBLE_STORES, () => NameplateStore.nameplates)
         : NameplateStore.nameplates;
 
     // Decode whatever FPTE is already in the bio so the Builder reflects the current
