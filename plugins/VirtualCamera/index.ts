@@ -18,64 +18,64 @@ function getNative(): any {
     return (w.placeholder && w.placeholder.native) || null;
 }
 
-function toast(msg: string) {
-    try { showToast(msg); } catch { /* ignore */ }
-}
+const toast = (msg: string) => {
+    try {
+        showToast(msg);
+    } catch (e) {}
+};
 
 const store = storage as any;
 
 function Settings() {
     const { ScrollView, View, Text, Pressable, TextInput } = ReactNative as any;
     const h = React.createElement;
-    const [, setTick] = React.useState(0);
-    const rerender = () => setTick((n: number) => n + 1);
-    const native = getNative();
 
+    const [, forceUpdate] = React.useState(0);
+    const rerender = () => forceUpdate((n: number) => n + 1);
+
+    const native = getNative();
     const currentPath: string = store.mediaPath ?? "";
     const isEnabled: boolean = store.enabled ?? false;
 
-    const setMedia = async (path: string) => {
+    const setMedia = (path: string) => {
         if (!native) { toast("Enable the Native Bridge plugin first"); return; }
-        try {
-            store.mediaPath = path;
-            store.enabled = true;
-            await native.camera.setMedia(path);
+        store.mediaPath = path;
+        store.enabled = true;
+        native.camera.setMedia(path).then(() => {
             rerender();
             toast("Virtual camera set!");
-        } catch (e: any) {
+        }).catch((e: any) => {
             toast("Error: " + (e?.message ?? e));
-        }
+        });
     };
 
-    const disable = async () => {
+    const disable = () => {
         if (!native) return;
-        try {
-            store.enabled = false;
-            store.mediaPath = "";
-            await native.camera.setMedia(null);
+        store.enabled = false;
+        store.mediaPath = "";
+        native.camera.setMedia(null).then(() => {
             rerender();
             toast("Virtual camera disabled");
-        } catch (e: any) {
+        }).catch((e: any) => {
             toast("Error: " + (e?.message ?? e));
-        }
+        });
     };
 
-    const pickFromGallery = async () => {
+    const pickFromGallery = () => {
         const ImageCropPicker = (ReactNative as any).NativeModules?.ImageCropPicker;
         if (!ImageCropPicker) {
             toast("Native ImageCropPicker not found!");
             return;
         }
-        try {
-            const res = await ImageCropPicker.openPicker({ mediaType: "any" });
+        ImageCropPicker.openPicker({ mediaType: "any" }).then((res: any) => {
             if (res && res.path) {
                 setMedia(res.path.replace("file://", ""));
             }
-        } catch (e: any) {
+        }).catch((e: any) => {
             if (e?.code !== "E_PICKER_CANCELLED") {
                 toast("Picker error: " + (e?.message ?? e));
             }
-        }
+        });
     };
 
     const children: any[] = [];
