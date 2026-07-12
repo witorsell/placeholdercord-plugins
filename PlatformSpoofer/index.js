@@ -1,4 +1,4 @@
-(() => { try { return (function(e, o, t, r, n) {
+(() => { try { return (function(e, o, t, n, r) {
     "use strict";
     var {ScrollView: s, View: a, Text: i, Pressable: l} = o.ReactNative, c = [ "device", "device_vendor_id", "design_id", "client_app_state", "is_fast_connect", "gateway_connect_reasons" ], d = {
         android: {
@@ -43,47 +43,53 @@
     function p() {
         return f.preset && d[f.preset] ? f.preset : "android";
     }
-    function b(e) {
+    function u(e) {
         try {
-            n.showToast(e);
+            r.showToast(e);
         } catch (e) {}
     }
-    var u = null, g = null, y = new WeakSet;
-    function m() {
-        if (g) {
+    var b = null, y = null, g = new WeakSet;
+    function m(e) {
+        y = e, e && !g.has(e) && "function" == typeof e.send && (g.add(e), b = n.before("send", e, e => {
             try {
-                g.sessionId = null, g.seq = 0;
+                (e => {
+                    var o = d[p()];
+                    if (o && o.properties && e && e.properties) for (var t of (Object.assign(e.properties, o.properties), 
+                    c)) delete e.properties[t];
+                })(e[1]);
             } catch (e) {
-                return void b("Platform Spoofer: couldn't clear session state: " + e);
+                u("Platform Spoofer: failed to apply preset: " + e);
             }
-            "function" == typeof g.close ? (g.close(), b("Reconnecting with a fresh IDENTIFY...")) : b("Session cleared, but no close() method found to force a reconnect");
-        } else b("Platform Spoofer: no gateway connection seen yet");
+        }));
+    }
+    function _() {
+        if (y) {
+            try {
+                y.sessionId = null, y.seq = 0;
+            } catch (e) {
+                return void u("Platform Spoofer: couldn't clear session state: " + e);
+            }
+            "function" == typeof y.close ? (y.close(), u("Reconnecting with a fresh IDENTIFY...")) : u("Session cleared, but no close() method found to force a reconnect");
+        } else u("Platform Spoofer: no gateway connection seen yet");
     }
     var w = null;
     return {
         onLoad() {
-            var o;
-            o = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify), 
-            w = o ? r.before("_doIdentify", o.prototype, function() {
-                var e;
-                g = e = this, e && !y.has(e) && "function" == typeof e.send && (y.add(e), u = r.before("send", e, e => {
-                    try {
-                        (e => {
-                            var o = d[p()];
-                            if (o && o.properties && e && e.properties) for (var t of (Object.assign(e.properties, o.properties), 
-                            c)) delete e.properties[t];
-                        })(e[1]);
-                    } catch (e) {
-                        b("Platform Spoofer: failed to apply preset: " + e);
-                    }
-                }));
-            }) : (b("Platform Spoofer: GatewaySocket class not found, nothing patched"), null);
+            w = function() {
+                var o = e.find(e => e && e.socket && "function" == typeof e.socket._doIdentify);
+                o?.socket && m(o.socket);
+                var t = e.find(e => e && e.prototype && "function" == typeof e.prototype._doIdentify);
+                return t ? n.before("_doIdentify", t.prototype, function() {
+                    m(this);
+                }) : (y || u("Platform Spoofer: GatewaySocket class not found, nothing patched"), 
+                null);
+            }();
         },
         onUnload() {
-            u && u(), w && w();
+            b && b(), w && w();
         },
         settings() {
-            var e = o.React.createElement, [, t] = o.React.useState(0), r = p();
+            var e = o.React.createElement, [, t] = o.React.useState(0), n = p();
             return e(s, {
                 style: {
                     flex: 1
@@ -105,27 +111,27 @@
                     marginBottom: 16
                 }
             }, "Picking a preset only takes effect on the next IDENTIFY. Use Reconnect below to force one immediately, no logout needed."), Object.keys(d).map(o => {
-                var n = o === r;
+                var r = o === n;
                 return e(l, {
                     key: o,
                     onPress: () => (e => {
-                        f.preset = e, t(e => e + 1), b("Platform set to " + d[e].label + ". Tap Reconnect below to apply.");
+                        f.preset = e, t(e => e + 1), u("Platform set to " + d[e].label + ". Tap Reconnect below to apply.");
                     })(o),
                     style: {
                         paddingVertical: 12,
                         paddingHorizontal: 14,
                         borderRadius: 8,
                         marginBottom: 8,
-                        backgroundColor: n ? "#5865F2" : "#2b2d31"
+                        backgroundColor: r ? "#5865F2" : "#2b2d31"
                     }
                 }, e(i, {
                     style: {
                         color: "#ffffff",
-                        fontWeight: n ? "700" : "400"
+                        fontWeight: r ? "700" : "400"
                     }
                 }, d[o].label));
             }), e(l, {
-                onPress: m,
+                onPress: _,
                 style: {
                     backgroundColor: "#248046",
                     borderRadius: 8,
