@@ -1,0 +1,1 @@
+{"name":"Platform Spoofer","description":"Reports a different platform (Desktop, Web, Embedded) to Discord's backend instead of Android. Pick a preset in settings, then reconnect (logout/login, or wait for a fresh IDENTIFY) for it to take effect.","authors":[{"name":"witorsell","id":"1524888236382617681"}],"main":"index.js","hash":"M3Q8nYmvUD7dG8LFg073B8YMn2fUnYWnlDvgsAsccyg="}
