@@ -188,6 +188,12 @@ function Settings() {
 export default {
     onLoad() {
         unpatchIdentify = patchGateway();
+        // The gateway already connected with real Android properties before this plugin
+        // got a chance to load, so if a preset is active, force one reconnect right away
+        // instead of making the user tap Reconnect manually every launch.
+        if (currentPreset() !== "android" && gatewayInstance) {
+            forceReidentify();
+        }
     },
     onUnload() {
         if (unpatchSend) unpatchSend();
