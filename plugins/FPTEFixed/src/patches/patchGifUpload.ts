@@ -49,6 +49,13 @@ function buildDeps(): GifUploadDeps {
                 // actually returns a ready-to-use EventEmitter instance versus a bare
                 // class/prototype needing `new`. If uploads fail on-device, log the actual
                 // arguments this handler receives and adjust field access below to match.
+                //
+                // cloudUploader appears to be a shared instance. If two uploads are ever in
+                // flight concurrently (e.g. an avatar pick immediately followed by a banner
+                // pick before the first completes), both listener pairs would attach to
+                // the same emitter and could resolve/reject with the wrong upload's data.
+                // Not fixed here since the picker UI is one-at-a-time in practice, but worth
+                // verifying on a real device if avatar/banner ever get mismatched.
                 cloudUploader.once("complete", (_batch: unknown, item: { id: string; filename: string; uploadedFilename: string; }) => {
                     resolve({ id: item.id, filename: item.filename, uploadedFilename: item.uploadedFilename });
                 });
