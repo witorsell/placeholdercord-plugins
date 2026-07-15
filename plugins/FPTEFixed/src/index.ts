@@ -11,6 +11,8 @@ import {
     patchUserProfileEditForm,
     patchNitroUpsellCard
 } from "./patches/index";
+import { patchGifUpload } from "./patches/patchGifUpload";
+import { patchGifAvatarRender, patchGifBannerRender } from "./patches/patchGifRender";
 import { Settings } from "./ui/pages";
 
 /** Updates the profile theme and effect used by YouScreen and BottomTabBar. */
@@ -39,7 +41,10 @@ export default {
             patchUseProfileTheme(),
             patchUserProfileEditForm(),
             patchNitroUpsellCard(),
-            patchUserCollectibles()
+            patchUserCollectibles(),
+            patchGifUpload(),
+            patchGifAvatarRender(),
+            patchGifBannerRender()
         );
         primeLocalUser();
         updateProfileThemeAndEffect();
