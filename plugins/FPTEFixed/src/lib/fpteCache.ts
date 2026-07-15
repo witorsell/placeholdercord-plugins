@@ -7,6 +7,9 @@ export interface DecodedFPTE {
     effectSku: string | null;
     decorationSku: string | null;
     nameplateSku: string | null;
+    gifChannelId: string | null;
+    avatarGifMessageId: string | null;
+    bannerGifMessageId: string | null;
 }
 
 const cache = new Map<string, DecodedFPTE>();
@@ -32,7 +35,10 @@ export function decodeBio(bio: string | undefined | null): DecodedFPTE {
             accent,
             effectSku: toSku(fpte[1]),
             decorationSku: toSku(fpte[2]),
-            nameplateSku: toSku(fpte[3])
+            nameplateSku: toSku(fpte[3]),
+            gifChannelId: toSku(fpte[4]),
+            avatarGifMessageId: toSku(fpte[5]),
+            bannerGifMessageId: toSku(fpte[6])
         };
     }
 
@@ -41,7 +47,10 @@ export function decodeBio(bio: string | undefined | null): DecodedFPTE {
         accent: decodeColor(fpte[1]),
         effectSku: toSku(fpte[2]),
         decorationSku: toSku(fpte[3]),
-        nameplateSku: toSku(fpte[4])
+        nameplateSku: toSku(fpte[4]),
+        gifChannelId: toSku(fpte[5]),
+        avatarGifMessageId: toSku(fpte[6]),
+        bannerGifMessageId: toSku(fpte[7])
     };
 }
 
