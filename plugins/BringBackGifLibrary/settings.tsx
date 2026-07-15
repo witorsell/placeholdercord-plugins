@@ -16,10 +16,28 @@ export default function BringBackGifLibrarySettings() {
             <Stack style={{ padding: 16 }} spacing={16}>
                 <TableRowGroup title="giflibrary.site">
                     <TableSwitchRow
-                        label="Show NSFW"
-                        subLabel="Include NSFW gifs in the picker. On by default here, does not change the website."
-                        value={get("nsfw", true)}
-                        onValueChange={(v: boolean) => { set("nsfw", v); forceUpdate(); }}
+                        label="Suggestive"
+                        subLabel="Include gifs tagged suggestive. On by default here, does not change the website."
+                        value={get("nsfwSuggestive", true)}
+                        onValueChange={(v: boolean) => { set("nsfwSuggestive", v); forceUpdate(); }}
+                    />
+                    <TableSwitchRow
+                        label="Offensive"
+                        subLabel="Include gifs tagged offensive."
+                        value={get("nsfwOffensive", true)}
+                        onValueChange={(v: boolean) => { set("nsfwOffensive", v); forceUpdate(); }}
+                    />
+                    <TableSwitchRow
+                        label="Sexual"
+                        subLabel="Include gifs tagged sexual."
+                        value={get("nsfwSexual", true)}
+                        onValueChange={(v: boolean) => { set("nsfwSexual", v); forceUpdate(); }}
+                    />
+                    <TableSwitchRow
+                        label="Other NSFW"
+                        subLabel="Include gifs only tagged with the generic nsfw catch-all."
+                        value={get("nsfwOther", true)}
+                        onValueChange={(v: boolean) => { set("nsfwOther", v); forceUpdate(); }}
                     />
                 </TableRowGroup>
             </Stack>

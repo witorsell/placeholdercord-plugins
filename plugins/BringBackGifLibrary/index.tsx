@@ -30,13 +30,30 @@ const PAGE = "https://giflibrary.site/gif";
 // Tags that make bad category tiles (too generic, filenames, mentions).
 const GENERIC_TAGS = new Set(["discord", "nsfw", "gif", "webp", "everyone", "here", "@everyone", "@here"]);
 
+// The site dropped the old single nsfw=true/false flag for four independent category
+// switches (suggestive, offensive, sexual, and a generic "other nsfw" catch-all still
+// tagged "nsfw" server-side). A gif is only unlocked if every category it's tagged with
+// is in this list, so this has to send the full set, not just one matching category.
+const NSFW_STORAGE_KEYS = {
+    suggestive: "nsfwSuggestive",
+    offensive: "nsfwOffensive",
+    sexual: "nsfwSexual",
+    nsfw: "nsfwOther",
+} as const;
+
 const patches: (() => void)[] = [];
+
+function enabledNsfwCategories() {
+    return Object.entries(NSFW_STORAGE_KEYS)
+        .filter(([, storageKey]) => plugin.storage[storageKey] !== false)
+        .map(([category]) => category);
+}
 
 function apiUrl(q: string | undefined, page: number, limit: number) {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) });
     if (q) params.set("q", q);
-    // NSFW is on by default for the plugin (the site's own default is unchanged).
-    if (plugin.storage.nsfw !== false) params.set("nsfw", "true");
+    const categories = enabledNsfwCategories();
+    if (categories.length) params.set("nsfw_categories", categories.join(","));
     return `${API}?${params.toString()}`;
 }
 
@@ -100,7 +117,15 @@ let lastTrendingController: AbortController | null = null;
 
 export default {
     onLoad() {
-        plugin.storage.nsfw = plugin.storage.nsfw ?? true;
+        // One-time migration from the old single nsfw boolean to the four category
+        // switches, so existing users keep whatever they already had (on by default).
+        if (plugin.storage.nsfwSuggestive === undefined) {
+            const legacy = plugin.storage.nsfw ?? true;
+            plugin.storage.nsfwSuggestive = legacy;
+            plugin.storage.nsfwOffensive = legacy;
+            plugin.storage.nsfwSexual = legacy;
+            plugin.storage.nsfwOther = legacy;
+        }
 
         const httpModule = findByProps("HTTP", "get", "post", "put", "patch", "del");
         if (!httpModule?.HTTP) {
