@@ -129,15 +129,9 @@ export function buildFPTE(primary: number, accent: number, effect: string, decor
         fields = [encodeColor(primary), encodeColor(accent), ...collectibles];
     }
     else {
-        // One color (or none) in slot 0, empty slot 1 (non-legacy only), collectibles in slots 2/3/4.
+        // One color (or none) in slot 0, empty slot 1, collectibles in slots 2/3/4.
         const color = primary >= 0 ? primary : accent;
-        if (legacy) {
-            // In legacy mode, only allocate 1 slot for colors even if none are set.
-            fields = [color >= 0 ? encodeColor(color) : "", ...collectibles];
-        } else {
-            // In non-legacy mode, always allocate 2 slots for colors.
-            fields = [color >= 0 ? encodeColor(color) : "", "", ...collectibles];
-        }
+        fields = [color >= 0 ? encodeColor(color) : "", "", ...collectibles];
     }
 
     // Drop trailing empty fields so unset fields never emit dangling delimiters.
