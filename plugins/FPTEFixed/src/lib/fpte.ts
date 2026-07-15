@@ -97,20 +97,24 @@ export const encodeSku = encodeEffect;
 export const decodeSku = decodeEffect;
 
 /**
- * Builds a FPTE string containing the given colors, effect, decoration, and nameplate skus. The collectible
- * fields are appended after the colors in fixed slots (effect, decoration, nameplate) so that older clients,
- * which stop parsing after the effect, ignore the new trailing fields.
+ * Builds a FPTE string containing the given colors, effect, decoration, nameplate, and gif reference skus.
+ * The collectible fields are appended after the colors in fixed slots (effect, decoration, nameplate,
+ * gif channel, avatar gif message, banner gif message) so that older clients, which stop parsing after
+ * the effect, ignore the new trailing fields.
  * @param primary The primary profile theme color. Must be negative if unset.
  * @param accent The accent profile theme color. Must be negative if unset.
  * @param effect The profile effect sku. Empty if unset.
  * @param decoration The avatar decoration sku. Empty if unset.
  * @param nameplate The nameplate sku. Empty if unset.
+ * @param gifChannel The Discord channel ID for the gif file. Empty if unset.
+ * @param avatarGifMessage The Discord message ID for the avatar gif. Empty if unset.
+ * @param bannerGifMessage The Discord message ID for the banner gif. Empty if unset.
  * @param legacy Whether the primary and accent colors should be legacy encoded.
  * @returns The built FPTE string. Empty if everything is unset.
  */
-export function buildFPTE(primary: number, accent: number, effect: string, decoration: string, nameplate: string, legacy: boolean) {
+export function buildFPTE(primary: number, accent: number, effect: string, decoration: string, nameplate: string, gifChannel: string, avatarGifMessage: string, bannerGifMessage: string, legacy: boolean) {
     const enc = (sku: string) => sku ? encodeSku(BigInt(sku)) : "";
-    const collectibles = [enc(effect), enc(decoration), enc(nameplate)];
+    const collectibles = [enc(effect), enc(decoration), enc(nameplate), enc(gifChannel), enc(avatarGifMessage), enc(bannerGifMessage)];
 
     let fields: string[];
     if (legacy && (primary >= 0 || accent >= 0)) {
@@ -125,9 +129,15 @@ export function buildFPTE(primary: number, accent: number, effect: string, decor
         fields = [encodeColor(primary), encodeColor(accent), ...collectibles];
     }
     else {
-        // One color (or none) in slot 0, empty slot 1, collectibles in slots 2/3/4.
+        // One color (or none) in slot 0, empty slot 1 (non-legacy only), collectibles in slots 2/3/4.
         const color = primary >= 0 ? primary : accent;
-        fields = [color >= 0 ? encodeColor(color) : "", "", ...collectibles];
+        if (legacy) {
+            // In legacy mode, only allocate 1 slot for colors even if none are set.
+            fields = [color >= 0 ? encodeColor(color) : "", ...collectibles];
+        } else {
+            // In non-legacy mode, always allocate 2 slots for colors.
+            fields = [color >= 0 ? encodeColor(color) : "", "", ...collectibles];
+        }
     }
 
     // Drop trailing empty fields so unset fields never emit dangling delimiters.
@@ -142,8 +152,12 @@ export function buildFPTE(primary: number, accent: number, effect: string, decor
  * @returns An array of the found FPTE substring's extracted values. Values will be empty if not found.
  */
 export function extractFPTE(str: string) {
-    /** The array of extracted FPTE values to be returned. Slots: color(s), effect, decoration, nameplate. */
-    const fpte: [string, string, string, string, string] = ["", "", "", "", ""];
+    /**
+     * The array of extracted FPTE values to be returned.
+     * Slots: color(s), effect, decoration, nameplate, gifChannel, avatarGifMessage, bannerGifMessage.
+     */
+    const fpte: [string, string, string, string, string, string, string, string] =
+        ["", "", "", "", "", "", "", ""];
     /** The current index of {@link fpte} getting extracted. */
     let i = 0;
 
@@ -154,7 +168,7 @@ export function extractFPTE(str: string) {
         // If the current character is a delimiter, then the current index of fpte has been completed.
         if (cp === DELIMITER_CODEPOINT) {
             // If the current index of fpte is the last, then the extraction is done.
-            if (i >= 4) break;
+            if (i >= 7) break;
             i++; // Start extracting the next index of fpte.
         }
         // If the current character is not a delimiter but a valid FPTE
