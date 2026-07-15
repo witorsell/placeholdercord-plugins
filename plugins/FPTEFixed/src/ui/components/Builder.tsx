@@ -105,7 +105,7 @@ export function Builder({ guildId }: BuilderProps) {
     }, [appliedNameplateSku, availableNameplates, nameplate]);
 
     const fpteActive = bio !== null && hasFPTE(bio);
-    const hasSelection = primaryColor !== null || accentColor !== null || effect !== null || decoration !== null || nameplate !== null;
+    const hasSelection = primaryColor !== null || accentColor !== null || effect !== null || decoration !== null || nameplate !== null || gifChannelId !== null || avatarGifMessageId !== null || bannerGifMessageId !== null;
 
     const fpteString = buildFPTE(
         primaryColor ?? -1,
