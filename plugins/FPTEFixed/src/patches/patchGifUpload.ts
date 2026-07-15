@@ -38,15 +38,29 @@ function buildDeps(): GifUploadDeps {
         ensurePrivateChannel: (userId: string) => channelActions.getOrEnsurePrivateChannel(userId),
         uploadFile: (channelId: string, filename: string, mimeType: string, base64DataUri: string) =>
             new Promise((resolve, reject) => {
+                // The 'complete' event fires on the cloudUploader instance itself, not on
+                // uploadFiles()'s return value (that's a Promise resolving almost immediately
+                // to the instance, not on completion, confirmed by reading Discord's actual
+                // upload bytecode). Listeners must be registered before calling uploadFiles.
+                //
+                // NOT YET CONFIRMED ON A REAL DEVICE: the exact shape of the arguments this
+                // event handler receives (is the second argument the completed file's data
+                // directly, an index, something else?), and whether findByProps("uploadFiles")
+                // actually returns a ready-to-use EventEmitter instance versus a bare
+                // class/prototype needing `new`. If uploads fail on-device, log the actual
+                // arguments this handler receives and adjust field access below to match.
+                cloudUploader.once("complete", (_batch: unknown, item: { id: string; filename: string; uploadedFilename: string; }) => {
+                    resolve({ id: item.id, filename: item.filename, uploadedFilename: item.uploadedFilename });
+                });
+                cloudUploader.once("error", (err: unknown) => reject(err instanceof Error ? err : new Error(String(err))));
+
                 // First attempt: pass the data URI straight through as the file's uri, the
                 // same shape CloudUpload expects from a native picker result. If uploads
                 // silently fail on-device (see Task 9), switch to writing the decoded bytes
                 // to a temp file via the RN filesystem module and pass a file:// uri instead.
-                const upload = cloudUploader.uploadFiles([
+                cloudUploader.uploadFiles([
                     { file: { uri: base64DataUri, name: filename, type: mimeType }, filename }
                 ]);
-                upload.once("complete", (id: string) => resolve({ id, filename, uploadedFilename: filename }));
-                upload.once("error", (err: unknown) => reject(err instanceof Error ? err : new Error(String(err))));
             }),
         sendMessage: (channelId: string, message: { attachments: Array<{ id: string; filename: string; uploaded_filename: string; }>; }) =>
             messageActions.sendMessage(channelId, message)
