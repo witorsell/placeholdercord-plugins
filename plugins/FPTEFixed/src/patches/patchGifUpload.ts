@@ -14,6 +14,7 @@ type AssetType = "avatar" | "banner";
 let pendingAssetType: AssetType | null = null;
 
 const ANIMATED_GIF_PREFIX = "data:image/gif;base64,";
+const UserProfileActionCreators = findByProps("saveProfileChanges");
 
 function isAnimatedGifDataUri(value: unknown): value is string {
     return typeof value === "string" && value.startsWith(ANIMATED_GIF_PREFIX);
@@ -75,7 +76,6 @@ function applyGifReference(assetType: AssetType, channelId: string, messageId: s
     // so the rebuilt string replaces it instead of appending a second one.
     let newBio = profile.bio ?? "";
     if (hasFPTE(newBio)) newBio = stripFPTE(newBio);
-    const UserProfileActionCreators = findByProps("saveProfileChanges");
     if (newBio.length > 0) newBio += " ";
     newBio += fpteString;
 
@@ -118,9 +118,5 @@ export const patchGifUpload = () => {
             }))
         : () => true;
 
-    return () => {
-        unpatchAvatarFlag();
-        unpatchBannerFlag();
-        unpatchPicker();
-    };
+    return () => unpatchAvatarFlag() && unpatchBannerFlag() && unpatchPicker();
 };
