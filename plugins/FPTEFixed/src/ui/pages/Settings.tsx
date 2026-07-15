@@ -33,6 +33,18 @@ export function Settings() {
                     value={!!storage.forceFallbackEffectPicker}
                     onValueChange={value => { storage.forceFallbackEffectPicker = value; }}
                 />
+                <FormSwitchRow
+                    label="Redirect GIF avatar uploads"
+                    subLabel="When you pick an animated GIF as your avatar, upload it through your own Message Yourself DM instead of Discord's real upload. Other FPTE users then see it animated on your profile; everyone else keeps seeing your normal static avatar. Off leaves GIF avatar picks going through Discord as normal (still blocked without Nitro)."
+                    value={!!storage.gifAvatarRedirect}
+                    onValueChange={value => { storage.gifAvatarRedirect = value; }}
+                />
+                <FormSwitchRow
+                    label="Redirect GIF banner uploads"
+                    subLabel="Same as above, for your profile banner instead of your avatar."
+                    value={!!storage.gifBannerRedirect}
+                    onValueChange={value => { storage.gifBannerRedirect = value; }}
+                />
             </FormSection>
         </ScrollView>
     );
