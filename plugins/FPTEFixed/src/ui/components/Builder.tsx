@@ -49,6 +49,9 @@ export function Builder({ guildId }: BuilderProps) {
     const [appliedEffectSku, setAppliedEffectSku] = useState<string | null>(null);
     const [appliedDecorationSku, setAppliedDecorationSku] = useState<string | null>(null);
     const [appliedNameplateSku, setAppliedNameplateSku] = useState<string | null>(null);
+    const [gifChannelId, setGifChannelId] = useState<string | null>(null);
+    const [avatarGifMessageId, setAvatarGifMessageId] = useState<string | null>(null);
+    const [bannerGifMessageId, setBannerGifMessageId] = useState<string | null>(null);
 
     const availableEffects = useStateFromStores
         ? useStateFromStores(COLLECTIBLE_STORES, () => ProfileEffectStore.profileEffects)
@@ -79,6 +82,9 @@ export function Builder({ guildId }: BuilderProps) {
         if (decoded.effectSku) { setAppliedEffectSku(decoded.effectSku); ProfileEffectStore.fetch(); }
         if (decoded.decorationSku) { setAppliedDecorationSku(decoded.decorationSku); AvatarDecorationStore.fetch(); }
         if (decoded.nameplateSku) { setAppliedNameplateSku(decoded.nameplateSku); NameplateStore.fetch(); }
+        setGifChannelId(decoded.gifChannelId);
+        setAvatarGifMessageId(decoded.avatarGifMessageId);
+        setBannerGifMessageId(decoded.bannerGifMessageId);
     }, []);
 
     // Resolve the applied collectibles' configs once each catalog loads.
@@ -108,6 +114,12 @@ export function Builder({ guildId }: BuilderProps) {
         effect?.sku_id ?? effect?.id ?? "",
         decoration?.sku_id ?? decoration?.skuId ?? "",
         nameplate?.sku_id ?? nameplate?.skuId ?? "",
+        // The Builder has no UI to edit these; carry forward whatever the capture
+        // patch (patchGifUpload) already encoded so applying a color/effect change
+        // doesn't wipe out a previously-set GIF avatar/banner.
+        gifChannelId ?? "",
+        avatarGifMessageId ?? "",
+        bannerGifMessageId ?? "",
         buildLegacy
     );
 
