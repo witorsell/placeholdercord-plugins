@@ -27,7 +27,8 @@ function resolveDisplayUrl(rawUrl: string): string {
         pendingRefreshes.add(rawUrl);
         const attachmentUrlUtils = findByProps("maybeRefreshAttachmentUrl") as
             { maybeRefreshAttachmentUrl?: (url: string) => Promise<string>; } | undefined;
-        (attachmentUrlUtils?.maybeRefreshAttachmentUrl?.(rawUrl) ?? Promise.resolve(rawUrl))
+        Promise.resolve()
+            .then(() => attachmentUrlUtils?.maybeRefreshAttachmentUrl?.(rawUrl) ?? rawUrl)
             .then((signed: string) => {
                 signedUrlCache.set(rawUrl, signed);
             })
