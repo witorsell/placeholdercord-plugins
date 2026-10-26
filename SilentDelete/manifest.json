@@ -1,0 +1,1 @@
+{"name":"SilentDelete v2","description":"Silent-delete against current Vencord MessageLogger. media_mention id-overwrite + ephemeral flag, nonce fallback.","authors":[{"name":"witorsell","id":"1524888236382617681"},{"name":"snipermaster226","id":"798441657895878696"}],"main":"index.js","vendetta":{"icon":"ic_trash_24px"},"hash":"sU0jv+SWiaA81LcZnmR8oQrWiZIFIHcm35DylhcQRN0="}
