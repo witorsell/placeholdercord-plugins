@@ -1,26 +1,38 @@
-(() => { try { return ((e, t, a, n, r, o, s, i) => {
+(() => { try { return ((e, t, a, r, n, o, s, l) => {
     "use strict";
-    var l = e => new Promise(t => setTimeout(t, e)), c = [];
+    var i = [];
+    function c(e) {
+        return new Promise(t => {
+            setTimeout(t, e);
+        });
+    }
     function d(e) {
         try {
-            s.showToast(e);
+            a.storage.lastError = e, s.showToast(e);
         } catch (t) {
-            console.log("[SilentDelete] " + e);
+            try {
+                console.log("[SilentDelete] " + e);
+            } catch (e) {}
         }
     }
     function g(e) {
-        console.log("[SilentDelete] " + e);
+        try {
+            console.log("[SilentDelete] " + e);
+        } catch (e) {}
     }
-    function p() {
-        var e, t, n, r, o;
+    function h(e) {
+        return e ? "string" == typeof e ? e : e.message ? e.message + "" : e + "" : "unknown error";
+    }
+    function f() {
+        var e, t, r, n, o, s;
         (e = a.storage).replacementText ?? (e.replacementText = "** **"), (t = a.storage).deleteDelay ?? (t.deleteDelay = 200), 
-        (n = a.storage).suppressNotifications ?? (n.suppressNotifications = !0), (r = a.storage).deleteOriginal ?? (r.deleteOriginal = !0), 
-        (o = a.storage).tryEphemeral ?? (o.tryEphemeral = !0);
+        (r = a.storage).suppressNotifications ?? (r.suppressNotifications = !0), (n = a.storage).deleteOriginal ?? (n.deleteOriginal = !0), 
+        (o = a.storage).tryEphemeral ?? (o.tryEphemeral = !0), (s = a.storage).lastError ?? (s.lastError = "");
     }
-    async function f(e, t, a, n, r, o) {
+    function p(e, t, a, r, n, o) {
         var s = {
-            content: n,
-            flags: r,
+            content: r,
+            flags: n,
             mobile_network_type: "unknown",
             nonce: a,
             tts: !1,
@@ -35,197 +47,220 @@
             attachment_id: t,
             timestamp: 0
         }), e.post({
-            url: "/channels/".concat(t, "/messages"),
+            url: "/channels/" + t + "/messages",
             body: s
         });
     }
     return {
         onLoad() {
             try {
-                p();
+                f(), a.storage.lastError = "";
                 var s = e.findByProps("openLazy", "hideActionSheet") || e.findByProps("hideActionSheet", "openLazy") || e.findByProps("showActionSheet", "hideActionSheet") || e.findByProps("hideActionSheet");
-                if (!s) return d("SilentDelete loaded, but ActionSheet was not found"), void g("ActionSheet module missing");
+                if (!s) return void d("SilentDelete: ActionSheet not found");
                 (function(s) {
-                    var i = "function" == typeof s.openLazy ? "openLazy" : "function" == typeof s.showActionSheet ? "showActionSheet" : null;
-                    if (i) {
-                        var h, u = (h = e.findByProps("ActionSheetRow"), h?.ActionSheetRow ? h.ActionSheetRow : "function" == typeof h ? h : null);
-                        c.push(t.before(i, s, i => {
+                    var l = "function" == typeof s.openLazy ? "openLazy" : "function" == typeof s.showActionSheet ? "showActionSheet" : null;
+                    if (l) {
+                        var u, m = (u = e.findByProps("ActionSheetRow")) && u.ActionSheetRow ? u.ActionSheetRow : "function" == typeof u ? u : null;
+                        m || d("SilentDelete: ActionSheetRow not found"), i.push(t.before(l, s, l => {
                             try {
-                                var {lazy: h, message: m} = (e => {
+                                var u = (e => {
                                     var t = e[1], a = e[2];
                                     if ("string" == typeof t && /Message(LongPress)?ActionSheet/i.test(t)) return {
                                         lazy: e[0],
-                                        message: a?.message ?? a
+                                        message: a && a.message || a
                                     };
-                                    for (var n of e) {
-                                        if (n?.message?.id && n.message.channel_id) return {
+                                    for (var r = 0; r < e.length; r++) {
+                                        var n = e[r];
+                                        if (n && n.message && n.message.id && n.message.channel_id) return {
                                             lazy: e[0],
                                             message: n.message
                                         };
-                                        if (n?.id && n?.channel_id && n?.author) return {
+                                        if (n && n.id && n.channel_id && n.author) return {
                                             lazy: e[0],
                                             message: n
                                         };
                                     }
                                     return {};
-                                })(i);
-                                if (!m || !(t => {
-                                    if (!t?.id || !t?.channel_id) return !1;
-                                    var a = e.findByProps("getCurrentUser"), n = a?.getCurrentUser?.();
-                                    return !!n && t.author?.id === n.id;
-                                })(m)) return;
-                                if (!h?.then) return;
-                                var y = m.channel_id, v = m.id;
-                                h.then(i => {
+                                })(l), y = u.lazy, S = u.message;
+                                if (!S || !(t => {
+                                    if (!t || !t.id || !t.channel_id) return !1;
+                                    var a = e.findByProps("getCurrentUser"), r = a && a.getCurrentUser && a.getCurrentUser();
+                                    return !(!r || !t.author || t.author.id !== r.id);
+                                })(S)) return;
+                                if (!y || "function" != typeof y.then) return;
+                                var v = S.channel_id, R = S.id;
+                                y.then(l => {
                                     try {
-                                        var h = i?.default ? i : {
-                                            default: i
-                                        }, m = t.after("default", h, (t, i) => {
+                                        var u = l && l.default ? l : {
+                                            default: l
+                                        }, y = t.after("default", u, (t, l) => {
                                             try {
-                                                n.React.useEffect(() => () => {
+                                                r.React.useEffect(() => () => {
                                                     try {
-                                                        m();
+                                                        y();
                                                     } catch (e) {}
-                                                }, []), ((t, s, i, c, h) => {
-                                                    var u = o.getAssetIDByName("ic_message_delete") ?? o.getAssetIDByName("TrashIcon") ?? o.getAssetIDByName("trash") ?? o.getAssetIDByName("ic_trash") ?? o.getAssetIDByName("ic_close_16px"), m = {
+                                                }, []), ((t, s, l, i, u) => {
+                                                    var m = o.getAssetIDByName("ic_message_delete") || o.getAssetIDByName("TrashIcon") || o.getAssetIDByName("trash") || o.getAssetIDByName("ic_trash") || o.getAssetIDByName("ic_close_16px"), y = {
                                                         label: "Silent Delete",
                                                         destructive: !0,
                                                         onPress() {
                                                             try {
-                                                                i.hideActionSheet?.();
+                                                                l && l.hideActionSheet && l.hideActionSheet();
                                                             } catch (e) {}
-                                                            (async (t, n) => {
-                                                                var r = e.findByProps("HTTP", "get", "post", "put", "patch", "del") || e.findByProps("get", "post", "patch", "del");
-                                                                if (!r?.post || !r?.del) return d("SilentDelete: REST module missing"), !1;
-                                                                try {
-                                                                    p();
-                                                                    var o, s = a.storage.replacementText ?? "** **", i = a.storage.deleteDelay ?? 200, c = a.storage.suppressNotifications ?? !0, h = a.storage.deleteOriginal ?? !0, u = c ? 4096 : 0;
-                                                                    if (!1 !== a.storage.tryEphemeral && await (async (t, a, n) => {
-                                                                        try {
-                                                                            var r = 64 | ((t, a) => {
-                                                                                var n = e.findByProps("getMessage", "getMessages"), r = n?.getMessage?.(t, a);
-                                                                                return "number" == typeof r?.flags ? r.flags : 0;
-                                                                            })(a, n), o = await t.patch({
-                                                                                url: "/channels/".concat(a, "/messages/").concat(n),
-                                                                                body: {
-                                                                                    flags: r
-                                                                                }
-                                                                            });
-                                                                            return !(64 & ~(o?.body?.flags ?? 0) || (await t.del({
-                                                                                url: "/channels/".concat(a, "/messages/").concat(n)
-                                                                            }), g("ephemeral flag accepted"), 0));
-                                                                        } catch (e) {
-                                                                            return !1;
-                                                                        }
-                                                                    })(r, t, n)) return d("Silent deleted"), !0;
-                                                                    try {
-                                                                        o = await f(r, t, n, s, u, !0);
-                                                                    } catch (e) {
-                                                                        g("media_mention POST rejected, nonce-only: " + e), o = await f(r, t, n, s, u, !1);
-                                                                    }
-                                                                    var m = o?.body?.id;
-                                                                    if (await l(i), m) try {
-                                                                        await r.del({
-                                                                            url: "/channels/".concat(t, "/messages/").concat(m)
-                                                                        });
-                                                                    } catch (e) {
-                                                                        g("ghost delete: " + e);
-                                                                    }
-                                                                    return h && (await l(100), await r.del({
-                                                                        url: "/channels/".concat(t, "/messages/").concat(n)
-                                                                    })), d("Silent deleted"), !0;
-                                                                } catch (e) {
-                                                                    return d("SilentDelete failed: " + e), g("Error: " + e), !1;
-                                                                }
-                                                            })(c, h);
+                                                            ((t, r) => {
+                                                                var n = e.findByProps("HTTP", "get", "post", "put", "patch", "del") || e.findByProps("get", "post", "patch", "del");
+                                                                if (n && n.post && n.del) {
+                                                                    f();
+                                                                    var o = a.storage.replacementText || "** **", s = a.storage.deleteDelay || 200, l = !1 !== a.storage.suppressNotifications, i = !1 !== a.storage.deleteOriginal, u = l ? 4096 : 0, m = e => {
+                                                                        var a = e && e.body && e.body.id;
+                                                                        return c(s).then(() => (a ? n.del({
+                                                                            url: "/channels/" + t + "/messages/" + a
+                                                                        }).catch(e => {
+                                                                            g("ghost delete: " + h(e));
+                                                                        }) : Promise.resolve()).then(() => i ? c(100).then(() => n.del({
+                                                                            url: "/channels/" + t + "/messages/" + r
+                                                                        })).then(() => (d("Silent deleted"), !0)) : (d("Silent deleted"), !0)));
+                                                                    }, y = () => p(n, t, r, o, u, !0).catch(e => (g("media_mention POST rejected: " + h(e)), 
+                                                                    p(n, t, r, o, u, !1))).then(m);
+                                                                    (!1 !== a.storage.tryEphemeral ? ((t, a, r) => {
+                                                                        var n = 64 | ((t, a) => {
+                                                                            var r = e.findByProps("getMessage", "getMessages"), n = r && r.getMessage && r.getMessage(t, a);
+                                                                            return "number" == typeof (n && n.flags) ? n.flags : 0;
+                                                                        })(a, r);
+                                                                        return t.patch({
+                                                                            url: "/channels/" + a + "/messages/" + r,
+                                                                            body: {
+                                                                                flags: n
+                                                                            }
+                                                                        }).then(e => !(64 & ~(e && e.body && e.body.flags || 0)) && t.del({
+                                                                            url: "/channels/" + a + "/messages/" + r
+                                                                        }).then(() => !0)).catch(() => !1);
+                                                                    })(n, t, r).then(e => e ? (d("Silent deleted"), !0) : y()) : y()).catch(e => {
+                                                                        d("SilentDelete failed: " + h(e));
+                                                                    });
+                                                                } else d("SilentDelete: REST module missing");
+                                                            })(i, u);
                                                         }
                                                     };
-                                                    s?.Icon && null != u && (m.icon = n.React.createElement(s.Icon, {
-                                                        source: u,
+                                                    s && s.Icon && null != m && (y.icon = r.React.createElement(s.Icon, {
+                                                        source: m,
                                                         color: "#ed4245"
                                                     }));
-                                                    var y = s ? n.React.createElement(s, m) : null, v = r.findInReactTree(t, e => Array.isArray(e) && ("ActionSheetRowGroup" === e[0]?.type?.name || "ActionSheetRow" === e[0]?.type?.name || "ButtonRow" === e[0]?.type?.name)), w = r.findInReactTree(t, e => Array.isArray(e) && e.some(e => "ActionSheetRow" === e?.type?.name || "ButtonRow" === e?.type?.name)) || v;
-                                                    if (w?.length && y) {
-                                                        var S = w.findIndex(e => e?.props?.label?.toLowerCase?.()?.includes?.("delete") || e?.props?.message?.toLowerCase?.()?.includes?.("delete"));
-                                                        0 > S ? w.push(y) : w.splice(S, 0, y);
-                                                    } else g("could not find action sheet rows");
-                                                })(i, u, s, y, v);
+                                                    var S = s ? r.React.createElement(s, y) : null;
+                                                    if (S) {
+                                                        var v = n.findInReactTree(t, e => Array.isArray(e) && e[0] && e[0].type && ("ActionSheetRowGroup" === e[0].type.name || "ActionSheetRow" === e[0].type.name || "ButtonRow" === e[0].type.name)), R = n.findInReactTree(t, e => Array.isArray(e) && e.some(e => e && e.type && ("ActionSheetRow" === e.type.name || "ButtonRow" === e.type.name))) || v;
+                                                        if (R && R.length) {
+                                                            for (var b = -1, E = 0; E < R.length; E++) {
+                                                                var D = R[E] && R[E].props && (R[E].props.label || R[E].props.message);
+                                                                if ("string" == typeof D && -1 !== D.toLowerCase().indexOf("delete")) {
+                                                                    b = E;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            0 > b ? R.push(S) : R.splice(b, 0, S);
+                                                        } else d("SilentDelete: no rows in this action sheet");
+                                                    } else d("SilentDelete: ActionSheetRow missing, cannot add button");
+                                                })(l, m, s, v, R);
                                             } catch (e) {
-                                                g("sheet render: " + e);
+                                                d("SilentDelete sheet render: " + h(e));
                                             }
                                         });
-                                        c.push(m);
+                                        i.push(y);
                                     } catch (e) {
-                                        g("sheet instance: " + e);
+                                        d("SilentDelete sheet instance: " + h(e));
                                     }
                                 });
                             } catch (e) {
-                                g("openLazy: " + e);
+                                d("SilentDelete open sheet: " + h(e));
                             }
                         }));
-                    } else g("no openLazy/showActionSheet on ActionSheet module");
-                })(s), g("loaded");
+                    } else d("SilentDelete: sheet has no openLazy/showActionSheet");
+                })(s), d("SilentDelete loaded");
             } catch (e) {
-                d("SilentDelete error: " + e), g("onLoad: " + e);
+                d("SilentDelete error: " + h(e));
             }
         },
         onUnload() {
-            for (var e of c) try {
-                e();
+            for (var e = 0; e < i.length; e++) try {
+                i[e]();
             } catch (e) {}
-            c.length = 0, g("unloaded");
+            i.length = 0, g("unloaded");
         },
         settings() {
-            var t, r, o, s, l;
-            i.useProxy(a.storage), (t = a.storage).replacementText ?? (t.replacementText = "** **"), 
-            (r = a.storage).deleteDelay ?? (r.deleteDelay = 200), (o = a.storage).suppressNotifications ?? (o.suppressNotifications = !0), 
-            (s = a.storage).deleteOriginal ?? (s.deleteOriginal = !0), (l = a.storage).tryEphemeral ?? (l.tryEphemeral = !0);
-            var [, c] = n.React.useReducer(e => e + 1, 0), d = n.ReactNative || {}, g = d.TextInput, p = d.ScrollView, f = d.Text, h = d.View || "div", u = e.findByProps("TableRowGroup", "TableSwitchRow", "Stack"), m = u?.TableRowGroup, y = u?.TableSwitchRow, v = u?.Stack ?? h, w = (e, t, r) => {
-                var o = !!a.storage[r], s = e => {
-                    a.storage[r] = e, c();
+            var t, n, o, s, i, c;
+            l.useProxy(a.storage), (t = a.storage).replacementText ?? (t.replacementText = "** **"), 
+            (n = a.storage).deleteDelay ?? (n.deleteDelay = 200), (o = a.storage).suppressNotifications ?? (o.suppressNotifications = !0), 
+            (s = a.storage).deleteOriginal ?? (s.deleteOriginal = !0), (i = a.storage).tryEphemeral ?? (i.tryEphemeral = !0), 
+            (c = a.storage).lastError ?? (c.lastError = "");
+            var [, d] = r.React.useReducer(e => e + 1, 0), g = r.ReactNative || {}, h = g.TextInput, f = g.ScrollView, p = g.Text, u = g.View, m = e.findByProps("TableRowGroup", "TableSwitchRow", "Stack"), y = m && m.TableRowGroup, S = m && m.TableSwitchRow, v = m && m.Stack || u, R = a.storage.lastError ? a.storage.lastError + "" : "", b = (e, t, n) => {
+                var o = !!a.storage[n], s = e => {
+                    a.storage[n] = e, d();
                 };
-                return y ? n.React.createElement(y, {
+                return S ? r.React.createElement(S, {
                     label: e,
                     subLabel: t,
                     value: o,
                     onValueChange: s
-                }) : n.React.createElement(h, {
+                }) : r.React.createElement(u, {
                     style: {
                         paddingVertical: 10
                     }
-                }, n.React.createElement(f, {
+                }, r.React.createElement(p, {
                     style: {
                         color: "#fff",
                         fontWeight: "600"
                     }
-                }, e), n.React.createElement(f, {
+                }, e), r.React.createElement(p, {
                     style: {
                         color: "#949ba4",
                         fontSize: 12,
                         marginBottom: 6
                     }
-                }, t), n.React.createElement(f, {
+                }, t), r.React.createElement(p, {
                     style: {
                         color: "#5865F2"
                     },
-                    onPress: () => s(!o)
+                    onPress() {
+                        s(!o);
+                    }
                 }, o ? "On (tap to disable)" : "Off (tap to enable)"));
-            }, S = n.React.createElement(v, {
+            }, E = R ? r.React.createElement(u, {
+                style: {
+                    backgroundColor: "#4a1a1a",
+                    borderRadius: 8,
+                    padding: 12,
+                    marginBottom: 16,
+                    borderLeftWidth: 3,
+                    borderLeftColor: "#ed4245"
+                }
+            }, r.React.createElement(p, {
+                style: {
+                    color: "#ed4245",
+                    fontWeight: "700",
+                    fontSize: 12,
+                    marginBottom: 4
+                }
+            }, "Last error"), r.React.createElement(p, {
+                style: {
+                    color: "#f0b0b0",
+                    fontSize: 12
+                }
+            }, R)) : null, D = r.React.createElement(v, {
                 style: {
                     padding: 16
                 },
                 spacing: 16
-            }, n.React.createElement(f, {
+            }, E, r.React.createElement(p, {
                 style: {
                     color: "#fff",
                     fontSize: 16,
                     fontWeight: "600"
                 }
-            }, "Replacement text"), n.React.createElement(g, {
-                value: (a.storage.replacementText ?? "** **") + "",
+            }, "Replacement text"), h ? r.React.createElement(h, {
+                value: (a.storage.replacementText || "** **") + "",
                 placeholder: "** **",
                 onChangeText(e) {
-                    a.storage.replacementText = e, c();
+                    a.storage.replacementText = e, d();
                 },
                 style: {
                     color: "#fff",
@@ -234,22 +269,22 @@
                     paddingHorizontal: 12,
                     paddingVertical: 10
                 }
-            }), m ? n.React.createElement(m, {
+            }) : null, y ? r.React.createElement(y, {
                 title: "Behavior"
-            }, w("Try ephemeral flag first", "PATCH flags 64 then delete. If Discord accepts it, Vencord drops the row.", "tryEphemeral"), w("Suppress notifications", "Don't ping mentioned users when posting the overwrite.", "suppressNotifications"), w("Delete original message", "If off, the original can come back after a client restart.", "deleteOriginal")) : n.React.createElement(h, null, w("Try ephemeral flag first", "PATCH flags 64 then delete.", "tryEphemeral"), w("Suppress notifications", "Don't ping mentioned users.", "suppressNotifications"), w("Delete original message", "If off, original can reappear.", "deleteOriginal")), n.React.createElement(f, {
+            }, b("Try ephemeral flag first", "PATCH flags 64 then delete. If Discord accepts it, Vencord drops the row.", "tryEphemeral"), b("Suppress notifications", "Don't ping mentioned users when posting the overwrite.", "suppressNotifications"), b("Delete original message", "If off, the original can come back after a client restart.", "deleteOriginal")) : r.React.createElement(u, null, b("Try ephemeral flag first", "PATCH flags 64 then delete.", "tryEphemeral"), b("Suppress notifications", "Don't ping mentioned users.", "suppressNotifications"), b("Delete original message", "If off, original can reappear.", "deleteOriginal")), r.React.createElement(p, {
                 style: {
                     color: "#fff",
                     fontSize: 16,
                     fontWeight: "600",
                     marginTop: 8
                 }
-            }, "Delete delay (ms)"), n.React.createElement(g, {
-                value: (a.storage.deleteDelay ?? 200) + "",
+            }, "Delete delay (ms)"), h ? r.React.createElement(h, {
+                value: (a.storage.deleteDelay || 200) + "",
                 placeholder: "200",
                 keyboardType: "numeric",
                 onChangeText(e) {
                     var t = parseInt(e, 10);
-                    isNaN(t) || (a.storage.deleteDelay = t), c();
+                    isNaN(t) || (a.storage.deleteDelay = t), d();
                 },
                 style: {
                     color: "#fff",
@@ -258,12 +293,12 @@
                     paddingHorizontal: 12,
                     paddingVertical: 10
                 }
-            }));
-            return p ? n.React.createElement(p, {
+            }) : null);
+            return f ? r.React.createElement(f, {
                 style: {
                     flex: 1
                 }
-            }, S) : S;
+            }, D) : D;
         }
     };
 })(vendetta.metro, vendetta.patcher, vendetta.plugin, vendetta.metro.common, vendetta.utils, vendetta.ui.assets, vendetta.ui.toasts, vendetta.storage);; } catch(e) { try { window.vendetta.ui.toasts.showToast("CRASH: " + String(e)); } catch(err) {} alert("CRASH: " + String(e)); return { onLoad(){}, onUnload(){} }; } })()
