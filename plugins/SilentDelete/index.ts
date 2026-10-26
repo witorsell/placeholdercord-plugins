@@ -1,34 +1,70 @@
 import { findByProps } from "@vendetta/metro";
 import { before, after } from "@vendetta/patcher";
 import { storage } from "@vendetta/plugin";
-import { logger } from "@vendetta";
 import { React } from "@vendetta/metro/common";
 import { findInReactTree } from "@vendetta/utils";
 import { getAssetIDByName } from "@vendetta/ui/assets";
+import { showToast } from "@vendetta/ui/toasts";
 import Settings from "./settings";
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
-
-const ActionSheet = findByProps("openLazy", "hideActionSheet");
-const { ActionSheetRow } = findByProps("ActionSheetRow");
-
-const DeleteIcon =
-    getAssetIDByName("ic_message_delete") ??
-    getAssetIDByName("TrashIcon") ??
-    getAssetIDByName("trash") ??
-    getAssetIDByName("ic_trash");
-
 const EPHEMERAL = 64;
 const SUPPRESS_NOTIFICATIONS = 4096;
+const unpatches: Array<() => void> = [];
 
-function rest() {
-    return findByProps("get", "post", "del", "patch");
+function toast(msg: string) {
+    try { showToast(msg); } catch { console.log("[SilentDelete] " + msg); }
+}
+
+function log(msg: string) {
+    console.log("[SilentDelete] " + msg);
+}
+
+function defaults() {
+    storage.replacementText ??= "** **";
+    storage.deleteDelay ??= 200;
+    storage.suppressNotifications ??= true;
+    storage.deleteOriginal ??= true;
+    storage.tryEphemeral ??= true;
+}
+
+function findSheet(): any {
+    return (
+        findByProps("openLazy", "hideActionSheet") ||
+        findByProps("hideActionSheet", "openLazy") ||
+        findByProps("showActionSheet", "hideActionSheet") ||
+        findByProps("hideActionSheet")
+    );
+}
+
+function findRow(): any {
+    const mod = findByProps("ActionSheetRow");
+    if (mod?.ActionSheetRow) return mod.ActionSheetRow;
+    if (typeof mod === "function") return mod;
+    return null;
+}
+
+function rest(): any {
+    return (
+        findByProps("HTTP", "get", "post", "put", "patch", "del") ||
+        findByProps("get", "post", "patch", "del")
+    );
 }
 
 function currentFlags(channelId: string, messageId: string): number {
     const MessageStore = findByProps("getMessage", "getMessages");
     const msg = MessageStore?.getMessage?.(channelId, messageId);
     return typeof msg?.flags === "number" ? msg.flags : 0;
+}
+
+function deleteIcon() {
+    return (
+        getAssetIDByName("ic_message_delete") ??
+        getAssetIDByName("TrashIcon") ??
+        getAssetIDByName("trash") ??
+        getAssetIDByName("ic_trash") ??
+        getAssetIDByName("ic_close_16px")
+    );
 }
 
 async function tryEphemeralThenDelete(RestAPI: any, channelId: string, messageId: string): Promise<boolean> {
@@ -41,7 +77,7 @@ async function tryEphemeralThenDelete(RestAPI: any, channelId: string, messageId
         const got = patched?.body?.flags ?? 0;
         if ((got & EPHEMERAL) !== EPHEMERAL) return false;
         await RestAPI.del({ url: `/channels/${channelId}/messages/${messageId}` });
-        logger.log("[SilentDelete v2] ephemeral flag accepted, dropped from logger cache");
+        log("ephemeral flag accepted");
         return true;
     } catch {
         return false;
@@ -70,11 +106,6 @@ async function postOverwrite(
             message_id: messageId,
             channel_id: channelId,
         };
-        // Live canary MessageStore.MESSAGE_CREATE runs W(msg) after receiveMessage.
-        // If media_mention.message_id is present, it does:
-        //   getOrCreate(media_mention.attachment_id).receiveMessage({...msg, id: message_id})
-        // That merge is keyed by id, not nonce, and Vencord never patches it.
-        // Sending attachment_id = this channel makes it overwrite the original row.
         body.media_mention = {
             message_id: messageId,
             attachment_id: channelId,
@@ -89,7 +120,12 @@ async function postOverwrite(
 
 async function silentDeleteMessage(channelId: string, messageId: string) {
     const RestAPI = rest();
+    if (!RestAPI?.post || !RestAPI?.del) {
+        toast("SilentDelete: REST module missing");
+        return false;
+    }
     try {
+        defaults();
         const replacementText: string = storage.replacementText ?? "** **";
         const deleteDelay: number = storage.deleteDelay ?? 200;
         const suppressNotifications: boolean = storage.suppressNotifications ?? true;
@@ -98,14 +134,17 @@ async function silentDeleteMessage(channelId: string, messageId: string) {
 
         if (storage.tryEphemeral !== false) {
             const dropped = await tryEphemeralThenDelete(RestAPI, channelId, messageId);
-            if (dropped) return true;
+            if (dropped) {
+                toast("Silent deleted");
+                return true;
+            }
         }
 
         let response: any;
         try {
             response = await postOverwrite(RestAPI, channelId, messageId, replacementText, flags, true);
         } catch (err) {
-            logger.log("[SilentDelete v2] media_mention POST rejected, nonce-only: " + String(err));
+            log("media_mention POST rejected, nonce-only: " + String(err));
             response = await postOverwrite(RestAPI, channelId, messageId, replacementText, flags, false);
         }
 
@@ -116,7 +155,7 @@ async function silentDeleteMessage(channelId: string, messageId: string) {
             try {
                 await RestAPI.del({ url: `/channels/${channelId}/messages/${ghostId}` });
             } catch (err) {
-                logger.log("[SilentDelete v2] ghost delete: " + String(err));
+                log("ghost delete: " + String(err));
             }
         }
 
@@ -125,101 +164,152 @@ async function silentDeleteMessage(channelId: string, messageId: string) {
             await RestAPI.del({ url: `/channels/${channelId}/messages/${messageId}` });
         }
 
-        logger.log("[SilentDelete v2] done");
+        toast("Silent deleted");
         return true;
     } catch (err) {
-        logger.log("[SilentDelete v2] Error: " + String(err));
+        toast("SilentDelete failed: " + String(err));
+        log("Error: " + String(err));
         return false;
     }
 }
 
-let unpatchOpenLazy: (() => void) | null = null;
+function isOwnMessage(message: any): boolean {
+    if (!message?.id || !message?.channel_id) return false;
+    const UserStore = findByProps("getCurrentUser");
+    const me = UserStore?.getCurrentUser?.();
+    return !!me && message.author?.id === me.id;
+}
+
+function extractFromOpenArgs(args: any[]): { lazy?: any; message?: any } {
+    const key = args[1];
+    const props = args[2];
+    if (typeof key === "string" && /Message(LongPress)?ActionSheet/i.test(key)) {
+        return { lazy: args[0], message: props?.message ?? props };
+    }
+    for (const a of args) {
+        if (a?.message?.id && a.message.channel_id) return { lazy: args[0], message: a.message };
+        if (a?.id && a?.channel_id && a?.author) return { lazy: args[0], message: a };
+    }
+    return {};
+}
+
+function insertButton(component: any, ActionSheetRow: any, ActionSheet: any, channelId: string, messageId: string) {
+    const icon = deleteIcon();
+    const rowProps: any = {
+        label: "Silent Delete",
+        destructive: true,
+        onPress: () => {
+            try { ActionSheet.hideActionSheet?.(); } catch {}
+            silentDeleteMessage(channelId, messageId);
+        },
+    };
+    if (ActionSheetRow?.Icon && icon != null) {
+        rowProps.icon = React.createElement(ActionSheetRow.Icon, { source: icon, color: "#ed4245" });
+    }
+
+    const button = ActionSheetRow
+        ? React.createElement(ActionSheetRow, rowProps)
+        : null;
+
+    const groups: any[] = findInReactTree(
+        component,
+        (c: any) => Array.isArray(c) && (
+            c[0]?.type?.name === "ActionSheetRowGroup" ||
+            c[0]?.type?.name === "ActionSheetRow" ||
+            c[0]?.type?.name === "ButtonRow"
+        ),
+    );
+
+    const rows: any[] = findInReactTree(
+        component,
+        (c: any) => Array.isArray(c) && c.some((child: any) =>
+            child?.type?.name === "ActionSheetRow" ||
+            child?.type?.name === "ButtonRow",
+        ),
+    );
+
+    const target = rows || groups;
+    if (!target?.length || !button) {
+        log("could not find action sheet rows");
+        return;
+    }
+
+    const deleteRowIndex = target.findIndex((c: any) =>
+        c?.props?.label?.toLowerCase?.()?.includes?.("delete") ||
+        c?.props?.message?.toLowerCase?.()?.includes?.("delete"),
+    );
+    if (deleteRowIndex >= 0) target.splice(deleteRowIndex, 0, button);
+    else target.push(button);
+}
+
+function patchSheet(ActionSheet: any) {
+    const method = typeof ActionSheet.openLazy === "function"
+        ? "openLazy"
+        : typeof ActionSheet.showActionSheet === "function"
+            ? "showActionSheet"
+            : null;
+    if (!method) {
+        log("no openLazy/showActionSheet on ActionSheet module");
+        return;
+    }
+
+    const ActionSheetRow = findRow();
+
+    unpatches.push(before(method, ActionSheet, (args: any[]) => {
+        try {
+            const { lazy, message } = extractFromOpenArgs(args);
+            if (!message || !isOwnMessage(message)) return;
+            if (!lazy?.then) return;
+
+            const channelId = message.channel_id;
+            const messageId = message.id;
+
+            lazy.then((instance: any) => {
+                try {
+                    const target = instance?.default ? instance : { default: instance };
+                    const unpatch = after("default", target, (_: any, component: any) => {
+                        try {
+                            React.useEffect(() => () => { try { unpatch(); } catch {} }, []);
+                            insertButton(component, ActionSheetRow, ActionSheet, channelId, messageId);
+                        } catch (e) {
+                            log("sheet render: " + String(e));
+                        }
+                    });
+                    unpatches.push(unpatch);
+                } catch (e) {
+                    log("sheet instance: " + String(e));
+                }
+            });
+        } catch (e) {
+            log("openLazy: " + String(e));
+        }
+    }));
+}
 
 export default {
     onLoad() {
-        storage.replacementText ??= "** **";
-        storage.deleteDelay ??= 200;
-        storage.suppressNotifications ??= true;
-        storage.deleteOriginal ??= true;
-        storage.tryEphemeral ??= true;
-
-        unpatchOpenLazy = before("openLazy", ActionSheet, ([comp, args, msg]) => {
-            if (args !== "MessageLongPressActionSheet" || !msg?.message) return;
-
-            const UserStore = findByProps("getCurrentUser");
-            const currentUser = UserStore?.getCurrentUser();
-            if (!currentUser || msg.message.author?.id !== currentUser.id) return;
-
-            const channelId: string = msg.message.channel_id;
-            const messageId: string = msg.message.id;
-
-            comp.then((instance: any) => {
-                const unpatch = after("default", instance, (_: any, component: any) => {
-                    React.useEffect(() => () => { unpatch(); }, []);
-
-                    const groups: any[] = findInReactTree(
-                        component,
-                        (c: any) => Array.isArray(c) && c[0]?.type?.name === "ActionSheetRowGroup"
-                    );
-
-                    if (!groups?.length) {
-                        logger.warn("[SilentDelete v2] Could not find ActionSheetRowGroups");
-                        return;
-                    }
-
-                    const silentDeleteButton = React.createElement(ActionSheetRow, {
-                        label: "Silent Delete",
-                        destructive: true,
-                        icon: React.createElement(ActionSheetRow.Icon, {
-                            source: DeleteIcon,
-                            color: "#ed4245",
-                        }),
-                        onPress: () => {
-                            ActionSheet.hideActionSheet();
-                            silentDeleteMessage(channelId, messageId);
-                        },
-                    });
-
-                    let inserted = false;
-                    for (let gi = 0; gi < groups.length; gi++) {
-                        const groupChildren: any[] = findInReactTree(
-                            groups[gi],
-                            (c: any) => Array.isArray(c) && c.some((child: any) =>
-                                child?.type?.name === "ActionSheetRow"
-                            )
-                        );
-                        if (!groupChildren) continue;
-
-                        const deleteRowIndex = groupChildren.findIndex((c: any) =>
-                            c?.props?.label?.toLowerCase?.()?.includes?.("delete") ||
-                            c?.props?.message?.toLowerCase?.()?.includes?.("delete")
-                        );
-
-                        if (deleteRowIndex >= 0) {
-                            groupChildren.splice(deleteRowIndex, 0, silentDeleteButton);
-                            inserted = true;
-                            break;
-                        }
-                    }
-
-                    if (!inserted) {
-                        logger.warn("[SilentDelete v2] Delete row not found, inserting before last group");
-                        const insertAt = Math.max(0, groups.length - 1);
-                        groups.splice(insertAt, 0,
-                            React.createElement(ActionSheetRow.Group, null, silentDeleteButton)
-                        );
-                    }
-                });
-            });
-        });
-
-        logger.log("[SilentDelete v2] Loaded.");
+        try {
+            defaults();
+            const ActionSheet = findSheet();
+            if (!ActionSheet) {
+                toast("SilentDelete loaded, but ActionSheet was not found");
+                log("ActionSheet module missing");
+                return;
+            }
+            patchSheet(ActionSheet);
+            log("loaded");
+        } catch (e) {
+            toast("SilentDelete error: " + String(e));
+            log("onLoad: " + String(e));
+        }
     },
 
     onUnload() {
-        unpatchOpenLazy?.();
-        unpatchOpenLazy = null;
-        logger.log("[SilentDelete v2] Unloaded.");
+        for (const u of unpatches) {
+            try { u(); } catch {}
+        }
+        unpatches.length = 0;
+        log("unloaded");
     },
 
     settings: Settings,
