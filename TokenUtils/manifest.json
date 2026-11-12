@@ -1,0 +1,1 @@
+{"name":"TokenUtils","description":"Copy the current account token, or switch accounts with one. Works on Discord 352 without the old semantic-color crash.","authors":[{"name":"witorsell","id":"1524888236382617681"}],"main":"index.js","vendetta":{"icon":"ic_lock_24px"},"hash":"t4sykG3G97OEH0tf9p4zIVMWac+Tjr+fcWegfnWVgxg="}
